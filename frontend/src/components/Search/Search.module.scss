@@ -1,0 +1,27 @@
+.wrapper {
+    width: 300px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background-color: transparent;
+    border-radius: 8px;
+    border: 1px solid #cfcfcf;
+}
+
+.input {
+    height: 100%;
+    background-color: transparent;
+    font-size: 1.2rem;
+    padding: 0 10px;
+}
+
+.input::placeholder {
+    color: #919191;
+    font-size: 1.2rem;
+}
+
+.icon-search {
+    color: #ccc;
+}
