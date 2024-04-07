@@ -1,5 +1,6 @@
 package com.IT4409.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -33,7 +34,7 @@ public class Product {
     private Long discountPrice;
 
     @Column(name = "quantity_in_stock")
-    private int quantityInStock;
+    private Integer quantityInStock;
 
     @Column(name = "thumbnail")
     private String thumbnail;
@@ -45,4 +46,13 @@ public class Product {
     @JoinColumn(name = "product_id")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Size> sizeList;
+
+    @ManyToMany
+    @JoinTable(
+            name = "category_product",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    @JsonIgnoreProperties("productList")
+    List<Category> categoryList;
 }

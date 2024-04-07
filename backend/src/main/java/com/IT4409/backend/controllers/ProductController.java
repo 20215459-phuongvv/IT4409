@@ -1,4 +1,65 @@
 package com.IT4409.backend.controllers;
 
+import com.IT4409.backend.dtos.ProductDTO.ProductRequestDTO;
+import com.IT4409.backend.entities.Product;
+import com.IT4409.backend.services.ProductService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@Validated
 public class ProductController {
+    @Autowired
+    private ProductService productService;
+    @GetMapping("/products")
+    public ResponseEntity<?> getAllProducts() throws Exception{
+        try{
+            List<Product> productList = productService.getAllProducts();
+            return new ResponseEntity<>(productList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/products/{productId}")
+    public ResponseEntity<?> getProductById(@PathVariable Long productId) {
+        try{
+            Product product = productService.getProductById(productId);
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+    @PostMapping("/admin/products")
+    public ResponseEntity<?> createProduct(@RequestBody @Valid ProductRequestDTO productRequestDTO) throws Exception{
+        try{
+            Product product = productService.createProduct(productRequestDTO);
+            return new ResponseEntity<>(product, HttpStatus.CREATED);
+        } catch(Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PutMapping("/admin/products/{productId}")
+    public ResponseEntity<?> updateProduct(@PathVariable Long productId, @RequestBody ProductRequestDTO productRequestDTO) throws Exception{
+        try{
+            Product product = productService.updateProduct(productId, productRequestDTO);
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    @DeleteMapping("/admin/products/{productId}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Long productId) throws Exception{
+        try{
+            Product product = productService.deleteProduct(productId);
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

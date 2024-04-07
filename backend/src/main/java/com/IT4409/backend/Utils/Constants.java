@@ -21,4 +21,8 @@ public class Constants {
         short AVAILABLE = 1;
         short OUT_OF_DATE = 0;
     }
+    public interface ENTITY_STATUS {
+        short ACTIVE = 1;
+        short INACTIVE = 0;
+    }
 }

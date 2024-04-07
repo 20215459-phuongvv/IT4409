@@ -16,5 +16,5 @@ public class Color {
     private Long product_id;
 
     @Column(name = "color_name")
-    private Long colorName;
+    private String colorName;
 }
