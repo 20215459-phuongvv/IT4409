@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 public interface IUploadService {
-    String uploadThumbnail(byte[] bytes, String fileName, String folderName) throws IOException;
+    String upload(byte[] bytes, String fileName, String folderName) throws IOException;
     String[] uploadImages(MultipartFile[] images) throws IOException, ExecutionException, InterruptedException;
     void deleteImage(String publicId) throws IOException;
     }

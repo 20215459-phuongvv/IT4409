@@ -19,7 +19,7 @@ public class CloudinaryService implements IUploadService {
     @Autowired
     private Cloudinary cloudinary;
     @Override
-    public String uploadThumbnail(byte[] bytes, String fileName, String folderName) throws IOException {
+    public String upload(byte[] bytes, String fileName, String folderName) throws IOException {
         String publicId = "hustore/" + folderName + "/" + fileName;
         Map<?,?> image = cloudinary.uploader().upload(bytes, ObjectUtils.asMap("public_id", publicId));
         return (String) image.get("url");

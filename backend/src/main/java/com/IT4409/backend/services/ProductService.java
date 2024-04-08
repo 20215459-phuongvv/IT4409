@@ -1,6 +1,7 @@
 package com.IT4409.backend.services;
 
 import com.IT4409.backend.Utils.Constants;
+import com.IT4409.backend.dtos.ColorDTO.ColorRequestDTO;
 import com.IT4409.backend.dtos.ProductDTO.ProductRequestDTO;
 import com.IT4409.backend.entities.Category;
 import com.IT4409.backend.entities.Color;
@@ -14,6 +15,7 @@ import com.IT4409.backend.repositories.SizeRepository;
 import com.IT4409.backend.services.interfaces.IProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,8 @@ public class ProductService implements IProductService {
     private SizeRepository sizeRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private CloudinaryService cloudinaryService;
     @Autowired
     private ModelMapper modelMapper;
     private static final ResourceBundle messages = ResourceBundle.getBundle("messages");
@@ -70,6 +74,7 @@ public class ProductService implements IProductService {
             size = sizeRepository.save(size);
             sizeList.add(size);
         }
+        product.setThumbnail(cloudinaryService.upload(productRequestDTO.getThumbnail().getBytes(), productRequestDTO.getThumbnail().getOriginalFilename(), "thumbnails"));
         product.setSizeList(sizeList);
         product.setColorList(colorList);
         product.setCategoryList(categoryList);

@@ -10,7 +10,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.List;
 
@@ -42,7 +41,7 @@ public class CategoryService implements ICategoryService {
         if(categoryRepository.existsByCategoryName(dto.getCategoryName())) {
             throw new BadRequestException(messages.getString("category.validate.category-name.duplicate"));
         }
-        String thumbnail = cloudinaryService.uploadThumbnail(dto.getThumbnail().getBytes(), dto.getThumbnail().getOriginalFilename(), "thumbnails");
+        String thumbnail = cloudinaryService.upload(dto.getThumbnail().getBytes(), dto.getThumbnail().getOriginalFilename(), "thumbnails");
         Category category = Category
                 .builder()
                 .categoryName(dto.getCategoryName())
@@ -60,7 +59,7 @@ public class CategoryService implements ICategoryService {
                 .orElseThrow(() -> new NotFoundException(messages.getString("category.validate.not-found")));
         if(dto.getThumbnail() != null) {
             cloudinaryService.deleteImage(category.getThumbnail());
-            String thumbnail = cloudinaryService.uploadThumbnail(dto.getThumbnail().getBytes(), dto.getThumbnail().getOriginalFilename(), "thumbnails");
+            String thumbnail = cloudinaryService.upload(dto.getThumbnail().getBytes(), dto.getThumbnail().getOriginalFilename(), "thumbnails");
             category.setThumbnail(thumbnail);
         }
         category.setCategoryName(dto.getCategoryName());

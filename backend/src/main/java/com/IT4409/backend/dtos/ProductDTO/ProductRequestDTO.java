@@ -3,6 +3,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,6 +25,6 @@ public class ProductRequestDTO {
     private Long discountPrice;
     @Min(value = 0)
     private Integer quantityInStock;
-    @NotBlank(message = "thumbnail must not be null!")
-    private String thumbnail;
+    private MultipartFile thumbnail;
+    private List<MultipartFile> images;
 }
