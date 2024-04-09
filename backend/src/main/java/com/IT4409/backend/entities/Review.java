@@ -23,4 +23,9 @@ public class Review {
     @JoinColumn(name = "order_item_id")
     @JsonIgnoreProperties("orderItem")
     private OrderItem orderItem;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties("reviewList")
+    private User user;
 }

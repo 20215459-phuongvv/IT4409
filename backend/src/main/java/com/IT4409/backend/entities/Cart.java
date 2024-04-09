@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "carts")
@@ -16,11 +17,14 @@ public class Cart {
     private Long cartId;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnoreProperties("cart")
     private User user;
 
     @OneToMany(mappedBy = "cart")
     @JsonIgnoreProperties("cart")
-    private List<CartItem> cartItemList;
+    private Set<CartItem> cartItemList;
+
+    @Column(name = "total_price")
+    private Long totalPrice;
 }

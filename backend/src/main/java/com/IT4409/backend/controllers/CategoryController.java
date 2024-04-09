@@ -20,6 +20,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
 @Validated
+@RequestMapping("/api")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;

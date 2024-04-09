@@ -16,7 +16,7 @@ public class Color {
     private Long colorId;
 
     @Column(name = "product_id")
-    private Long product_id;
+    private Long productId;
 
     @OneToMany(mappedBy = "color", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("color")
