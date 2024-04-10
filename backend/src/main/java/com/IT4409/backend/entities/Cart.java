@@ -27,4 +27,11 @@ public class Cart {
 
     @Column(name = "total_price")
     private Long totalPrice;
+
+    @Column(name = "total_item")
+    private Integer totalItem;
+
+    private Long totalDiscountPrice;
+
+    private Long discountedAmount;
 }

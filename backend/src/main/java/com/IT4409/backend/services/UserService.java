@@ -6,7 +6,11 @@ import com.IT4409.backend.repositories.UserRepository;
 import com.IT4409.backend.security.JwtTokenProvider;
 import com.IT4409.backend.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserService implements IUserService {
@@ -19,15 +23,16 @@ public class UserService implements IUserService {
         return userRepository.findAllByOrderByCreatedAtDesc();
     }
     @Override
-    public User findUserProfileByJwt(String jwt) throws Exception {
-        System.out.println("user service");
+    public User findUserByJwt(String jwt) throws Exception {
         String email = jwtTokenProvider.getEmailFromJwtToken(jwt);
-        System.out.println("email"+email);
-        User user = userRepository.findByEmail(email);
-        if(user==null) {
-            throw new NotFoundException("user not exist with email "+email);
-        }
-        System.out.println("email user"+user.getEmail());
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("user not exist with email "+email));
         return user;
+    }
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("user not found with email "+username));
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),authorities);
     }
 }
