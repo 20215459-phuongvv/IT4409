@@ -9,6 +9,4 @@ import com.IT4409.backend.exceptions.NotFoundException;
 public interface ICartService {
     Cart createCart(User user);
     Cart findCartByUserId(long userId) throws NotFoundException;
-
-    CartItem addCartItem(long userId, CartItemRequestDTO cartItemRequestDTO) throws NotFoundException;
 }

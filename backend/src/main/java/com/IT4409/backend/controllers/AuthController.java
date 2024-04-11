@@ -51,6 +51,9 @@ public class AuthController {
         newUser.setPassword(passwordEncoder.encode(password));
         newUser.setRole(role);
         newUser = userRepository.save(newUser);
+        // Tạo ra giỏ hàng mới cho khách hàng mới
+        cartService.createCart(newUser);
+
         Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtTokenProvider.generateToken(authentication);

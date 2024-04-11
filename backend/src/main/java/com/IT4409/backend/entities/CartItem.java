@@ -2,11 +2,13 @@ package com.IT4409.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 @Entity
 @Table(name = "cart_items")
 @Data
+@Builder
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,13 +20,19 @@ public class CartItem {
     private Product product;
 
     @Column(name = "quantity")
-    private int quantity;
+    private Integer quantity;
+
+    @Column(name = "color")
+    private String color;
+
+    @Column(name = "size")
+    private String size;
 
     @Column(name = "price")
-    private int price;
+    private Long price;
 
     @Column(name = "discount_price")
-    private int discountPrice;
+    private Long discountPrice;
 
     @ManyToOne
     @JoinColumn(name = "cart_id")

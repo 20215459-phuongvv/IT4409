@@ -1,9 +1,7 @@
 package com.IT4409.backend.services;
 
-import com.IT4409.backend.dtos.CartItemDTO.CartItemRequestDTO;
 import com.IT4409.backend.entities.Cart;
 import com.IT4409.backend.entities.CartItem;
-import com.IT4409.backend.entities.Product;
 import com.IT4409.backend.entities.User;
 import com.IT4409.backend.exceptions.NotFoundException;
 import com.IT4409.backend.repositories.CartRepository;
@@ -22,7 +20,7 @@ public class CartService implements ICartService {
 
     @Override
     public Cart findCartByUserId(long userId) throws NotFoundException {
-        Cart cart = cartRepository.findByUserId(userId)
+        Cart cart = cartRepository.findByUserUserId(userId)
                 .orElseThrow(() -> new NotFoundException("User not found!"));
         long totalPrice = 0;
         long totalDiscountPrice = 0;
@@ -39,10 +37,5 @@ public class CartService implements ICartService {
         cart.setDiscountedAmount(totalPrice - totalDiscountPrice);
 
         return cartRepository.save(cart);
-    }
-
-    @Override
-    public CartItem addCartItem(long userId, CartItemRequestDTO cartItemRequestDTO) throws NotFoundException {
-        return null;
     }
 }

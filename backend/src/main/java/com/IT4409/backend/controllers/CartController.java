@@ -28,15 +28,4 @@ public class CartController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-    @PutMapping("/add")
-    public ResponseEntity<?> addCartItem(@RequestBody CartItemRequestDTO cartItemRequestDTO,
-                                         @RequestHeader("Authorization") String jwt) throws Exception {
-        try {
-            User user = userService.findUserByJwt(jwt);
-            CartItem cartItem = cartService.addCartItem(user.getUserId(), cartItemRequestDTO);
-            return new ResponseEntity<>(cartItem, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
-    }
 }
