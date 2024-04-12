@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.ResourceBundle;
 import java.util.List;
 
+import static com.IT4409.backend.Utils.Constants.messages;
+
 public class CategoryService implements ICategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
@@ -20,7 +22,6 @@ public class CategoryService implements ICategoryService {
     private CloudinaryService cloudinaryService;
     @Autowired
     private ModelMapper modelMapper;
-    private static final ResourceBundle messages = ResourceBundle.getBundle("messages");
     public List<Category> getAllCategories() throws NotFoundException {
         List<Category> categories = categoryRepository.findAll();
         if(categories.isEmpty()) {

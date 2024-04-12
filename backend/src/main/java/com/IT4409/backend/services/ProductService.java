@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static com.IT4409.backend.Utils.Constants.messages;
+
 public class ProductService implements IProductService {
     @Autowired
     private ProductRepository productRepository;
@@ -34,7 +36,6 @@ public class ProductService implements IProductService {
     private CloudinaryService cloudinaryService;
     @Autowired
     private ModelMapper modelMapper;
-    private static final ResourceBundle messages = ResourceBundle.getBundle("messages");
     @Override
     public List<Product> getAllProducts() throws Exception {
         List<Product> productList = productRepository.findAll();

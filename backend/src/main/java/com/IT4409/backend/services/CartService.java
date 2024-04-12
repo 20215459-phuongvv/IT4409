@@ -8,6 +8,8 @@ import com.IT4409.backend.repositories.CartRepository;
 import com.IT4409.backend.services.interfaces.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static com.IT4409.backend.Utils.Constants.messages;
+
 public class CartService implements ICartService {
     @Autowired
     private CartRepository cartRepository;
@@ -21,7 +23,7 @@ public class CartService implements ICartService {
     @Override
     public Cart findCartByUserId(long userId) throws NotFoundException {
         Cart cart = cartRepository.findByUserUserId(userId)
-                .orElseThrow(() -> new NotFoundException("User not found!"));
+                .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
         long totalPrice = 0;
         long totalDiscountPrice = 0;
         int totalItem = 0;

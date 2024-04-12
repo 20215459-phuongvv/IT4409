@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
 
+import static com.IT4409.backend.Utils.Constants.messages;
+
 public class CartItemService implements ICartItemService {
     @Autowired
     private UserService userService;
@@ -29,21 +31,21 @@ public class CartItemService implements ICartItemService {
     public CartItem getCartItemById(String jwt, Long cartItemId) throws Exception {
         User user = userService.findUserByJwt(jwt);
         Cart cart = cartRepository.findByUserUserId(user.getUserId())
-                .orElseThrow(() -> new NotFoundException("User not found!"));
+                .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
         return cart.getCartItemList().stream()
                 .filter(item -> Objects.equals(item.getCartItemId(), cartItemId))
                 .findFirst()
-                .orElseThrow(() -> new NotFoundException("Can't find item in this cart"));
+                .orElseThrow(() -> new NotFoundException(messages.getString("cart-item.validate.not-found")));
     }
     @Override
     public CartItem addCartItem(String jwt, CartItemRequestDTO cartItemRequestDTO) throws Exception {
         User user = userService.findUserByJwt(jwt);
         Cart cart = cartRepository.findByUserUserId(user.getUserId())
-                .orElseThrow(() -> new NotFoundException("User not found!"));
+                .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
         Product product = productRepository.findById(cartItemRequestDTO.getProductId())
-                .orElseThrow(() -> new NotFoundException("Product not found!"));
+                .orElseThrow(() -> new NotFoundException(messages.getString("product.validate.not-found")));
         if(product.getStatus() == Constants.PRODUCT_STATUS.OUT_OF_STOCK) {
-            throw new BadRequestException("product out of stock!");
+            throw new BadRequestException(messages.getString("product.validate.out-of-stock"));
         }
         for (CartItem cartItem : cart.getCartItemList()) {
             if (cartItem.getProduct().getProductId().equals(cartItemRequestDTO.getProductId())
@@ -76,11 +78,11 @@ public class CartItemService implements ICartItemService {
     public CartItem updateCartItem(String jwt, Long cartItemId, CartItemRequestDTO cartItemRequestDTO) throws Exception {
         User user = userService.findUserByJwt(jwt);
         Cart cart = cartRepository.findByUserUserId(user.getUserId())
-                .orElseThrow(() -> new NotFoundException("User not found!"));
+                .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
         CartItem cartItem = cart.getCartItemList().stream()
                 .filter(item -> Objects.equals(item.getCartItemId(), cartItemId))
                 .findFirst()
-                .orElseThrow(() -> new NotFoundException("Can't find item in this cart"));
+                .orElseThrow(() -> new NotFoundException(messages.getString("cart-item.validate.not-found")));
         cartItem.setSize(cartItemRequestDTO.getSize());
         cartItem.setColor(cartItem.getColor());
         cartItem.setQuantity(cartItem.getQuantity());
@@ -91,11 +93,11 @@ public class CartItemService implements ICartItemService {
     public CartItem removeCartItem(String jwt, Long cartItemId) throws Exception {
         User user = userService.findUserByJwt(jwt);
         Cart cart = cartRepository.findByUserUserId(user.getUserId())
-                .orElseThrow(() -> new NotFoundException("User not found!"));
+                .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
         CartItem cartItem = cart.getCartItemList().stream()
                 .filter(item -> Objects.equals(item.getCartItemId(), cartItemId))
                 .findFirst()
-                .orElseThrow(() -> new NotFoundException("Can't find item in this cart"));
+                .orElseThrow(() -> new NotFoundException(messages.getString("cart-item.validate.not-found")));
         cartItemRepository.deleteById(cartItemId);
         return cartItem;
     }

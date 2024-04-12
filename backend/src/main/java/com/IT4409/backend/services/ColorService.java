@@ -14,8 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.ResourceBundle;
+
+import static com.IT4409.backend.Utils.Constants.messages;
 
 public class ColorService implements IColorService {
     @Autowired
@@ -26,7 +28,6 @@ public class ColorService implements IColorService {
     private ImageRepository imageRepository;
     @Autowired
     private CloudinaryService cloudinaryService;
-    private static final ResourceBundle messages = ResourceBundle.getBundle("messages");
     @Override
     public List<Color> getProductColors(Long productId) throws Exception {
         Product product = productRepository.findById(productId)
@@ -40,7 +41,7 @@ public class ColorService implements IColorService {
                 .orElseThrow(() -> new NotFoundException(messages.getString("product.validate.not-found")));
         Color color = product.getColorList()
                 .stream()
-                .filter(color1 -> color1.getColorId() == colorId)
+                .filter(color1 -> Objects.equals(color1.getColorId(), colorId))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException(messages.getString("color.validate.not-found")));
         List<Image> imageList = color.getImageList();
@@ -61,7 +62,7 @@ public class ColorService implements IColorService {
                 .orElseThrow(() -> new NotFoundException(messages.getString("product.validate.not-found")));
         Color color = product.getColorList()
                 .stream()
-                .filter(color1 -> color1.getColorId() == colorId)
+                .filter(color1 -> Objects.equals(color1.getColorId(), colorId))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException(messages.getString("color.validate.not-found")));
         if(dto.getColorName() != null && !"".equals(dto.getColorName())) {
@@ -77,6 +78,7 @@ public class ColorService implements IColorService {
                 newImage = imageRepository.save(newImage);
                 imageList.add(newImage);
             }
+            color.setImageList(imageList);
         }
         return colorRepository.save(color);
     }
@@ -87,7 +89,7 @@ public class ColorService implements IColorService {
                 .orElseThrow(() -> new NotFoundException(messages.getString("product.validate.not-found")));
         Color color = product.getColorList()
                 .stream()
-                .filter(color1 -> color1.getColorId() == colorId)
+                .filter(color1 -> Objects.equals(color1.getColorId(), colorId))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("color.validate.not-found"));
         colorRepository.findById(colorId);
@@ -100,7 +102,7 @@ public class ColorService implements IColorService {
                 .orElseThrow(() -> new NotFoundException(messages.getString("product.validate.not-found")));
         Color color = product.getColorList()
                 .stream()
-                .filter(color1 -> color1.getColorId() == colorId)
+                .filter(color1 -> Objects.equals(color1.getColorId(), colorId))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("color.validate.not-found"));
         List<Image> result = new ArrayList<>();
