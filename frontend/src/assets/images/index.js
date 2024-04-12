@@ -4,7 +4,6 @@ const images = {
     tiktok_logo: require('~/assets/images/tik-tok.png'),
     yt_logo: require('~/assets/images/youtube.png'),
     twitter_logo: require('~/assets/images/twitter.png'),
-    banner: require('~/assets/images/banner.webp'),
 };
 
 export default images

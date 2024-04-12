@@ -9,6 +9,7 @@
     display: flex;
     justify-content: center;
     font-family: var(--font-family);
+    z-index: 100;
 }
 .inner {
     width: 100%;
