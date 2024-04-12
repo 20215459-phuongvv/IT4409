@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
-import images from '~/assets/images';
+import homeImage from '~/assets/images/home';
 import Button from '~/components/Button';
-import MostSale from '~/pages/Home/MostSale';
-import Discount from '~/pages/Home/Discount';
-import NewProducts from '~/pages/Home/NewProducts';
+import MostSale from '~/pages/user/Home/MostSale';
+import Discount from '~/pages/user/Home/Discount';
+import NewProducts from '~/pages/user/Home/NewProducts';
 import Blog from './Blog';
+import SliderComponent from '~/components/Slider/Slider';
 
 const cx = classNames.bind(styles);
 
@@ -18,10 +19,14 @@ function Home() {
         setDisplayElement(index);
     };
 
+    const sliderImages = [homeImage.banner1, homeImage.banner2, homeImage.banner3];
+
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('banner')}>
-                <img className={cx('banner-img')} src={images.banner} alt="banner" />
+            <div className={cx('slider')}>
+                {/* <img src={homeImage.banner1} alt="banner" />
+                 */}
+                <SliderComponent arrImage={sliderImages}/>
             </div>
 
             <div className={cx('products')}>

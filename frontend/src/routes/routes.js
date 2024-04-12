@@ -1,7 +1,7 @@
 import config from '~/config';
-import Home from '~/pages/Home';
-import Profile from '~/pages/Profile';
-import Products from '~/pages/Products';
+import Home from '~/pages/user/Home';
+import Profile from '~/pages/user/Profile';
+import Products from '~/pages/user/Products';
 
 // không cần đăng nhập vẫn xem được
 const publicRoutes = [
@@ -12,5 +12,9 @@ const publicRoutes = [
 
 // phải đăng nhập, nếu không sẽ đưa ra login
 const privateRoutes = [];
+
+// const adminRoutes = [
+//     {path: config.routes.admin, component: }
+// ]
 
 export { publicRoutes, privateRoutes };
