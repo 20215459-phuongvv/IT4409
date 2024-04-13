@@ -1,6 +1,6 @@
 package com.IT4409.backend.services;
 
-import com.IT4409.backend.Utils.UserRole;
+import com.IT4409.backend.Utils.Role;
 import com.IT4409.backend.dtos.AuthDTO.AuthRequestDTO;
 import com.IT4409.backend.dtos.AuthDTO.AuthResponseDTO;
 import com.IT4409.backend.entities.User;
@@ -10,24 +10,27 @@ import com.IT4409.backend.repositories.UserRepository;
 import com.IT4409.backend.security.JwtTokenProvider;
 import com.IT4409.backend.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.IT4409.backend.Utils.Constants.messages;
-
-public class UserService implements IUserService {
+@Service
+public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -36,27 +39,31 @@ public class UserService implements IUserService {
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private CartService cartService;
-    @Override
+//    @Override
     public List<User> findAllUsers() {
         return userRepository.findAllByOrderByCreatedAtDesc();
     }
-    @Override
+//    @Override
     public User findUserByJwt(String jwt) throws Exception {
         String email = jwtTokenProvider.getEmailFromJwtToken(jwt);
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
         return user;
     }
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(messages.getString("user.validate.not-found")));
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),authorities);
+        return org.springframework.security.core.userdetails.User
+                .withUsername(username)
+                .password(user.getPassword())
+                .roles(user.getRole())
+                .build();
     }
     public AuthResponseDTO createUser(User user) throws BadRequestException {
         String email = user.getEmail();
         String password = user.getPassword();
-        String role = UserRole.CUSTOMER.toString();
+        String role = Role.CUSTOMER.toString();
         if(userRepository.existsByEmail(email)) {
             throw new BadRequestException(messages.getString("email.validate.duplicate"));
         }
@@ -88,6 +95,7 @@ public class UserService implements IUserService {
     }
     private Authentication authenticate(String username, String password) {
         UserDetails userDetails = loadUserByUsername(username);
+        System.out.println(userDetails);
         if(userDetails == null) {
             throw new BadCredentialsException(messages.getString("username.validate.invalid"));
         }

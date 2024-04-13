@@ -1,33 +1,19 @@
 package com.IT4409.backend.controllers;
 
-import com.IT4409.backend.Utils.UserRole;
 import com.IT4409.backend.dtos.AuthDTO.AuthRequestDTO;
 import com.IT4409.backend.dtos.AuthDTO.AuthResponseDTO;
 import com.IT4409.backend.entities.User;
-import com.IT4409.backend.exceptions.BadRequestException;
 import com.IT4409.backend.repositories.UserRepository;
 import com.IT4409.backend.security.JwtTokenProvider;
-import com.IT4409.backend.services.CartService;
-import com.IT4409.backend.services.UserDetailService;
 import com.IT4409.backend.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
-
-import static com.IT4409.backend.Utils.Constants.messages;
 
 @RestController
 @RequestMapping("/auth")

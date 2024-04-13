@@ -3,7 +3,9 @@ package com.IT4409.backend.security;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,45 +17,33 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import java.util.Arrays;
 import java.util.Collections;
 @Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfiguration {
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests(Authorize -> Authorize
-                        .requestMatchers("/api/**").authenticated()
-                        .anyRequest().permitAll()
-                )
-                .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
-                .csrf().disable()
-                .cors().configurationSource(new CorsConfigurationSource() {
-
-                    @Override
-                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-
-                        CorsConfiguration cfg = new CorsConfiguration();
-                        cfg.setAllowedOrigins(Arrays.asList(
-                                        "http://localhost:3000"
-                                )
-                        );
-                        cfg.setAllowedMethods(Collections.singletonList("*"));
-                        cfg.setAllowCredentials(true);
-                        cfg.setAllowedHeaders(Collections.singletonList("*"));
-                        cfg.setExposedHeaders(Arrays.asList("Authorization"));
-                        cfg.setMaxAge(3600L);
-                        return cfg;
-                    }
-                })
-                .and()
-                .httpBasic()
-                .and()
-                .formLogin();
-
-        return http.build();
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+    @Bean
+    public JwtTokenValidator jwtTokenValidator() {
+        return new JwtTokenValidator();
+    }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeHttpRequests(Authorize -> Authorize
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll()
+                )
+                .addFilterBefore(jwtTokenValidator(), BasicAuthenticationFilter.class)
+                .csrf().disable()
+                .httpBasic()
+                .and()
+                .formLogin();
+        return http.build();
     }
 }

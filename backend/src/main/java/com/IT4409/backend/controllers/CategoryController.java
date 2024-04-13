@@ -5,11 +5,13 @@ import com.IT4409.backend.entities.Category;
 import com.IT4409.backend.exceptions.BadRequestException;
 import com.IT4409.backend.exceptions.NotFoundException;
 import com.IT4409.backend.services.CategoryService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 @RestController
 @Validated
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;

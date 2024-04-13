@@ -21,7 +21,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     @GetMapping("/products")
-    public ResponseEntity<?> getAllProducts() throws Exception{
+    public ResponseEntity<?> getAllProducts(){
         try{
             List<Product> productList = productService.getAllProducts();
             return new ResponseEntity<>(productList, HttpStatus.OK);
@@ -39,7 +39,7 @@ public class ProductController {
         }
     }
     @RequestMapping(path = "/admin/products", method = POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?> createProduct(@ModelAttribute @Valid ProductRequestDTO productRequestDTO) throws Exception{
+    public ResponseEntity<?> createProduct(@ModelAttribute @Valid ProductRequestDTO productRequestDTO){
         try{
             Product product = productService.createProduct(productRequestDTO);
             return new ResponseEntity<>(product, HttpStatus.CREATED);
@@ -48,7 +48,7 @@ public class ProductController {
         }
     }
     @PutMapping("/admin/products/{productId}")
-    public ResponseEntity<?> updateProduct(@PathVariable Long productId, @RequestBody ProductRequestDTO productRequestDTO) throws Exception{
+    public ResponseEntity<?> updateProduct(@PathVariable Long productId, @RequestBody ProductRequestDTO productRequestDTO){
         try{
             Product product = productService.updateProduct(productId, productRequestDTO);
             return new ResponseEntity<>(product, HttpStatus.OK);
@@ -57,7 +57,7 @@ public class ProductController {
         }
     }
     @DeleteMapping("/admin/products/{productId}")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long productId) throws Exception{
+    public ResponseEntity<?> deleteProduct(@PathVariable Long productId){
         try{
             Product product = productService.deleteProduct(productId);
             return new ResponseEntity<>(product, HttpStatus.OK);

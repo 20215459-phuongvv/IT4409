@@ -8,6 +8,7 @@ import com.IT4409.backend.repositories.CategoryRepository;
 import com.IT4409.backend.services.interfaces.ICategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.ResourceBundle;
