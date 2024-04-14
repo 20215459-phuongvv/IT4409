@@ -36,7 +36,7 @@ function Header() {
                 <div className={cx('actions')}>
                     <FontAwesomeIcon icon={faHeart} />
                     <FontAwesomeIcon icon={faShoppingCart} />
-                    <Button primary>Đăng nhập</Button>
+                    <Link to = {config.routes.login}><Button primary>Đăng nhập</Button></Link>
                 </div>
             </div>
         </header>
