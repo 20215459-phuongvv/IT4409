@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import './LoginForm.css';
 import { Link } from 'react-router-dom';
 import config from '~/config';
-
+import images from '~/assets/images';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -27,6 +29,7 @@ const LoginForm = () => {
             id="email"
             name="email"
             placeholder='Nhập email'
+            required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
@@ -38,21 +41,29 @@ const LoginForm = () => {
             id="password"
             name="password"
             placeholder='**********'
+            required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
-        <div className="form-group">
-          <input type="checkbox" id="rememberMe" name="rememberMe" />
-          <label htmlFor="rememberMe">Nhớ tài khoản</label>
-          <a href="#" className="forgot-password">Quên mật khẩu?</a>
+        <div className="remember-forgot">
+            <label><input type='checkbox' /> Nhớ tài khoản</label>
+            <a href='#'>Quên mật khẩu?</a>
         </div>
         <div className="form-group">
           <button type="submit" className="btn btn-primary">Đăng nhập</button>
         </div>
       </form>
-      <div className="login-options">
-        <Link to = {config.routes.register}>Bạn chưa có tài khoản? Đăng ký</Link>
+      <div className='btn-google'>
+          <div className='logo'>
+          <FontAwesomeIcon icon={faGoogle} />
+          </div>
+          <div>
+          <p>Đăng nhập với tài khoản Google</p>
+          </div>
+      </div>
+      <div className="register-link">
+        <p>Bạn chưa có tài khoản? <Link to = {config.routes.register}>Đăng ký</Link> </p>
       </div>
       <div className="login-terms">
         <p>
