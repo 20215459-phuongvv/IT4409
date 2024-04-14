@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -20,10 +21,13 @@ public class Order {
     private Date orderDate;
 
     @Column(name = "order_status")
-    private short orderStatus;
+    private String orderStatus;
 
     @Column(name = "payment_method")
     private short paymentMethod;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @Column(name = "note_order")
     private String noteOrder;
@@ -34,4 +38,9 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("order")
     private List<OrderItem> orderItemList;
+
+    @ManyToOne
+    @JoinColumn(name = "user_detail_id")
+    @JsonIgnoreProperties("order")
+    private UserDetail userDetail;
 }

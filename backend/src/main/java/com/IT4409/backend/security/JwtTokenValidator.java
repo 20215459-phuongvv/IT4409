@@ -1,8 +1,5 @@
 package com.IT4409.backend.security;
 
-import com.IT4409.backend.entities.User;
-import com.IT4409.backend.entities.UserDetail;
-import com.IT4409.backend.repositories.UserRepository;
 import com.IT4409.backend.services.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,31 +9,19 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 
 import javax.crypto.SecretKey;
 import java.io.IOException;
-import java.util.List;
-
-import static com.IT4409.backend.Utils.Constants.messages;
 
 public class JwtTokenValidator extends OncePerRequestFilter {
     @Autowired
     private UserService userService;
-    @Autowired
-    private UserRepository userRepository;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {

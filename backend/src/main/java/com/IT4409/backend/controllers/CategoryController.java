@@ -5,13 +5,11 @@ import com.IT4409.backend.entities.Category;
 import com.IT4409.backend.exceptions.BadRequestException;
 import com.IT4409.backend.exceptions.NotFoundException;
 import com.IT4409.backend.services.CategoryService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +20,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
 @Validated
-@RequestMapping("/api")
 @CrossOrigin("*")
 public class CategoryController {
     @Autowired
@@ -45,7 +42,7 @@ public class CategoryController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-    @RequestMapping(path = "/admin/categories", method = POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @RequestMapping(path = "api/admin/categories", method = POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> createCategory(@ModelAttribute @Valid CategoryRequestDTO dto) throws BadRequestException {
         try {
             Category category = categoryService.createCategory(dto);
@@ -55,7 +52,7 @@ public class CategoryController {
         }
     }
 
-    @RequestMapping(path = "/admin/categories/{categoryId}", method = PUT, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @RequestMapping(path = "api/admin/categories/{categoryId}", method = PUT, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> updateCategory(@PathVariable Long categoryId,
                                             @ModelAttribute @Valid CategoryRequestDTO dto) throws Exception {
         try {
@@ -66,7 +63,7 @@ public class CategoryController {
         }
 
     }
-    @DeleteMapping("/admin/categories/{categoryId}")
+    @DeleteMapping("api/admin/categories/{categoryId}")
     public ResponseEntity<?> deleteCategory(@PathVariable Long categoryId) throws NotFoundException {
         try {
             Category category = categoryService.deleteCategory(categoryId);
