@@ -28,6 +28,8 @@ const RegistrationForm = () => {
             type="email"
             id="email"
             name="email"
+            placeholder='Nhập email'
+            required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
@@ -38,6 +40,8 @@ const RegistrationForm = () => {
             type="password"
             id="password"
             name="password"
+            placeholder='********'
+            required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
@@ -48,13 +52,11 @@ const RegistrationForm = () => {
             type="password"
             id="confirmPassword"
             name="confirmPassword"
+            placeholder='********'
+            required
             value={confirmPassword}
             onChange={(event) => setConfirmPassword(event.target.value)}
           />
-        </div>
-        <div className="form-group">
-          <input type="checkbox" id="termsOfService" name="termsOfService" />
-          <label htmlFor="termsOfService">Đồng ý với điều khoản dịch vụ</label>
         </div>
         <div className="form-group">
           <button type="submit" className="btn btn-primary">Đăng ký</button>
@@ -62,7 +64,7 @@ const RegistrationForm = () => {
       </form>
       <div className="registration-options">
       <Link to = {config.routes.login}>Bạn đã có tài khoản? Đăng nhập</Link>
-        
+
       </div>
       <div className="registration-terms">
         <p>
