@@ -7,8 +7,13 @@ public class Constants {
     public static final String COMMON_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
     public static final String LOCALE_VN = "vi_VN";
     public static final String TIMEZONE_VN = "Asia/Ho_Chi_Minh";
+    public static final Long shippingFee = 15000L;
     public static final ResourceBundle messages = ResourceBundle.getBundle("messages");
 
+    public interface SHIPPING_FEE {
+        Long INSIDE_HANOI = 15000L;
+        Long OUTSIDE_HANOI = 25000L;
+    }
     public interface RATING {
         short ONE = 1;
         short TWO = 2;

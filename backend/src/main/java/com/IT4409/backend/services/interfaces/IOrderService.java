@@ -1,8 +1,7 @@
 package com.IT4409.backend.services.interfaces;
 
+import com.IT4409.backend.dtos.OrderDTO.OrderRequestDTO;
 import com.IT4409.backend.entities.Order;
-import com.IT4409.backend.entities.User;
-import com.IT4409.backend.entities.UserDetail;
 import com.IT4409.backend.exceptions.NotFoundException;
 
 import java.util.List;
@@ -20,9 +19,9 @@ public interface IOrderService {
 
     Order deleteOrder(Long orderId) throws NotFoundException;
 
-    Order createOrder(User user, UserDetail userDetail);
+    Order createOrder(String jwt, OrderRequestDTO dto) throws Exception;
 
     List<Order> getOrderHistory(long userId);
 
-    Order getOrderByOrderIdAndUserId(Long orderId);
+    Order getOrderByOrderIdAndUserId(String jwt, Long orderId) throws Exception;
 }

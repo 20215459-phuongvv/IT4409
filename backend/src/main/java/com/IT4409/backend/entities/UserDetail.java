@@ -2,13 +2,13 @@ package com.IT4409.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
 
 @Entity
 @Table(name = "user_details")
 @Data
+@Builder
 public class UserDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +28,4 @@ public class UserDetail {
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties("userDetailList")
     private User user;
-
-    @OneToMany(mappedBy = "userDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("orderList")
-    private List<Order> orderList;
 }

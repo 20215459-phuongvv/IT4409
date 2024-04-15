@@ -20,6 +20,12 @@ public class OrderItem {
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "size")
+    private String size;
+
+    @Column(name = "color")
+    private String color;
+
     @Column(name = "price")
     private Long price;
 

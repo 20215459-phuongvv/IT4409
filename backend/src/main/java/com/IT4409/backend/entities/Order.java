@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,23 +16,25 @@ public class Order {
     @Column(name = "order_id")
     private Long orderId;
 
-    @Column(name = "order_date")
-    private Date orderDate;
-
     @Column(name = "order_status")
     private String orderStatus;
 
+    @Column(name = "payment_status")
+    private String paymentStatus;
+
     @Column(name = "payment_method")
-    private short paymentMethod;
+    private String paymentMethod;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "note_order")
-    private String noteOrder;
-
     @Column(name = "total_amount")
-    private Long total_amount;
+    private Long totalAmount;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties("orderList")
+    private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("order")

@@ -1,10 +1,11 @@
 package com.IT4409.backend.controllers;
 
+import com.IT4409.backend.dtos.OrderDTO.OrderRequestDTO;
 import com.IT4409.backend.entities.Order;
 import com.IT4409.backend.entities.User;
-import com.IT4409.backend.entities.UserDetail;
 import com.IT4409.backend.services.OrderService;
 import com.IT4409.backend.services.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +22,11 @@ public class OrderController {
     private UserService userService;
 
     @PostMapping("/")
-    public ResponseEntity<?> createOrder(@RequestBody UserDetail userDetail,
+    @Transactional
+    public ResponseEntity<?> createOrder(@RequestBody OrderRequestDTO orderRequestDTO,
                                          @RequestHeader("Authorization")String jwt){
         try{
-            User user = userService.findUserByJwt(jwt);
-            Order order = orderService.createOrder(user, userDetail);
+            Order order = orderService.createOrder(jwt, orderRequestDTO);
             return new ResponseEntity<Order>(order, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -47,8 +48,7 @@ public class OrderController {
     public ResponseEntity<?> findOrder(@PathVariable Long orderId,
                                        @RequestHeader("Authorization") String jwt){
         try {
-            User user = userService.findUserByJwt(jwt);
-            Order orders = orderService.getOrderByOrderIdAndUserId(orderId);
+            Order orders = orderService.getOrderByOrderIdAndUserId(jwt, orderId);
             return new ResponseEntity<>(orders,HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
