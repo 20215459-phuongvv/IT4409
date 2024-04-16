@@ -136,7 +136,7 @@ public class OrderService implements IOrderService {
 
     @Override
     public List<Order> getOrderHistory(long userId) {
-        return orderRepository.getOrderHistory(userId);
+        return orderRepository.findAllByUserUserId(userId);
     }
 
     @Override

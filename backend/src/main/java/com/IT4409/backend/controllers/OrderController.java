@@ -27,7 +27,7 @@ public class OrderController {
                                          @RequestHeader("Authorization")String jwt){
         try{
             Order order = orderService.createOrder(jwt, orderRequestDTO);
-            return new ResponseEntity<Order>(order, HttpStatus.OK);
+            return new ResponseEntity<>(order, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

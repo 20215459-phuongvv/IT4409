@@ -20,7 +20,7 @@ public class Color {
 
     @OneToMany(mappedBy = "color", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("color")
-    private List<Image> imageList;
+    private List<ColorImage> colorImageList;
 
     @Column(name = "color_name")
     private String colorName;

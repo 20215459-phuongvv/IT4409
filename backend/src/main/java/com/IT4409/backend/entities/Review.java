@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "reviews")
 @Data
@@ -28,4 +30,8 @@ public class Review {
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties("reviewList")
     private User user;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("review")
+    private List<ReviewImage> reviewImageList;
 }

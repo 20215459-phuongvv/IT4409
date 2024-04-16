@@ -2,7 +2,7 @@ package com.IT4409.backend.controllers;
 
 import com.IT4409.backend.dtos.ColorDTO.ColorRequestDTO;
 import com.IT4409.backend.entities.Color;
-import com.IT4409.backend.entities.Image;
+import com.IT4409.backend.entities.ColorImage;
 import com.IT4409.backend.services.ColorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -69,8 +69,8 @@ public class ColorController {
                                          @PathVariable("colorId") Long colorId,
                                          @RequestBody List<Long> imageIdList){
         try{
-            List<Image> images = colorService.deleteImages(productId, colorId, imageIdList);
-            return new ResponseEntity<>(images, HttpStatus.OK);
+            List<ColorImage> colorImages = colorService.deleteImages(productId, colorId, imageIdList);
+            return new ResponseEntity<>(colorImages, HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

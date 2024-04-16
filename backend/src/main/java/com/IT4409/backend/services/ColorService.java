@@ -2,7 +2,7 @@ package com.IT4409.backend.services;
 
 import com.IT4409.backend.dtos.ColorDTO.ColorRequestDTO;
 import com.IT4409.backend.entities.Color;
-import com.IT4409.backend.entities.Image;
+import com.IT4409.backend.entities.ColorImage;
 import com.IT4409.backend.entities.Product;
 import com.IT4409.backend.exceptions.NotFoundException;
 import com.IT4409.backend.repositories.ColorRepository;
@@ -44,14 +44,14 @@ public class ColorService implements IColorService {
                 .filter(color1 -> Objects.equals(color1.getColorId(), colorId))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException(messages.getString("color.validate.not-found")));
-        List<Image> imageList = color.getImageList();
+        List<ColorImage> colorImageList = color.getColorImageList();
         for(MultipartFile image : images){
-            Image newImage = new Image();
+            ColorImage newColorImage = new ColorImage();
             String url = cloudinaryService.upload(image.getBytes(), image.getOriginalFilename(), "color_images");
-            newImage.setImageUrl(url);
-            newImage.setColor(color);
-            newImage = imageRepository.save(newImage);
-            imageList.add(newImage);
+            newColorImage.setImageUrl(url);
+            newColorImage.setColor(color);
+            newColorImage = imageRepository.save(newColorImage);
+            colorImageList.add(newColorImage);
         }
         return colorRepository.save(color);
     }
@@ -69,16 +69,16 @@ public class ColorService implements IColorService {
             color.setColorName(dto.getColorName());
         }
         if(!dto.getImageList().isEmpty()){
-            List<Image> imageList = new ArrayList<>();
+            List<ColorImage> colorImageList = new ArrayList<>();
             for(MultipartFile image : dto.getImageList()){
-                Image newImage = new Image();
+                ColorImage newColorImage = new ColorImage();
                 String url = cloudinaryService.upload(image.getBytes(), image.getOriginalFilename(), "color_images");
-                newImage.setImageUrl(url);
-                newImage.setColor(color);
-                newImage = imageRepository.save(newImage);
-                imageList.add(newImage);
+                newColorImage.setImageUrl(url);
+                newColorImage.setColor(color);
+                newColorImage = imageRepository.save(newColorImage);
+                colorImageList.add(newColorImage);
             }
-            color.setImageList(imageList);
+            color.setColorImageList(colorImageList);
         }
         return colorRepository.save(color);
     }
@@ -97,7 +97,7 @@ public class ColorService implements IColorService {
     }
 
     @Override
-    public List<Image> deleteImages(Long productId, Long colorId, List<Long> imageIdList) throws Exception{
+    public List<ColorImage> deleteImages(Long productId, Long colorId, List<Long> imageIdList) throws Exception{
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException(messages.getString("product.validate.not-found")));
         Color color = product.getColorList()
@@ -105,9 +105,9 @@ public class ColorService implements IColorService {
                 .filter(color1 -> Objects.equals(color1.getColorId(), colorId))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("color.validate.not-found"));
-        List<Image> result = new ArrayList<>();
+        List<ColorImage> result = new ArrayList<>();
         for(Long imageId :imageIdList){
-            Optional<Image> imageOptional = imageRepository.findById(imageId);
+            Optional<ColorImage> imageOptional = imageRepository.findById(imageId);
             if(imageOptional.isPresent()){
                 imageRepository.deleteById(imageId);
                 result.add(imageOptional.get());

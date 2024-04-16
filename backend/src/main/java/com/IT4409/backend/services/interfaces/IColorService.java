@@ -2,7 +2,7 @@ package com.IT4409.backend.services.interfaces;
 
 import com.IT4409.backend.dtos.ColorDTO.ColorRequestDTO;
 import com.IT4409.backend.entities.Color;
-import com.IT4409.backend.entities.Image;
+import com.IT4409.backend.entities.ColorImage;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -16,5 +16,5 @@ public interface IColorService {
 
     Color deleteColor(Long productId, Long colorId) throws Exception;
 
-    List<Image> deleteImages(Long productId, Long colorId, List<Long> imageIdList) throws Exception;
+    List<ColorImage> deleteImages(Long productId, Long colorId, List<Long> imageIdList) throws Exception;
 }
