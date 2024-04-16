@@ -16,7 +16,7 @@
 }
 
 .bottom {
-    height: 400px;
+    height: 360px;
     margin-top: 30px;
     display: flex;
     align-items: start;
@@ -34,6 +34,10 @@
     border-radius: 16px;
 }
 
+.chart-label {
+    font-size: 1.8rem;
+}
+
 .list-container {
     height: 100%;
     width: 240px;
@@ -47,8 +51,8 @@
 }
 
 .list {
-    margin-top: 16px;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 16px;
 }

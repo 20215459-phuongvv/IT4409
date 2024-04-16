@@ -70,11 +70,6 @@ function Dashboard() {
                                 row1="Đào Anh Quân"
                                 row2="Ngày gia nhập: 16/04/2024"
                             />
-                            <DashboardListItem
-                                img={admin_images.user}
-                                row1="Đào Anh Quân"
-                                row2="Ngày gia nhập: 16/04/2024"
-                            />
                         </div>
                     </div>
                     <div className={cx('list-container')}>
@@ -100,12 +95,6 @@ function Dashboard() {
                                 row1="Váy Fuji Ô Vuông Xanh"
                                 row2="Phân loại: Chân váy"
                             />
-                            <DashboardListItem
-                                img="https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg"
-                                row1="Váy Fuji Ô Vuông Xanh"
-                                row2="Phân loại: Chân váy"
-                            />
-
                         </div>
                     </div>
                 </div>
