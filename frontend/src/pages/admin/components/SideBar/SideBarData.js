@@ -2,12 +2,13 @@ import Home from '@mui/icons-material/Home';
 import People from '@mui/icons-material/People';
 import Inventory2 from '@mui/icons-material/Inventory2';
 import Discount from '@mui/icons-material/Discount';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 
 export const SideBarData = [
     {
         title: 'Dashboard',
         icon: <Home />,
-        link: '/admin/dashboard',
+        link: '/admin',
     },
     {
         title: 'Người dùng',
@@ -23,5 +24,10 @@ export const SideBarData = [
         title: 'Khuyến mãi và Giảm giá',
         icon: <Discount />,
         link: '/admin/discount',
+    },
+    {
+        title: 'Đơn hàng',
+        icon: <ListAltIcon />,
+        link: '/admin/orders',
     },
 ];
