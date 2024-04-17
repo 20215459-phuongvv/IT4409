@@ -5,7 +5,7 @@ import styles from './AdminPanel.module.scss';
 import SideBar from './components/SideBar/SideBar';
 import Dashboard from './pages/Dashboard';
 import ProductsManagement from './pages/Products';
-import UsersManagement from './pages/Users';
+import UsersManagement from './pages/Customers';
 import OrdersManagement from './pages/Orders';
 import TopBar from './components/TopBar';
 

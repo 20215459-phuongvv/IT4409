@@ -11,7 +11,7 @@ export const SideBarData = [
         link: '/admin',
     },
     {
-        title: 'Người dùng',
+        title: 'Khách hàng',
         icon: <People />,
         link: '/admin/users',
     },
