@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,10 +7,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Avatar, Box, Button, Modal, Typography } from '@mui/material';
+import { Button, Modal } from '@mui/material';
 
 import classNames from 'classnames/bind';
-import styles from './Products.module.scss';
+import styles from './Customers.module.scss';
+import customerApi from '~/api/customerApi';
 
 const cx = classNames.bind(styles);
 
@@ -22,24 +23,18 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const columns = [
     { id: 'index', label: 'STT', minWidth: 20 },
-    { id: 'image', label: 'Hình ảnh', minWidth: 20 },
-    { id: 'name', label: 'Tên sản phẩm', minWidth: 200, align: 'left' },
+    { id: 'username', label: 'Tên đăng nhập', minWidth: 60 },
+    { id: 'name', label: 'Họ và tên', minWidth: 100, align: 'left' },
     {
-        id: 'category',
-        label: 'Phân loại',
-        minWidth: 50,
+        id: 'email',
+        label: 'Email',
+        minWidth: 100,
         align: 'left',
     },
     {
-        id: 'price',
-        label: 'Giá',
+        id: 'phone-number',
+        label: 'Số điện thoại',
         minWidth: 60,
-        align: 'left',
-    },
-    {
-        id: 'quantity',
-        label: 'Số lượng',
-        minWidth: 30,
         align: 'left',
     },
     {
@@ -50,111 +45,44 @@ const columns = [
     },
 ];
 
-function createData(index, image, name, category, price, quantity) {
-    return { index, image, name, category, price, quantity };
+function createData(index, username, name, email, phoneNumber) {
+    return { index, username, name, email, phoneNumber };
 }
 
-const rows = [
-    createData(
-        1,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        2,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        3,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        4,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        5,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        6,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        7,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        8,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        9,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        10,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        11,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-];
+// const rows = [
+//     createData(
+//         1,
+//         'anhquan',
+//         'Đào Anh Quân',
+//         'anhquan7303qqq@gmail.com',
+//         '0972833225',
+//     )
+// ];
 
-function ProductsManagement() {
+function UsersManagement() {
+    const [customerList, setCustomerList] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(6);
-    const [openDeleteBox, setOpenDeleteBox] = useState(Array(rows.length).fill(false));
+    const [openDeleteBox, setOpenDeleteBox] = useState([]);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            const users = await customerApi.getAll();
+            const customersWithIndex = users.map((user, index) => ({ ...user, index: index + 1 }));
+            setCustomerList(customersWithIndex);
+            setOpenDeleteBox(Array(customersWithIndex.length).fill(false));
+        };
+
+        fetchUsers();
+    }, []);
+
+    console.log(customerList);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
 
-    const handleDeleteProduct = (id) => {
+    const handleDeleteCustomer = (id) => {
         handleCloseDeleteBox(id - 1);
         console.log(`delete ${id}`);
     };
@@ -176,7 +104,7 @@ function ProductsManagement() {
 
     return (
         <div className={cx('wrapper')}>
-            <h1 className={cx('title')}>Danh sách sản phẩm</h1>
+            <h1 className={cx('title')}>Khách hàng</h1>
             <TableContainer className={cx('table-container')}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -192,47 +120,45 @@ function ProductsManagement() {
                             ))}
                         </TableRow>
                     </TableHead>
+
                     <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                        {customerList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((customer) => {
                             return (
-                                <TableRow hover role="checkbox" tabIndex={-1} key={row.index}>
-                                    <StyledTableCell align="left">{row.index}</StyledTableCell>
-                                    <StyledTableCell align="left">
-                                        <Avatar src={row.image} alt={row.name} />
-                                    </StyledTableCell>
-                                    <StyledTableCell align="left">{row.name}</StyledTableCell>
-                                    <StyledTableCell align="left">{row.category}</StyledTableCell>
-                                    <StyledTableCell align="left">{row.price}</StyledTableCell>
-                                    <StyledTableCell align="left">{row.quantity}</StyledTableCell>
+                                <TableRow hover role="checkbox" tabIndex={-1} key={customer.index}>
+                                    <StyledTableCell align="left">{customer.index}</StyledTableCell>
+                                    <StyledTableCell align="left">{customer.username}</StyledTableCell>
+                                    <StyledTableCell align="left">{customer.name}</StyledTableCell>
+                                    <StyledTableCell align="left">{customer.email}</StyledTableCell>
+                                    <StyledTableCell align="left">{customer.phone}</StyledTableCell>
                                     <TableCell align="left">
                                         <Button
-                                            onClick={() => handleOpenDeleteBox(row.index - 1)}
+                                            onClick={() => handleOpenDeleteBox(customer.index - 1)}
                                             variant="contained"
                                             color="error"
                                         >
                                             XÓA
                                         </Button>
                                         <Modal
-                                            open={openDeleteBox[row.index - 1]}
-                                            onClose={() => handleCloseDeleteBox(row.index - 1)}
+                                            open={openDeleteBox[customer.index - 1]}
+                                            onClose={() => handleCloseDeleteBox(customer.index - 1)}
                                             aria-labelledby="modal-modal-title"
                                             aria-describedby="modal-modal-description"
                                         >
                                             <div className={cx('delete-confirm-box')}>
-                                                <p>Xóa sản phẩm {row.name} ?</p>
+                                                <p>Xóa khách hàng {customer.name} ?</p>
                                                 <div className={cx('delete-box-row')}>
                                                     <Button
                                                         size="large"
                                                         variant="contained"
                                                         color="error"
-                                                        onClick={() => handleDeleteProduct(row.index)}
+                                                        onClick={() => handleDeleteCustomer(customer.index)}
                                                     >
                                                         Xóa
                                                     </Button>
                                                     <Button
                                                         size="large"
                                                         variant="outlined"
-                                                        onClick={() => handleCloseDeleteBox(row.index - 1)}
+                                                        onClick={() => handleCloseDeleteBox(customer.index - 1)}
                                                     >
                                                         Hủy
                                                     </Button>
@@ -262,9 +188,9 @@ function ProductsManagement() {
                 }}
                 rowsPerPageOptions={[6]}
                 component="div"
-                count={rows.length}
+                count={customerList.length}
                 rowsPerPage={rowsPerPage}
-                // labelRowsPerPage={'Số hàng'}
+                labelRowsPerPage={'Số hàng'}
                 page={page}
                 onPageChange={handleChangePage}
                 // onRowsPerPageChange={handleChangeRowsPerPage}
@@ -273,4 +199,4 @@ function ProductsManagement() {
     );
 }
 
-export default ProductsManagement;
+export default UsersManagement;
