@@ -9,9 +9,9 @@ import java.util.List;
 public interface IMessageService {
     MessageResponseDTO saveMessage(Message message);
 
-    List<MessageResponseDTO> getConversation(Long senderId, Long receiverId);
+    List<MessageResponseDTO> getConversation(String jwt, Long receiverId) throws Exception;
 
-    List<MessageResponseDTO> getAllMessageOfUser(String jwt);
+    List<MessageResponseDTO> getAllMessageOfUser(String jwt) throws Exception;
 
-    List<User> getContactList(String jwt);
+    List<User> getContactList(String jwt) throws Exception;
 }
