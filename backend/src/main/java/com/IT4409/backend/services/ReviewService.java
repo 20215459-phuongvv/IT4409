@@ -135,7 +135,7 @@ public class ReviewService implements IReviewService {
         user.getReviewList().remove(review);
         userRepository.save(user);
         // Xem xét thay đổi rating sản phẩm sau
-        //
+        //.avarage()
         //
         //
         return review;
