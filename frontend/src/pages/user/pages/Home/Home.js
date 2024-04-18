@@ -3,9 +3,9 @@ import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 import homeImage from '~/assets/images/home';
 import Button from '~/components/Button';
-import MostSale from '~/pages/user/Home/MostSale';
-import Discount from '~/pages/user/Home/Discount';
-import NewProducts from '~/pages/user/Home/NewProducts';
+import MostSale from '~/pages/user/pages/Home/MostSale';
+import Discount from '~/pages/user/pages/Home/Discount';
+import NewProducts from '~/pages/user/pages/Home/NewProducts';
 import Blog from './Blog';
 import SliderComponent from '~/components/Slider/Slider';
 
