@@ -1,0 +1,25 @@
+.delete-confirm-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 16px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 6px;
+
+    p {
+        font-size: 1.6rem;
+        font-weight: 500;
+    }
+
+    .delete-box-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+}
