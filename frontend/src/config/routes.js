@@ -4,7 +4,7 @@ const routes = {
     products: '/products',
     admin: '/admin',
     login: '/login',
-    register: '/register'
+    register: '/register',
 
 };
 

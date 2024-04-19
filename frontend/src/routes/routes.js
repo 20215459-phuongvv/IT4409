@@ -1,7 +1,7 @@
 import config from '~/config';
-import Home from '~/pages/user/Home';
-import Profile from '~/pages/user/Profile';
-import Products from '~/pages/user/Products';
+import Home from '~/pages/user/pages/Home';
+import Profile from '~/pages/user/pages/Profile';
+import Products from '~/pages/user/pages/Products/Products';
 import LoginForm from '~/pages/account/login/LoginForm';
 import RegistrationForm from '~/pages/account/register/RegistrationForm';
 

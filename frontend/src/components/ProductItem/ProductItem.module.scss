@@ -32,3 +32,7 @@
     font-size: 1.2rem;
     text-decoration: line-through;
 }
+.wrapper:hover{
+    transform: scale(1.05);
+    transition: 0.6s;
+}

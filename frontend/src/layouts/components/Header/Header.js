@@ -11,7 +11,7 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import Search from '~/components/Search';
 
 const cx = classNames.bind(styles);
-
+const currentUser = false;
 function Header() {
     return (
         <header className={cx('wrapper')}>
@@ -32,12 +32,19 @@ function Header() {
                     <Link>Blog</Link>
                     <Link>Liên hệ</Link>
                 </nav>
-
                 <div className={cx('actions')}>
+            {currentUser ? (
+                <>
+                </>
+            ): (
+                <>
                     <FontAwesomeIcon icon={faHeart} />
                     <FontAwesomeIcon icon={faShoppingCart} />
                     <Link to = {config.routes.login}><Button primary>Đăng nhập</Button></Link>
-                </div>
+                </>   
+
+)}
+</div>
             </div>
         </header>
     );
