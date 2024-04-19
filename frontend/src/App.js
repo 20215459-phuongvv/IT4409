@@ -3,6 +3,8 @@ import { publicRoutes } from '~/routes';
 import DefaultLayout from '~/layouts';
 import AdminPanel from './pages/admin/AdminPanel';
 import ShopCategory from './pages/user/pages/Products/ShopCategory';
+import ProductDetail from './pages/user/pages/Products/ProductDetail/ProductDetail';
+import Products from './pages/user/pages/Products/Products';
 
 function App() {
     return (
@@ -45,6 +47,9 @@ function App() {
                             <ShopCategory category="phukien"/>
                         </DefaultLayout>
                     } /> */}
+                    <Route path='/products' element={<ProductDetail />}>
+                        <Route path=':productId' element={<ProductDetail />} />
+                    </Route>
                 </Routes>
             </div>
         </Router>
