@@ -50,7 +50,6 @@ function Products() {
         </div>
 
         <div className={cx('filter')}>
-            <p>Bộ lọc</p>
 
         </div>
 
