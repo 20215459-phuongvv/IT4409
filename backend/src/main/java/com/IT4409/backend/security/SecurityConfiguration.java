@@ -41,6 +41,34 @@ public class SecurityConfiguration {
                 )
                 .addFilterBefore(jwtTokenValidator(), BasicAuthenticationFilter.class)
                 .csrf().disable()
+                .cors().configurationSource(new CorsConfigurationSource() {
+
+                    @Override
+                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+
+                        CorsConfiguration cfg = new CorsConfiguration();
+
+                        cfg.setAllowedOrigins(Arrays.asList(
+
+                                        "http://localhost:3000",
+                                        "http://localhost:4000",
+                                        "http://localhost:4200",
+                                        "https://shopwithzosh.vercel.app",
+                                        "https://ecommerce-angular-blue.vercel.app/"
+
+                                )
+                        );
+                        //cfg.setAllowedMethods(Arrays.asList("GET", "POST","DELETE","PUT"));
+                        cfg.setAllowedMethods(Collections.singletonList("*"));
+                        cfg.setAllowCredentials(true);
+                        cfg.setAllowedHeaders(Collections.singletonList("*"));
+                        cfg.setExposedHeaders(Arrays.asList("Authorization"));
+                        cfg.setMaxAge(3600L);
+                        return cfg;
+
+                    }
+                })
+                .and()
                 .httpBasic()
                 .and()
                 .formLogin();
