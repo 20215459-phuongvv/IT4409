@@ -5,6 +5,7 @@ const routes = {
     admin: '/admin',
     login: '/login',
     register: '/register',
+    cart: '/cart'
 
 };
 

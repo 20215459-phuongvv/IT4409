@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import classNames from "classnames/bind";
 import { useState } from "react";
 
@@ -6,11 +6,13 @@ import styles from './ProductDisplay.module.scss';
 import star_icon from '~/assets/images/star_icon.png';
 import star_dull_icon from '~/assets/images/star_dull_icon.png';
 import Button from "~/components/Button";
+import { ShopContext } from "~/context/ShopContext";
 const cx = classNames.bind(styles);
 
 
 function ProductDisplay(props) {
     const {product} = props;
+    const {addToCart} = useContext(ShopContext);
 
     const [amount, setAmount] = useState(1);
     const [size,setSize] = useState(0);
@@ -51,23 +53,23 @@ function ProductDisplay(props) {
                     <p>Kích thước</p>
                     <div className={cx('right-sizes')}>
                         <Button children='S'
+                                    className={cx('btn-size', {'btn-size-active' : size === 0})}
+                                    onClick={()=>handleSize(0)}
+                            />
+                        
+                        <Button children='M'
                                     className={cx('btn-size', {'btn-size-active' : size === 1})}
                                     onClick={()=>handleSize(1)}
                             />
                         
-                        <Button children='M'
+                        <Button children='L'
                                     className={cx('btn-size', {'btn-size-active' : size === 2})}
                                     onClick={()=>handleSize(2)}
                             />
                         
-                        <Button children='L'
+                        <Button children='XL'
                                     className={cx('btn-size', {'btn-size-active' : size === 3})}
                                     onClick={()=>handleSize(3)}
-                            />
-                        
-                        <Button children='XL'
-                                    className={cx('btn-size', {'btn-size-active' : size === 4})}
-                                    onClick={()=>handleSize(4)}
                             />
                         
                         
@@ -89,7 +91,7 @@ function ProductDisplay(props) {
                     </div>
                 </div>
 
-                <button className={cx('addToCart')}>Thêm vào giỏ hàng</button>
+                <button onClick={()=>{addToCart(product.id,amount,size)}} className={cx('addToCart')}>Thêm vào giỏ hàng</button>
 
 
 

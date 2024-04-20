@@ -39,7 +39,7 @@ function Header() {
             ): (
                 <>
                     <FontAwesomeIcon icon={faHeart} />
-                    <FontAwesomeIcon icon={faShoppingCart} />
+                    <Link to={config.routes.cart}><FontAwesomeIcon icon={faShoppingCart} /></Link>
                     <Link to = {config.routes.login}><Button primary>Đăng nhập</Button></Link>
                 </>   
 

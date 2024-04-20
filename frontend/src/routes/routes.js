@@ -4,6 +4,7 @@ import Profile from '~/pages/user/pages/Profile';
 import Products from '~/pages/user/pages/Products/Products';
 import LoginForm from '~/pages/account/login/LoginForm';
 import RegistrationForm from '~/pages/account/register/RegistrationForm';
+import Cart from '~/pages/user/pages/Cart/Cart';
 
 // không cần đăng nhập vẫn xem được
 const publicRoutes = [
@@ -11,7 +12,8 @@ const publicRoutes = [
     { path: config.routes.profile, component: Profile },
     { path: config.routes.products, component: Products },
     { path: config.routes.login, component: LoginForm},
-    { path: config.routes.register, component: RegistrationForm}
+    { path: config.routes.register, component: RegistrationForm},
+    { path: config.routes.cart, component: Cart}
 ];
 
 // phải đăng nhập, nếu không sẽ đưa ra login
