@@ -2,13 +2,17 @@ package com.IT4409.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "user_details")
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

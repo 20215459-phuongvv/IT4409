@@ -8,24 +8,18 @@ import com.IT4409.backend.exceptions.BadRequestException;
 import com.IT4409.backend.exceptions.NotFoundException;
 import com.IT4409.backend.repositories.UserRepository;
 import com.IT4409.backend.security.JwtTokenProvider;
-import com.IT4409.backend.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.IT4409.backend.Utils.Constants.messages;
@@ -39,6 +33,8 @@ public class UserService implements UserDetailsService {
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private CartService cartService;
+    @Autowired
+    private BlacklistService blacklistService;
 //    @Override
     public List<User> findAllUsers() {
         return userRepository.findAllByOrderByCreatedAtDesc();
@@ -103,5 +99,12 @@ public class UserService implements UserDetailsService {
             throw new BadCredentialsException(messages.getString("password.validate.invalid"));
         }
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    }
+
+    public void logout() {
+        String jwt = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        blacklistService.addToBlacklist(jwt);
+        SecurityContextHolder.clearContext();
+        System.out.println(SecurityContextHolder.getContext());
     }
 }

@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,6 @@ public class AuthController {
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private UserService userService;
-
     @PostMapping("/signup")
     public ResponseEntity<?> createUser(@Valid @RequestBody User user) throws Exception {
         try {
@@ -35,11 +35,22 @@ public class AuthController {
         }
 
     }
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public ResponseEntity<?> signIn(@RequestBody AuthRequestDTO authRequestDTO) throws Exception{
         try {
             AuthResponseDTO authResponseDTO= userService.signIn(authRequestDTO);
+            System.out.println(SecurityContextHolder.getContext());
             return new ResponseEntity<>(authResponseDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout() {
+        try{
+            userService.logout();
+            return ResponseEntity.ok().body("Đăng xuất thành công");
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
