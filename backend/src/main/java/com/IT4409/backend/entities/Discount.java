@@ -1,6 +1,7 @@
 package com.IT4409.backend.entities;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.Date;
 @Entity
 @Table(name = "discounts")
 @Data
+@Builder
 public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +20,13 @@ public class Discount {
     private String discountCode;
 
     @Column(name = "discount_value")
-    private int discountValue;
+    private Integer discountValue;
+
+    @Column(name = "min_condition")
+    private Integer minCondition;
+
+    @Column(name = "max_possible_value")
+    private Integer maxPossibleValue;
 
     @Column(name = "status")
     private Short status;
