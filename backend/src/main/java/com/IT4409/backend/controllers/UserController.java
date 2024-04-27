@@ -5,10 +5,7 @@ import com.IT4409.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,15 +15,33 @@ public class UserController {
     @Autowired
     private UserService userService;
     @GetMapping("admin/users")
-    public ResponseEntity<List<User>> getAllUsers(@RequestHeader("Authorization") String jwt) throws Exception{
+    public ResponseEntity<?> getAllUsers(){
+        try{
+            List<User> user=userService.findAllUsers();
+            return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
 
-        System.out.println("/api/users/profile");
-        List<User> user=userService.findAllUsers();
-        return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
     }
     @GetMapping("/users/profile")
-    public ResponseEntity<User> getUserProfile(@RequestHeader("Authorization") String jwt) throws Exception {
-        User user = userService.findUserByJwt(jwt);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<?> getUserProfile(@RequestHeader("Authorization") String jwt){
+        try {
+            User user = userService.findUserByJwt(jwt);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
     }
+    @PutMapping("/users/change-password")
+    public ResponseEntity<?> changePassword(@RequestHeader("Authorization") String jwt, String newPassword) {
+        try{
+            User user = userService.changePassword(jwt, newPassword);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

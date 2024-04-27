@@ -25,8 +25,7 @@ public class AdminOrderController {
     }
 
     @PutMapping("/{orderId}/confirm")
-    public ResponseEntity<?> confirmOrder(@PathVariable Long orderId,
-                                          @RequestHeader("Authorization") String jwt){
+    public ResponseEntity<?> confirmOrder(@PathVariable Long orderId){
         try{
             Order order=orderService.confirmOrder(orderId);
             return new ResponseEntity<Order>(order,HttpStatus.ACCEPTED);
@@ -36,8 +35,7 @@ public class AdminOrderController {
     }
 
     @PutMapping("/{orderId}/ship")
-    public ResponseEntity<?> shipOrder(@PathVariable Long orderId,
-                                       @RequestHeader("Authorization") String jwt){
+    public ResponseEntity<?> shipOrder(@PathVariable Long orderId){
         try{
             Order order=orderService.shipOrder(orderId);
             return new ResponseEntity<Order>(order,HttpStatus.ACCEPTED);
@@ -47,8 +45,7 @@ public class AdminOrderController {
     }
 
     @PutMapping("/{orderId}/deliver")
-    public ResponseEntity<?> deliverOrder(@PathVariable Long orderId,
-                                          @RequestHeader("Authorization") String jwt){
+    public ResponseEntity<?> deliverOrder(@PathVariable Long orderId){
         try{
             Order order=orderService.deliverOrder(orderId);
             return new ResponseEntity<Order>(order,HttpStatus.ACCEPTED);
@@ -59,8 +56,7 @@ public class AdminOrderController {
     }
 
     @PutMapping("/{orderId}/cancel")
-    public ResponseEntity<?> cancelOrder(@PathVariable Long orderId,
-                                         @RequestHeader("Authorization") String jwt){
+    public ResponseEntity<?> cancelOrder(@PathVariable Long orderId){
         try{
             Order order=orderService.cancelOrder(orderId);
             return new ResponseEntity<Order>(order,HttpStatus.ACCEPTED);
@@ -70,8 +66,7 @@ public class AdminOrderController {
     }
 
     @DeleteMapping("/{orderId}/delete")
-    public ResponseEntity<?> deleteOrderHandler(@PathVariable Long orderId,
-                                                @RequestHeader("Authorization") String jwt){
+    public ResponseEntity<?> deleteOrderHandler(@PathVariable Long orderId){
         try{
             Order order = orderService.deleteOrder(orderId);
             return new ResponseEntity<>(order,HttpStatus.ACCEPTED);

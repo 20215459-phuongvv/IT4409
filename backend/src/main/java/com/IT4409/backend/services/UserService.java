@@ -107,4 +107,10 @@ public class UserService implements UserDetailsService {
         SecurityContextHolder.clearContext();
         System.out.println(SecurityContextHolder.getContext());
     }
+
+    public User changePassword(String jwt, String newPassword) throws Exception {
+        User user = findUserByJwt(jwt);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        return userRepository.save(user);
+    }
 }

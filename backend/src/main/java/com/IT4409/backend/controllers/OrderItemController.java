@@ -8,15 +8,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/order")
+@RequestMapping("api/orders")
 public class OrderItemController {
     @Autowired
     private OrderItemService orderItemService;
 
     @GetMapping("{orderId}/items/{orderItemId}")
     public ResponseEntity<?> getOrderItemForUser(@RequestHeader("Authorization") String jwt,
-                                          @PathVariable("orderId") Long orderId,
-                                          @PathVariable("orderItemId") Long orderItemId) {
+                                                 @PathVariable("orderId") Long orderId,
+                                                 @PathVariable("orderItemId") Long orderItemId) {
         try {
             OrderItem orderItem = orderItemService.getOrderItemForUser(jwt, orderId, orderItemId);
             return new ResponseEntity<>(orderItem, HttpStatus.OK);
