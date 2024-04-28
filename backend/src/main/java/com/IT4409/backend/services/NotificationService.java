@@ -43,13 +43,27 @@ public class NotificationService implements INotificationService {
     public Notification addNotification(Long userId, Long orderId, String text) throws NotFoundException {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
-        return Notification
+        Notification notification = Notification
                 .builder()
                 .user(user)
                 .orderId(orderId)
                 .text(text)
                 .notificationTime(LocalDateTime.now())
                 .build();
+        return notificationRepository.save(notification);
+    }
+
+    @Override
+    public Notification addDiscountNotification(Long userId, String text) throws NotFoundException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
+        Notification notification = Notification
+                .builder()
+                .user(user)
+                .text(text)
+                .notificationTime(LocalDateTime.now())
+                .build();
+        return notificationRepository.save(notification);
     }
 
     @Override

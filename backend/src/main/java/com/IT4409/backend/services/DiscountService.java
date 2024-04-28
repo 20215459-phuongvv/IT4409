@@ -2,9 +2,12 @@ package com.IT4409.backend.services;
 
 import com.IT4409.backend.Utils.Constants;
 import com.IT4409.backend.dtos.DiscountDTO.DiscountRequestDTO;
+import com.IT4409.backend.entities.Cart;
 import com.IT4409.backend.entities.Discount;
+import com.IT4409.backend.entities.User;
 import com.IT4409.backend.exceptions.BadRequestException;
 import com.IT4409.backend.exceptions.NotFoundException;
+import com.IT4409.backend.repositories.CartRepository;
 import com.IT4409.backend.repositories.DiscountRepository;
 import com.IT4409.backend.services.interfaces.IDiscountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,10 @@ import java.util.List;
 import static com.IT4409.backend.Utils.Constants.messages;
 
 public class DiscountService implements IDiscountService {
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private CartRepository cartRepository;
     @Autowired
     private DiscountRepository discountRepository;
     @Override
@@ -80,5 +87,24 @@ public class DiscountService implements IDiscountService {
                 .orElseThrow(() -> new NotFoundException(messages.getString("discount.validate.not-found")));
         discountRepository.deleteById(discountId);
         return discount;
+    }
+
+    @Override
+    public Cart applyDiscount(String jwt, String discountCode) throws Exception {
+        User user = userService.findUserByJwt(jwt);
+        Cart cart = user.getCart();
+        if(!discountRepository.existsByDiscountCodeAndStatus(discountCode, Constants.DISCOUNT_STATUS.AVAILABLE)) {
+            throw new BadRequestException(messages.getString("discount.validate.not-found"));
+        }
+        cart.setDiscountCode(discountCode);
+        return cartRepository.save(cart);
+    }
+
+    @Override
+    public Cart deleteDiscountFromCart(String jwt) throws Exception {
+        User user = userService.findUserByJwt(jwt);
+        Cart cart = user.getCart();
+        cart.setDiscountCode(null);
+        return cartRepository.save(cart);
     }
 }
