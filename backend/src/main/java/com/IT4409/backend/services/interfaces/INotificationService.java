@@ -10,6 +10,7 @@ public interface INotificationService {
     List<NotificationResponseDTO> getNotificationsByUserId(String jwt) throws Exception;
 
     Notification addNotification(Long userId, Long orderId, String text) throws NotFoundException;
+    Notification addDiscountNotification(Long userId, String text) throws NotFoundException;
 
     Notification deleteNotification(String jwt, Long notificationId) throws Exception;
 
