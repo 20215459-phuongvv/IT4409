@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,7 +30,12 @@ public class Cart {
     @Column(name = "total_item")
     private Integer totalItem;
 
+    @Column(name = "discount_code")
+    private String discountCode;
+
+    @Column(name = "total_discount_price")
     private Long totalDiscountPrice;
 
+    @Column(name = "discounted_amount")
     private Long discountedAmount;
 }

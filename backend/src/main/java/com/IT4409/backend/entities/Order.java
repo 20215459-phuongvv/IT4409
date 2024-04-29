@@ -31,6 +31,15 @@ public class Order {
     @Column(name = "total_amount")
     private Long totalAmount;
 
+    @Column(name = "discount_amount")
+    private Long discountedAmount;
+
+    @Column(name = "discount_from_voucher")
+    private Long discountFromVoucher;
+
+    @Column(name = "final_price")
+    private Long finalPrice;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties("orderList")
