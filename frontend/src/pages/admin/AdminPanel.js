@@ -8,6 +8,8 @@ import ProductsManagement from './pages/Products';
 import UsersManagement from './pages/Customers';
 import OrdersManagement from './pages/Orders';
 import TopBar from './components/TopBar';
+import AddProducts from './pages/AddProducts';
+import Vouchers from './pages/Vouchers';
 
 const cx = classNames.bind(styles);
 
@@ -22,6 +24,8 @@ function AdminPanel() {
                         <Route path="/" element={<Dashboard />}></Route>
                         <Route path="/products" element={<ProductsManagement />}></Route>
                         <Route path="/users" element={<UsersManagement />}></Route>
+                        <Route path="/add-products" element={<AddProducts />}></Route>
+                        <Route path="/discount" element={<Vouchers />}></Route>
                         <Route path="/orders" element={<OrdersManagement />}></Route>
                     </Routes>
                 </div>

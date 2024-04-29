@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import classNames from "classnames/bind";
-import styles from './CartItems.scss';
+import styles from './CartItems.module.scss';
 import remove_icon from '~/assets/images/cart_cross_icon.png'
 import { ShopContext } from "~/context/ShopContext";
 import Button from "../Button";

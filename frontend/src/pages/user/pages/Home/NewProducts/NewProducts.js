@@ -5,8 +5,6 @@ import newProducts from '~/assets/new_products';
 const cx = classNames.bind(styles);
 
 function NewProducts() {
-    
-
     return (
         <div className={cx('element-wrapper')}>
             {newProducts.map((product) => (
