@@ -5,8 +5,6 @@ import DiscountProducts from '~/assets/discount_products';
 const cx = classNames.bind(styles);
 
 function Discount() {
-   
-
     return (
         <div className={cx('element-wrapper')}>
             {DiscountProducts.map((product) => (
