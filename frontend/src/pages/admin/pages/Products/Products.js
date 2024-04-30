@@ -148,7 +148,9 @@ function ProductsManagement() {
                 type="product"
                 attributes={['index', 'image', 'name', 'category', 'price', 'quantity']}
                 deleteButton={true}
+                updateButton={true}
                 handleDelete={handleDelete}
+
             />
         </div>
     );

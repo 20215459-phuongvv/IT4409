@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './Orders.module.scss';
-import customerApi from '~/api/customerApi';
 import TableComponent from '../../components/TableComponent';
 
 const cx = classNames.bind(styles);
@@ -28,6 +26,12 @@ const columns = [
         minWidth: 60,
         align: 'left',
     },
+    {
+        id: 'contact',
+        label: 'Liên hệ',
+        minWidth: 30,
+        align: 'left',
+    },
 ];
 
 const rows = [
@@ -38,10 +42,10 @@ const rows = [
         total: '1.000.000đ',
         status: 'Đang giao',
     },
-]
+];
 
 function OrdersManagement() {
-    const [customerList, setCustomerList] = useState([]);
+
     const attributes = ['orderID', 'customerName', 'date', 'total', 'status'];
 
     // useEffect(() => {
@@ -57,7 +61,7 @@ function OrdersManagement() {
     return (
         <div className={cx('wrapper')}>
             <h1 className={cx('title')}>Đơn hàng</h1>
-            <TableComponent columns={columns} rows={rows} attributes={attributes} />
+            <TableComponent columns={columns} rows={rows} attributes={attributes} contactButton={true} />
         </div>
     );
 }

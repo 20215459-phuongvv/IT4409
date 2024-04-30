@@ -1,4 +1,5 @@
-.delete-confirm-box {
+.delete-confirm-box,
+.update-voucher-box {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -9,9 +10,11 @@
     flex-direction: column;
     gap: 16px;
     background-color: #fff;
-    padding: 20px;
+    padding: 30px;
     border-radius: 6px;
+}
 
+.delete-confirm-box {
     p {
         font-size: 1.6rem;
         font-weight: 500;
@@ -22,4 +25,47 @@
         align-items: center;
         gap: 12px;
     }
+}
+
+.update-voucher-box {
+    width: 500px;
+
+    .update-voucher-title {
+        font-size: 1.8rem;
+        font-weight: 500;
+    }
+}
+
+.update-input-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.update-input-row {
+    width: 100%;
+    height: 42px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 30% 70%;
+    gap: 12px;
+
+    p {
+        font-size: 1.2rem;
+    }
+
+    input {
+        height: 100%;
+        border: 1px solid #ccc;
+        padding: 0 8px;
+        font-size: 1.2rem;
+    }
+}
+
+.update-voucher-buttons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
