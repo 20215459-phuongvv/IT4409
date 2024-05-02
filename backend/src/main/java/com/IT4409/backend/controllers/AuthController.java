@@ -6,15 +6,13 @@ import com.IT4409.backend.entities.User;
 import com.IT4409.backend.repositories.UserRepository;
 import com.IT4409.backend.security.JwtTokenProvider;
 import com.IT4409.backend.services.UserService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -26,14 +24,10 @@ public class AuthController {
     @Autowired
     private UserService userService;
     @PostMapping("/signup")
+    @Transactional
     public ResponseEntity<?> createUser(@Valid @RequestBody User user) throws Exception {
-        try {
-            AuthResponseDTO authResponseDTO= userService.createUser(user);
-            return new ResponseEntity<>(authResponseDTO, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-
+        AuthResponseDTO authResponseDTO= userService.createUser(user);
+        return new ResponseEntity<>(authResponseDTO, HttpStatus.OK);
     }
     @PostMapping("/login")
     public ResponseEntity<?> signIn(@RequestBody AuthRequestDTO authRequestDTO) throws Exception{
@@ -53,6 +47,15 @@ public class AuthController {
             return ResponseEntity.ok().body("Đăng xuất thành công");
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("/verify-email/{token}")
+    public ResponseEntity<?> confirmEmail(@PathVariable("token") String token) {
+        try{
+            User user = userService.confirmEmail(token);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }

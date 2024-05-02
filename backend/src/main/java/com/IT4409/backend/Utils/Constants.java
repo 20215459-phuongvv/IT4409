@@ -8,6 +8,8 @@ public class Constants {
     public static final String LOCALE_VN = "vi_VN";
     public static final String TIMEZONE_VN = "Asia/Ho_Chi_Minh";
     public static final Long shippingFee = 15000L;
+    public static final String LOCAL_HOST = "http://localhost:8080";
+    public static final String DEPLOYED = "";
     public static final ResourceBundle messages = ResourceBundle.getBundle("messages");
 
     public interface SHIPPING_FEE {

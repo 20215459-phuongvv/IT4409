@@ -1,5 +1,6 @@
 package com.IT4409.backend.services;
 
+import com.IT4409.backend.Utils.Constants;
 import com.IT4409.backend.Utils.Role;
 import com.IT4409.backend.dtos.AuthDTO.AuthRequestDTO;
 import com.IT4409.backend.dtos.AuthDTO.AuthResponseDTO;
@@ -8,6 +9,7 @@ import com.IT4409.backend.exceptions.BadRequestException;
 import com.IT4409.backend.exceptions.NotFoundException;
 import com.IT4409.backend.repositories.UserRepository;
 import com.IT4409.backend.security.JwtTokenProvider;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,9 +20,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import static com.IT4409.backend.Utils.Constants.messages;
 @Service
@@ -33,6 +37,8 @@ public class UserService implements UserDetailsService {
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private CartService cartService;
+    @Autowired
+    private EmailService emailService;
     @Autowired
     private BlacklistService blacklistService;
 //    @Override
@@ -56,10 +62,11 @@ public class UserService implements UserDetailsService {
                 .roles(user.getRole())
                 .build();
     }
-    public AuthResponseDTO createUser(User user) throws BadRequestException {
+    public AuthResponseDTO createUser(User user) throws BadRequestException, MessagingException {
         String email = user.getEmail();
         String password = user.getPassword();
         String role = Role.CUSTOMER.toString();
+        String verificationToken = UUID.randomUUID().toString();
         if(userRepository.existsByEmail(email)) {
             throw new BadRequestException(messages.getString("email.validate.duplicate"));
         }
@@ -68,15 +75,23 @@ public class UserService implements UserDetailsService {
         newUser.setPassword(passwordEncoder.encode(password));
         newUser.setCreatedAt(LocalDateTime.now());
         newUser.setRole(role);
+        newUser.setVerificationToken(verificationToken);
+        newUser.setStatus(Constants.ENTITY_STATUS.INACTIVE);
         newUser = userRepository.save(newUser);
         // Tạo ra giỏ hàng mới cho khách hàng mới
         cartService.createCart(newUser);
 
+
         Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
         String token = jwtTokenProvider.generateToken(authentication);
-        AuthResponseDTO authResponseDTO = new AuthResponseDTO(token, true);
-        return authResponseDTO;
+
+        Context context = new Context();
+        String url = Constants.LOCAL_HOST + "/auth/verify-email/" + verificationToken;
+        context.setVariable("url", url);
+        emailService.sendEmailWithHtmlTemplate(email, messages.getString("email.verify"), "email-verification", context);
+        return new AuthResponseDTO(token, true);
     }
     public AuthResponseDTO signIn(AuthRequestDTO authRequestDTO) throws BadCredentialsException{
         AuthResponseDTO authResponseDTO = new AuthResponseDTO();
@@ -111,6 +126,16 @@ public class UserService implements UserDetailsService {
     public User changePassword(String jwt, String newPassword) throws Exception {
         User user = findUserByJwt(jwt);
         user.setPassword(passwordEncoder.encode(newPassword));
+        return userRepository.save(user);
+    }
+
+    public User confirmEmail(String token) throws Exception {
+        User user = userRepository.findByVerificationToken(token)
+                        .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
+        if(!token.equals(user.getVerificationToken())){
+            throw new BadRequestException(messages.getString("user.validate.token-invalid"));
+        }
+        user.setStatus(Constants.ENTITY_STATUS.ACTIVE);
         return userRepository.save(user);
     }
 }

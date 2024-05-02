@@ -26,6 +26,12 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "status")
+    private Short status;
+
+    @Column(name = "verificationToken")
+    private String verificationToken;
+
     @Column(name = "role")
     private String role;
 
