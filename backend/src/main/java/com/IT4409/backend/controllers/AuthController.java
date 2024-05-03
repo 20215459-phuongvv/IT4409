@@ -52,8 +52,8 @@ public class AuthController {
     @GetMapping("/verify-email/{token}")
     public ResponseEntity<?> confirmEmail(@PathVariable("token") String token) {
         try{
-            User user = userService.confirmEmail(token);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            String result = userService.confirmEmail(token);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

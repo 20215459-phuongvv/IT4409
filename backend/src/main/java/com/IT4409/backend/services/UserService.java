@@ -81,7 +81,6 @@ public class UserService implements UserDetailsService {
         // Tạo ra giỏ hàng mới cho khách hàng mới
         cartService.createCart(newUser);
 
-
         Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -93,7 +92,7 @@ public class UserService implements UserDetailsService {
         emailService.sendEmailWithHtmlTemplate(email, messages.getString("email.verify"), "email-verification", context);
         return new AuthResponseDTO(token, true);
     }
-    public AuthResponseDTO signIn(AuthRequestDTO authRequestDTO) throws BadCredentialsException{
+    public AuthResponseDTO signIn(AuthRequestDTO authRequestDTO) throws BadCredentialsException, BadRequestException {
         AuthResponseDTO authResponseDTO = new AuthResponseDTO();
         String username = authRequestDTO.getEmail();
         String password = authRequestDTO.getPassword();
@@ -104,7 +103,7 @@ public class UserService implements UserDetailsService {
         authResponseDTO.setJwt(accessToken);
         return authResponseDTO;
     }
-    private Authentication authenticate(String username, String password) {
+    private Authentication authenticate(String username, String password) throws BadRequestException {
         UserDetails userDetails = loadUserByUsername(username);
         System.out.println(userDetails);
         if(userDetails == null) {
@@ -112,6 +111,10 @@ public class UserService implements UserDetailsService {
         }
         if(!passwordEncoder.matches(password, userDetails.getPassword())) {
             throw new BadCredentialsException(messages.getString("password.validate.invalid"));
+        }
+        User user = userRepository.findByEmail(username).get();
+        if(user.getStatus() != 1) {
+            throw new BadRequestException(messages.getString("account.validate.not-verified"));
         }
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
@@ -129,13 +132,14 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public User confirmEmail(String token) throws Exception {
+    public String confirmEmail(String token) throws Exception {
         User user = userRepository.findByVerificationToken(token)
                         .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
         if(!token.equals(user.getVerificationToken())){
             throw new BadRequestException(messages.getString("user.validate.token-invalid"));
         }
         user.setStatus(Constants.ENTITY_STATUS.ACTIVE);
-        return userRepository.save(user);
+        userRepository.save(user);
+        return messages.getString("email.verify.success");
     }
 }
