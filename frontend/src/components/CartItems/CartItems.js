@@ -17,6 +17,7 @@ function CartItems() {
                 <p>Đơn giá</p>
                 <p>Kích thước</p>
                 <p>Số lượng</p>
+                <p>Màu sắc</p>
                 <p>Thành tiền</p>
                 <p>Xóa</p>
             </div>
@@ -33,16 +34,17 @@ function CartItems() {
                 <div key={product.id}>
                   {filteredCartItems.map((cartItem)=> (
                     <div key={`${product.id}-${cartItem.size}`}>
-                        <div className={cx("cartItems-format format-main")}>
+                        <div className={cx('cartItems-format','format-main')}>
                             <img
                             src={product.img}
                             alt={product.name}
-                            className={cx("product-icon")}
+                            className={cx('product-icon')}
                             />
                             <p>{product.name}</p>
                             <p>{product.newPrice}</p>
                             <p>     {product.size[cartItem.size]}</p>
                             <p className={cx("quantity")}>     {cartItem.quantity}</p>
+                            <p className={cx('color-item')}>Màu</p>
                             <p>{product.newPrice*cartItem.quantity}</p>
                             <img
                             src={remove_icon}

@@ -13,9 +13,14 @@ const cx = classNames.bind(styles);
 function ProductDisplay(props) {
     const {product} = props;
     const {addToCart} = useContext(ShopContext);
-
-    const [amount, setAmount] = useState(1);
-    const [size,setSize] = useState(0);
+    const [selectedColor, setSelectedColor] = useState(product.colorList[0]); //chọn màu
+    const [amount, setAmount] = useState(1); //chọn số lượng
+    const [size,setSize] = useState(0); //chọn size
+    const [avtiveImg, setActiveImg] = useState(selectedColor.colorImageList[0])
+    const handleColorSelect = (color) => {
+         setSelectedColor(color);
+         setActiveImg(color.colorImageList[0])
+    };
     const handleSize = (index) => {
         setSize(index);
     }
@@ -24,14 +29,14 @@ function ProductDisplay(props) {
         <div className={cx('wrapper')}>
             <div className={cx('left')}>
                 <div className={cx('img')}>
-                    <img className={cx('main-img')} src={product.img}></img>
+                    <img className={cx('main-img')} src={avtiveImg}></img>
                 </div>
                 
                 <div className={cx('img-list')}>
-                    <img src={product.img}></img>
-                    <img src={product.img}></img>
-                    <img src={product.img}></img>
-                    <img src={product.img}></img>
+                    {selectedColor.colorImageList.map(imageItem =>(
+                        <img className={cx('img-list-item')} src={imageItem} onClick={()=> setActiveImg(imageItem)}></img>
+                    ))}
+                    
                 </div>
             </div>
 
@@ -76,9 +81,13 @@ function ProductDisplay(props) {
                     </div>
                 </div>
                 <div className={cx('right-color')}>
-                    <div className={cx('text')}>Màu sắc</div>
-                    <div className={cx('list-color')}>
-
+                    <div className={cx('color-section')}>
+                        <div className={cx('text')}>Màu sắc</div>
+                        <div className={cx('list-color')}>
+                        {product.colorList.map((color, index) => (
+                            <div key={index} className={cx('color-item')} style={{ backgroundColor: color.colorName }} onClick={() => handleColorSelect(color)}></div>
+                        ))}
+                        </div>
                     </div>
                 </div>
                 {/* số lượng */}

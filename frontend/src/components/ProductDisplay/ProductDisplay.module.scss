@@ -155,3 +155,20 @@
     text-align: center;
     margin: 20px 0px;
 }
+.color-section {
+    display: flex;
+    gap: 40px;
+}
+.list-color {
+    display: flex;
+    gap: 20px;
+}
+.color-item {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.img-list-item {
+    cursor: pointer;
+}
