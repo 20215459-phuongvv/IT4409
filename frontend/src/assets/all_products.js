@@ -6,6 +6,28 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#333',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
+        
     },
     {
         id: 2,
@@ -14,6 +36,27 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 3,
@@ -22,6 +65,27 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 4,
@@ -30,6 +94,27 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 5,
@@ -38,6 +123,27 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 6,
@@ -46,6 +152,27 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 7,
@@ -54,6 +181,27 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 8,
@@ -62,6 +210,27 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 9,
@@ -70,6 +239,27 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 10,
@@ -78,6 +268,27 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 11,
@@ -86,6 +297,27 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 12,
@@ -94,6 +326,27 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 13,
@@ -102,6 +355,27 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 14,
@@ -110,6 +384,27 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 15,
@@ -118,6 +413,27 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 16,
@@ -127,6 +443,27 @@ const allProducts = [
         size: ['S','M', 'L','XL'],
         newPrice: '690000',
         oldPrice: '999000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 17,
@@ -134,6 +471,27 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '690000',
         oldPrice: '999000',
     },
@@ -143,6 +501,27 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '690000',
         oldPrice: '999000',
     },
@@ -152,6 +531,27 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '690000',
         oldPrice: '999000',
     },
@@ -161,6 +561,27 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '690000',
         oldPrice: '999000',
     },
@@ -170,6 +591,27 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '690000',
         oldPrice: '999000',
     },
@@ -179,6 +621,27 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '690000',
         oldPrice: '999000',
     },
@@ -188,6 +651,27 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '690000',
         oldPrice: '999000',
     },
@@ -197,6 +681,27 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '690000',
         oldPrice: '999000',
     },
@@ -206,15 +711,78 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '690000',
         oldPrice: '999000',
     },{
         id: 26,
-        img: 'https://product.hstatic.net/200000037048/product/tokyo_nut_da_bo_ed42e1eabcb8497486baf346ea6c5192_grande.jpg',
-        name: 'Quần tokyo nút da bò',
-        category: 'quan' ,
+        img: 'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+        name: 'Váy Rẻ Quạt Xanh Đen MỚI',
+        category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '790000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#333',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
+        newPrice: '690000',
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
     },
     {
         id: 27,
@@ -222,6 +790,27 @@ const allProducts = [
         name: 'Quần tokyo nút da bò',
         category: 'quan' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '790000',
     },
     {
@@ -230,6 +819,27 @@ const allProducts = [
         name: 'Quần tokyo nút da bò',
         category: 'quan' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '790000',
     },
     {
@@ -238,6 +848,27 @@ const allProducts = [
         name: 'Quần tokyo nút da bò',
         category: 'quan' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '790000',
     },
     {
@@ -246,6 +877,27 @@ const allProducts = [
         name: 'Quần tokyo nút da bò',
         category: 'quan' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '790000',
     },
     {
@@ -254,6 +906,27 @@ const allProducts = [
         name: 'Nón vành xếp kem',
         category: 'phukien' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '390000',
     },
     {
@@ -262,6 +935,27 @@ const allProducts = [
         name: 'Nón vành xếp kem',
         category: 'phukien' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '390000',
     },
     {
@@ -270,6 +964,27 @@ const allProducts = [
         name: 'Nón vành xếp kem',
         category: 'phukien' ,
         size: ['S','M', 'L','XL'],
+        colorList: [
+            {colorId: 1,
+            colorName: '#c3957b',
+            colorImageList: [
+                        'https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847248429_16f6a69fef5e9eff2dca819b9f59fdca_efc7d03483f54dcf985cbc31d6012105_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847177312_efa077356bb3c293f76b859d38a30f3e_4ff4e524ef9b4c2a96df8854adfe670a_master.jpg',
+                        'https://product.hstatic.net/200000037048/product/z5389847695452_d895a8a4d5bedaf9fce2e81e43607556_60874d203a0e409a8b57d8d934f5e795_master.jpg'
+                         ]
+                    },
+            {colorId: 2,
+            colorName: '#aaa',
+            colorImageList: [
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
+                           'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg'
+                            ]
+                       },
+                    
+                ], 
         newPrice: '390000',
     },
 ]
