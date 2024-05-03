@@ -53,8 +53,8 @@ function ProductDisplay(props) {
                     <p>112 đánh giá</p>
                 </div>
                 <div className={cx('right-prices')}>
-                    <div className={cx('right-price-new')}>{product.newPrice}</div>
-                    <div className={cx('right-price-old')}>{product.oldPrice}</div>
+                    <div className={cx('right-price-new')}>{product.newPrice}₫</div>
+                    <div className={cx('right-price-old')}>{product.oldPrice}₫</div>
                 </div>
                 <div className={cx('right-size')}>
                     <p>Kích thước</p>
