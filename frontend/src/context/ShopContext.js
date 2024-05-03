@@ -8,15 +8,15 @@ const getDefaulthCart = ()=>{
 const ShopContextProvider = (props) => {
     
     const [cartItems, setCartItems] = useState(getDefaulthCart())
-    const addToCart = (itemId,quantity,size) => {
+    const addToCart = (itemId,quantity,size, color) => {
         setCartItems((prev) => {
           const updatedCart = [...prev];
-          const itemIndex = updatedCart.findIndex(item => item.id === itemId && item.size === size);
+          const itemIndex = updatedCart.findIndex(item => item.id === itemId && item.size === size && item.color === color);
       
           if (itemIndex !== -1) {
             updatedCart[itemIndex].quantity += quantity;
           } else {
-            updatedCart.push({ id: itemId, size, quantity });
+            updatedCart.push({ id: itemId, size, quantity, color });
           }
       
           return updatedCart;

@@ -44,7 +44,7 @@ function CartItems() {
                             <p>{product.newPrice}</p>
                             <p>     {product.size[cartItem.size]}</p>
                             <p className={cx("quantity")}>     {cartItem.quantity}</p>
-                            <p className={cx('color-item')}>Màu</p>
+                            <p className={cx('color-item')}>{cartItem.color}</p>
                             <p>{product.newPrice*cartItem.quantity}</p>
                             <img
                             src={remove_icon}
