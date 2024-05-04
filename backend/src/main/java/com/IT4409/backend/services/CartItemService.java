@@ -14,6 +14,7 @@ import com.IT4409.backend.repositories.ProductRepository;
 import com.IT4409.backend.services.interfaces.ICartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static com.IT4409.backend.Utils.Constants.messages;
@@ -55,6 +56,7 @@ public class CartItemService implements ICartItemService {
                 Long totalPrice = product.getPrice() * newQuantity;
                 cartItem.setQuantity(newQuantity);
                 cartItem.setPrice(totalPrice);
+                cartItem.setCreateAt(LocalDateTime.now());
 
                 cartRepository.save(cart);
                 return cartItem;
@@ -98,6 +100,7 @@ public class CartItemService implements ICartItemService {
                 .filter(item -> Objects.equals(item.getCartItemId(), cartItemId))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException(messages.getString("cart-item.validate.not-found")));
+        Product product = cartItem.getProduct();
         cartItemRepository.deleteById(cartItemId);
         return cartItem;
     }

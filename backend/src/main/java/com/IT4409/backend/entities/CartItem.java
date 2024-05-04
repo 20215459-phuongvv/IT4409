@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "cart_items")
 @Data
@@ -33,6 +35,9 @@ public class CartItem {
 
     @Column(name = "discount_price")
     private Long discountPrice;
+
+    @Column(name = "create_at")
+    private LocalDateTime createAt;
 
     @ManyToOne
     @JoinColumn(name = "cart_id")

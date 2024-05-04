@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "carts")
@@ -22,7 +22,7 @@ public class Cart {
 
     @OneToMany(mappedBy = "cart")
     @JsonIgnoreProperties("cart")
-    private Set<CartItem> cartItemList;
+    private List<CartItem> cartItemList;
 
     @Column(name = "total_price")
     private Long totalPrice;

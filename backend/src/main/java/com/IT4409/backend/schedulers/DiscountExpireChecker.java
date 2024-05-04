@@ -2,19 +2,25 @@ package com.IT4409.backend.schedulers;
 
 import com.IT4409.backend.Utils.Constants;
 import com.IT4409.backend.entities.Cart;
+import com.IT4409.backend.entities.CartItem;
 import com.IT4409.backend.entities.Discount;
 import com.IT4409.backend.exceptions.NotFoundException;
 import com.IT4409.backend.repositories.CartRepository;
 import com.IT4409.backend.repositories.DiscountRepository;
 import com.IT4409.backend.services.DiscountService;
+import com.IT4409.backend.services.EmailService;
 import com.IT4409.backend.services.NotificationService;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.context.Context;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import static com.IT4409.backend.Utils.Constants.messages;
 
 @Component
 public class DiscountExpireChecker {
@@ -26,6 +32,8 @@ public class DiscountExpireChecker {
     private CartRepository cartRepository;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private EmailService emailService;
     @Transactional
     @Scheduled(cron = "0 0 0 * * *")
     public void checkVoucherExpiry() throws NotFoundException {
@@ -40,6 +48,22 @@ public class DiscountExpireChecker {
                 notificationService.addDiscountNotification(cart.getUser().getUserId(), "Discount " + discount.getDiscountCode() + "is expired!");
             }
             discountRepository.save(discount);
+        }
+    }
+
+    @Scheduled(cron = "0 0 8 ? * MON")
+    public void sendWeeklyCartNotifications() throws MessagingException {
+        List<Cart> cartList = cartRepository.findAll();
+        for(Cart cart : cartList) {
+            List<CartItem> cartItemList = cart.getCartItemList();
+            for(CartItem cartItem : cartItemList) {
+                if (cartItem.getCreateAt().) {
+                    Context context = new Context();
+                    context.setVariable("product", cartItem.getProduct().getProductName());
+                    emailService.sendEmailWithHtmlTemplate(cart.getUser().getEmail(), messages.getString("email.cart.reminder"), "cart-reminder", context);
+                    notificationService.addNotification(cart.getUser().getUserId(), )
+                }
+            }
         }
     }
 }
