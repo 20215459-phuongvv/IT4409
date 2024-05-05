@@ -18,6 +18,8 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.IT4409.backend.Utils.Constants.messages;
@@ -52,16 +54,20 @@ public class DiscountExpireChecker {
     }
 
     @Scheduled(cron = "0 0 8 ? * MON")
-    public void sendWeeklyCartNotifications() throws MessagingException {
+    public void sendWeeklyCartNotifications() throws MessagingException, NotFoundException {
         List<Cart> cartList = cartRepository.findAll();
         for(Cart cart : cartList) {
             List<CartItem> cartItemList = cart.getCartItemList();
+            List<CartItem> outDatedCartItem = new ArrayList<>();
+
             for(CartItem cartItem : cartItemList) {
-                if (cartItem.getCreateAt().) {
+                LocalDateTime oneWeekAgo = LocalDateTime.now().minusDays(7);
+                if (cartItem.getCreateAt().isBefore(oneWeekAgo)) {
+                    outDatedCartItem.add(cartItem);
                     Context context = new Context();
                     context.setVariable("product", cartItem.getProduct().getProductName());
                     emailService.sendEmailWithHtmlTemplate(cart.getUser().getEmail(), messages.getString("email.cart.reminder"), "cart-reminder", context);
-                    notificationService.addNotification(cart.getUser().getUserId(), )
+                    notificationService.addNotification(cart.getUser().getUserId(),null,messages.getString("email.cart.reminder"));
                 }
             }
         }

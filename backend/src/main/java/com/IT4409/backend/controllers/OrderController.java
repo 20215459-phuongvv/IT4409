@@ -24,13 +24,9 @@ public class OrderController {
     @PostMapping("/")
     @Transactional
     public ResponseEntity<?> createOrder(@RequestBody OrderRequestDTO orderRequestDTO,
-                                         @RequestHeader("Authorization")String jwt){
-        try{
+                                         @RequestHeader("Authorization")String jwt) throws Exception {
             Order order = orderService.createOrder(jwt, orderRequestDTO);
             return new ResponseEntity<>(order, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
     }
 
     @GetMapping("/user")

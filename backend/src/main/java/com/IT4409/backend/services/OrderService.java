@@ -23,6 +23,8 @@ public class OrderService implements IOrderService {
     @Autowired
     private UserService userService;
     @Autowired
+    private NotificationService notificationService;
+    @Autowired
     private OrderRepository orderRepository;
     @Autowired
     private CartRepository cartRepository;
@@ -109,6 +111,10 @@ public class OrderService implements IOrderService {
                 throw new BadRequestException(messages.getString("product.validate.insufficient"));
             } else {
                 product.setQuantityInStock(product.getQuantityInStock() - cartItem.getQuantity());
+                if(product.getQuantityInStock() == 0) {
+                    product.setStatus(Constants.PRODUCT_STATUS.OUT_OF_STOCK);
+                }
+                notificationService.sendProductOutOfStockNotification();
                 productRepository.save(product);
             }
 

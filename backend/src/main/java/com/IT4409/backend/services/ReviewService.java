@@ -75,6 +75,7 @@ public class ReviewService implements IReviewService {
             throw new BadRequestException(messages.getString("review.validate.already-exist"));
         }
 
+        Product product = orderItem.getProduct();
         Review review = new Review();
         review.setUser(user);
         review.setOrderItem(orderItem);
@@ -90,10 +91,14 @@ public class ReviewService implements IReviewService {
                 reviewImageRepository.save(reviewImage);
             }
         }
-        // Xem xét thay đổi rating sản phẩm sau
-        //
-        //
-        //
+        List<Review> reviewList = getProductReviews(review.getOrderItem().getProduct().getProductId());
+        double averageRating = reviewList.stream()
+                .mapToDouble(Review::getRatingValue)
+                .average()
+                .orElse(0.0);
+        averageRating = Math.round(averageRating * 10.0) / 10.0; // làm tròn
+        product.setRating(averageRating);
+        productRepository.save(product);
         return reviewRepository.save(review);
     }
 
@@ -105,6 +110,7 @@ public class ReviewService implements IReviewService {
                 .filter(review1 -> Objects.equals(review1.getReviewId(), reviewId))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException(messages.getString("review.validate.not-found")));
+        Product product = review.getOrderItem().getProduct();
         review.setRatingValue(reviewRequestDTO.getRatingValue());
         review.setComment(reviewRequestDTO.getComment());
         review = reviewRepository.save(review);
@@ -117,10 +123,14 @@ public class ReviewService implements IReviewService {
                 reviewImageRepository.save(reviewImage);
             }
         }
-        // Xem xét thay đổi rating sản phẩm sau
-        //
-        //
-        //
+        List<Review> reviewList = getProductReviews(review.getOrderItem().getProduct().getProductId());
+        double averageRating = reviewList.stream()
+                .mapToDouble(Review::getRatingValue)
+                .average()
+                .orElse(0.0);
+        averageRating = Math.round(averageRating * 10.0) / 10.0; // làm tròn
+        product.setRating(averageRating);
+        productRepository.save(product);
         return reviewRepository.save(review);
     }
 
@@ -132,12 +142,17 @@ public class ReviewService implements IReviewService {
                 .filter(review1 -> Objects.equals(review1.getReviewId(), reviewId))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException(messages.getString("review.validate.not-found")));
+        Product product = review.getOrderItem().getProduct();
         user.getReviewList().remove(review);
         userRepository.save(user);
-        // Xem xét thay đổi rating sản phẩm sau
-        //.avarage()
-        //
-        //
+        List<Review> reviewList = getProductReviews(review.getOrderItem().getProduct().getProductId());
+        double averageRating = reviewList.stream()
+                .mapToDouble(Review::getRatingValue)
+                .average()
+                .orElse(0.0);
+        averageRating = Math.round(averageRating * 10.0) / 10.0; // làm tròn
+        product.setRating(averageRating);
+        productRepository.save(product);
         return review;
     }
 }

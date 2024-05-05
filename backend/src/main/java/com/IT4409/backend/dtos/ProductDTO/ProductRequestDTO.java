@@ -25,6 +25,7 @@ public class ProductRequestDTO {
     private Long discountPrice;
     @Min(value = 0)
     private Integer quantityInStock;
+    private Short status;
     private MultipartFile thumbnail;
     private List<MultipartFile> images;
 }

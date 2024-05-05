@@ -1,7 +1,6 @@
 package com.IT4409.backend.services;
 
 import com.IT4409.backend.Utils.Constants;
-import com.IT4409.backend.dtos.ColorDTO.ColorRequestDTO;
 import com.IT4409.backend.dtos.ProductDTO.ProductRequestDTO;
 import com.IT4409.backend.entities.Category;
 import com.IT4409.backend.entities.Color;
@@ -15,17 +14,17 @@ import com.IT4409.backend.repositories.SizeRepository;
 import com.IT4409.backend.services.interfaces.IProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import static com.IT4409.backend.Utils.Constants.messages;
 
 public class ProductService implements IProductService {
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private NotificationService notificationService;
     @Autowired
     private ColorRepository colorRepository;
     @Autowired
@@ -131,7 +130,12 @@ public class ProductService implements IProductService {
         if(productRequestDTO.getThumbnail() != null) {
             product.setThumbnail(product.getThumbnail());
         }
-        return productRepository.save(product);
+        if (productRequestDTO.getStatus() != null) {
+            product.setStatus(productRequestDTO.getStatus());
+        }
+        product = productRepository.save(product);
+        notificationService.sendProductOutOfStockNotification();
+        return product;
     }
 
     @Override
