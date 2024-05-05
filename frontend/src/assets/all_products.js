@@ -5,7 +5,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#333',
@@ -35,7 +35,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -64,7 +64,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -93,7 +93,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -122,7 +122,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -151,7 +151,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -180,7 +180,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -209,7 +209,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -238,7 +238,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -267,7 +267,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -296,7 +296,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -325,7 +325,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -354,7 +354,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -383,7 +383,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -412,7 +412,7 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -441,8 +441,8 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
-        newPrice: '690000',
-        oldPrice: '999000',
+        newPrice: '690,000',
+        oldPrice: '999,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -492,8 +492,8 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '690000',
-        oldPrice: '999000',
+        newPrice: '690,000',
+        oldPrice: '999,000',
     },
     {
         id: 18,
@@ -522,8 +522,8 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '690000',
-        oldPrice: '999000',
+        newPrice: '690,000',
+        oldPrice: '999,000',
     },
     {
         id: 19,
@@ -552,8 +552,8 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '690000',
-        oldPrice: '999000',
+        newPrice: '690,000',
+        oldPrice: '999,000',
     },
     {
         id: 20,
@@ -582,8 +582,8 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '690000',
-        oldPrice: '999000',
+        newPrice: '690,000',
+        oldPrice: '999,000',
     },
     {
         id: 21,
@@ -612,8 +612,8 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '690000',
-        oldPrice: '999000',
+        newPrice: '690,000',
+        oldPrice: '999,000',
     },
     {
         id: 22,
@@ -642,8 +642,8 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '690000',
-        oldPrice: '999000',
+        newPrice: '690,000',
+        oldPrice: '999,000',
     },
     {
         id: 23,
@@ -672,8 +672,8 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '690000',
-        oldPrice: '999000',
+        newPrice: '690,000',
+        oldPrice: '999,000',
     },
     {
         id: 24,
@@ -702,8 +702,8 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '690000',
-        oldPrice: '999000',
+        newPrice: '690,000',
+        oldPrice: '999,000',
     },
     {
         id: 25,
@@ -732,8 +732,8 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '690000',
-        oldPrice: '999000',
+        newPrice: '690,000',
+        oldPrice: '999,000',
     },{
         id: 26,
         img: 'https://product.hstatic.net/200000037048/product/re_quat_xanh_den_moi_cdb2967837ec4d00aa72682343f0d43c_grande.jpg',
@@ -761,7 +761,7 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '690000',
+        newPrice: '690,000',
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -811,7 +811,7 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '790000',
+        newPrice: '790,000',
     },
     {
         id: 28,
@@ -840,7 +840,7 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '790000',
+        newPrice: '790,000',
     },
     {
         id: 29,
@@ -869,7 +869,7 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '790000',
+        newPrice: '790,000',
     },
     {
         id: 30,
@@ -898,7 +898,7 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '790000',
+        newPrice: '790,000',
     },
     {
         id: 31,
@@ -927,7 +927,7 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '390000',
+        newPrice: '390,000',
     },
     {
         id: 32,
@@ -956,7 +956,7 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '390000',
+        newPrice: '390,000',
     },
     {
         id: 33,
@@ -985,7 +985,7 @@ const allProducts = [
                        },
                     
                 ], 
-        newPrice: '390000',
+        newPrice: '390,000',
     },
 ]
 export default allProducts;

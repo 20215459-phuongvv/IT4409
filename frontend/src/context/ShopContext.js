@@ -23,10 +23,10 @@ const ShopContextProvider = (props) => {
         });
       };
       console.log(cartItems);
-      const removeFromCart = (itemId, size) => {
+      const removeFromCart = (itemId, size,color) => {
         setCartItems((prev) => {
           const updatedCart = [...prev];
-          const itemIndex = updatedCart.findIndex(item => item.id === itemId && item.size === size);
+          const itemIndex = updatedCart.findIndex(item => item.id === itemId && item.size === size && item.color === color);
       
           if (itemIndex !== -1) {
             updatedCart.splice(itemIndex, 1);
@@ -39,8 +39,9 @@ const ShopContextProvider = (props) => {
         let totalAmount = 0;
         cartItems.forEach((cartItem) => {
           const productPrice = all_product.find((item) => item.id === cartItem.id)?.newPrice || 0; 
+          const priceNumber = parseFloat(productPrice.replace(",", ""));
           const quantity = cartItem.quantity;
-          totalAmount += productPrice * quantity;
+          totalAmount += priceNumber * quantity;
         });
         return totalAmount;
       };

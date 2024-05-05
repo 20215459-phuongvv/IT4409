@@ -6,7 +6,10 @@ import { ShopContext } from "~/context/ShopContext";
 import Button from "../Button";
 const cx = classNames.bind(styles);
 
-
+const numberWithCommas = (numberString) => {
+    const number = parseInt(numberString, 10); // Chuyển đổi chuỗi thành số nguyên
+    return number.toLocaleString('en-US');
+};
 function CartItems() {
     const {all_product,cartItems,removeFromCart,getTotalCartAmount} = useContext(ShopContext);
     return ( 
@@ -41,16 +44,16 @@ function CartItems() {
                             className={cx('product-icon')}
                             />
                             <p>{product.name}</p>
-                            <p>{product.newPrice}</p>
+                            <p>{product.newPrice}₫</p>
                             <p>     {product.size[cartItem.size]}</p>
                             <p className={cx("quantity")}>     {cartItem.quantity}</p>
-                            <p className={cx('color-item')}>{cartItem.color}</p>
-                            <p>{product.newPrice*cartItem.quantity}</p>
+                            <div className={cx('color-item')} style={{backgroundColor:cartItem.color}}></div>
+                            <p>{numberWithCommas(parseFloat(product.newPrice.replace(",", ""))*cartItem.quantity)}₫</p>
                             <img
                             src={remove_icon}
                             alt="Remove item"
                             className={cx("cart-remove-icon")}
-                            onClick={() => removeFromCart(product.id, cartItem.size)}
+                            onClick={() => removeFromCart(product.id, cartItem.size, cartItem.color)}
                             />
                         </div>
                     </div>
@@ -73,17 +76,17 @@ function CartItems() {
                     <div>
                         <div className={cx('cartitems-total-item')}>
                             <p>Giá trị sản phẩm</p>
-                            <p>{getTotalCartAmount()}</p>
+                            <p>{numberWithCommas(getTotalCartAmount())}₫</p>
                         </div>
                         <hr />
                         <div className={cx('cartitems-total-item')}>
                             <p>Phí vận chuyển</p>
-                            <p>Fee</p>
+                            <p>Free</p>
                         </div>
                         <hr />
                         <div className={cx('cartitems-total-item')}>
                             <h3>Tổng</h3>
-                            <h3>{getTotalCartAmount()}</h3>
+                            <h3>{numberWithCommas(getTotalCartAmount())}₫</h3>
                         </div>
                     </div>
                     <Button children='PROCESS TO CHECKOUT'
