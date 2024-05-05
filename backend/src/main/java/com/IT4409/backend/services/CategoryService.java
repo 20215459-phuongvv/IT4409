@@ -8,10 +8,7 @@ import com.IT4409.backend.repositories.CategoryRepository;
 import com.IT4409.backend.services.interfaces.ICategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
 
-import java.util.ResourceBundle;
 import java.util.List;
 
 import static com.IT4409.backend.Utils.Constants.messages;
@@ -53,7 +50,7 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category updateCategory(Long categoryId, CategoryRequestDTO dto) throws Exception {
-        if(categoryRepository.existsByCategoryName(dto.getCategoryName())) {
+        if(categoryRepository.existsByCategoryIdNotAndCategoryName(categoryId, dto.getCategoryName())) {
             throw new BadRequestException(messages.getString("category.validate.category-name.duplicate"));
         }
         Category category = categoryRepository.findById(categoryId)
