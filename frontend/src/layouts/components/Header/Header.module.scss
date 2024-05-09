@@ -57,20 +57,26 @@
     align-items: center;
     gap: 20px;
 }
-.nav-login-cart img {
-    width: 24px;
+
+.cart-icon-wrapper {
+    position: relative;
+    cursor: pointer;
+
 }
+
 .nav-cart-count {
+    position: absolute;
+    top: -5px;
+    right: -6px;
+    width: 16px;
+    height: 16px;
     display: flex;
-    width: 18px;
-    height: 18px;
-    justify-content: center;
     align-items: center;
-    margin-top: -30px;
-    margin-left: -30px;
+    justify-content: center;
     border-radius: 50%;
-    font-size: 14px;
+    font-size: 1rem;
     background-color: red;
+    padding: 3px;
     color: white;
 
 }

@@ -2,7 +2,6 @@ import { Route, Routes } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './AdminPanel.module.scss';
 
-import SideBar from './components/SideBar/SideBar';
 import Dashboard from './pages/Dashboard';
 import ProductsManagement from './pages/Products';
 import UsersManagement from './pages/Customers';
@@ -11,6 +10,9 @@ import TopBar from './components/TopBar';
 import AddProducts from './pages/AddProducts';
 import Vouchers from './pages/Vouchers';
 
+import { SideBarAdminData } from './SideBarData';
+import SideBar from './components/SideBar/SideBar';
+
 const cx = classNames.bind(styles);
 
 function AdminPanel() {
@@ -18,7 +20,7 @@ function AdminPanel() {
         <div className={cx('admin-wrapper')}>
             <TopBar />
             <div className={cx('container')}>
-                <SideBar />
+                <SideBar data={SideBarAdminData} type="admin" />
                 <div className={cx('main')}>
                     <Routes>
                         <Route path="/" element={<Dashboard />}></Route>

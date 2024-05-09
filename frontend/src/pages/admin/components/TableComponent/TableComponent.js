@@ -35,6 +35,7 @@ function TableComponent({
     const [rowsPerPage, setRowsPerPage] = useState(6);
     const [openDeleteBox, setOpenDeleteBox] = useState([]);
     const [openVoucherUpdateBox, setOpenVoucherUpdateBox] = useState([]);
+    const [openProductUpdateBox, setOpenProductUpdateBox] = useState([]);
 
     const typeName = {
         customer: 'khách hàng',
@@ -80,6 +81,24 @@ function TableComponent({
             return newState;
         });
     };
+
+    // update product
+    const handleOpenProductUpdateBox = (index) => {
+        setOpenProductUpdateBox((prev) => {
+            const newState = [...prev];
+            newState[index] = true;
+            return newState;
+        });
+    };
+
+    const handleCloseProductUpdateBox = (index) => {
+        setOpenProductUpdateBox((prev) => {
+            const newState = [...prev];
+            newState[index] = false;
+            return newState;
+        });
+    };
+
 
     return (
         <div>
@@ -179,8 +198,8 @@ function TableComponent({
                                                 aria-labelledby="modal-modal-title"
                                                 aria-describedby="modal-modal-description"
                                             >
-                                                <div className={cx('update-voucher-box')}>
-                                                    <p className={cx('update-voucher-title')}>Cập nhật Voucher</p>
+                                                <div className={cx('update-modal-box')}>
+                                                    <p className={cx('update-modal-title')}>Cập nhật Voucher</p>
 
                                                     <div className={cx('update-input-wrapper')}>
                                                         <div className={cx('update-input-row')}>
@@ -234,7 +253,7 @@ function TableComponent({
                                                         </div>
                                                     </div>
 
-                                                    <div className={cx('update-voucher-buttons')}>
+                                                    <div className={cx('update-modal-buttons')}>
                                                         <Button
                                                             color="info"
                                                             variant="contained"
@@ -276,6 +295,84 @@ function TableComponent({
                                             </Modal>
                                         </TableCell>
                                     )}
+                                    
+                                    {updateButton && type === 'product' && (
+                                        // Cập nhật voucher
+                                        <TableCell align="left">
+                                            <Button
+                                                onClick={() => handleOpenProductUpdateBox(row.index - 1)}
+                                                variant="contained"
+                                                color="secondary"
+                                            >
+                                                CẬP NHẬT
+                                            </Button>
+
+                                            <Modal
+                                                open={openProductUpdateBox[row.index - 1]}
+                                                onClose={() => handleCloseProductUpdateBox(row.index - 1)}
+                                                aria-labelledby="modal-modal-title"
+                                                aria-describedby="modal-modal-description"
+                                            >
+                                                <div className={cx('update-modal-box')}>
+                                                    <p className={cx('update-modal-title')}>Cập nhật sản phẩm</p>
+
+                                                    <div className={cx('update-input-wrapper')}>
+                                                        <div className={cx('update-input-row')}>
+                                                            <p>Tên sản phẩm</p>
+                                                            <input
+                                                                id={`product-name-${row.index - 1}`}
+                                                                type="text"
+                                                                defaultValue={row.name}
+                                                                onChange={null}
+                                                            />
+                                                        </div>
+
+                                                        
+                                                    </div>
+
+                                                    <div className={cx('update-modal-buttons')}>
+                                                        <Button
+                                                            color="info"
+                                                            variant="contained"
+                                                            onClick={() => {
+                                                                let data = {
+                                                                    // name: document.getElementById(
+                                                                    //     `voucher-name-${row.index - 1}`,
+                                                                    // )?.value,
+                                                                    // code: document.getElementById(
+                                                                    //     `voucher-code-${row.index - 1}`,
+                                                                    // )?.value,
+                                                                    // value: document.getElementById(
+                                                                    //     `voucher-value-${row.index - 1}`,
+                                                                    // )?.value,
+                                                                    // condition: document.getElementById(
+                                                                    //     `voucher-condition-${row.index - 1}`,
+                                                                    // )?.value,
+                                                                    // maximum_value: document.getElementById(
+                                                                    //     `voucher-maximum-value-${row.index - 1}`,
+                                                                    // )?.value,
+                                                                };
+
+                                                                handleUpdate(data); // Hàm gọi API để cập nhật voucher bên Vouchers.js
+                                                                handleCloseProductUpdateBox(row.index - 1);
+                                                            }}
+                                                        >
+                                                            Cập nhật
+                                                        </Button>
+
+                                                        <Button
+                                                            color="error"
+                                                            variant="outlined"
+                                                            onClick={() => handleCloseProductUpdateBox(row.index - 1)}
+                                                        >
+                                                            Hủy
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            </Modal>
+                                        </TableCell>
+                                    )}
+                                    
                                 </TableRow>
                             );
                         })}

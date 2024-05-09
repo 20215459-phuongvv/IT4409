@@ -5,7 +5,7 @@ import Discount from '@mui/icons-material/Discount';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 
-export const SideBarData = [
+export const SideBarAdminData = [
     {
         title: 'Dashboard',
         icon: <Home />,

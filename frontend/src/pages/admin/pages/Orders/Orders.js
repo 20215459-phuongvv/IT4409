@@ -1,4 +1,3 @@
-
 import classNames from 'classnames/bind';
 import styles from './Orders.module.scss';
 import TableComponent from '../../components/TableComponent';
@@ -45,7 +44,6 @@ const rows = [
 ];
 
 function OrdersManagement() {
-
     const attributes = ['orderID', 'customerName', 'date', 'total', 'status'];
 
     // useEffect(() => {

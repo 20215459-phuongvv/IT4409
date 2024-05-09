@@ -76,6 +76,7 @@ function Vouchers() {
         setOpenAddVoucher(false);
     };
 
+    // Gọi API ở đây
     const handleDelete = (index) => {
         alert(`delete voucher ${index}`);
     };
