@@ -1,6 +1,6 @@
 .wrapper {
     min-height: calc(100vh - var(--admin-top-bar-height));
-    padding: 16px 30px;
+    padding: 16px 30px 40px;
     background-color: #fff;
     position: relative;
 }
@@ -10,21 +10,42 @@
     margin-bottom: 30px;
 }
 
+.input-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+}
+
 .input-section {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    flex: 1;
     // max-width: 900px;
 }
 
 .input-row {
     display: grid;
     align-items: center;
-    grid-template-columns: 15% 85%;
-    height: 42px;
+    grid-template-columns: 20% 80%;
+    min-height: 42px;
 
-    input {
+    input,
+    textarea {
         max-width: 500px;
+    }
+}
+
+.input-thumbnail {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .image-item {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
     }
 }
 
@@ -35,7 +56,7 @@
 .color-image-input-wrapper {
     position: relative;
     display: grid;
-    grid-template-columns: 15% 85%;
+    grid-template-columns: 20% 80%;
     align-items: center;
 }
 
@@ -78,6 +99,7 @@
     align-items: center;
     gap: 8px;
     font-size: 1.2rem;
+    cursor: pointer;
 }
 
 .add-color-btn {
@@ -92,7 +114,6 @@
 
 .input-image-display {
     flex-wrap: wrap;
-
 }
 
 .image-item-wrapper {
@@ -105,5 +126,5 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 100px;
+    margin-top: 50px;
 }
