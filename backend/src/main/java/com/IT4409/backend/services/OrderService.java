@@ -2,6 +2,7 @@ package com.IT4409.backend.services;
 
 import com.IT4409.backend.Utils.Constants;
 import com.IT4409.backend.Utils.OrderStatus;
+import com.IT4409.backend.Utils.PaymentMethod;
 import com.IT4409.backend.Utils.PaymentStatus;
 import com.IT4409.backend.dtos.OrderDTO.OrderRequestDTO;
 import com.IT4409.backend.entities.*;
@@ -175,7 +176,14 @@ public class OrderService implements IOrderService {
             order.setDiscountFromVoucher(Math.min(order.getTotalAmount() * discount.getDiscountValue(), discount.getMaxPossibleValue()));
             order.setFinalPrice(order.getTotalAmount() - order.getDiscountFromVoucher());
         }
+        order = orderRepository.save(order);
+        // Sinh QR thanh toán
         order.setPaymentMethod(orderRequestDTO.getPaymentMethod());
+        if (order.getPaymentMethod().equals(PaymentMethod.NET_BANKING.name())) {
+            String qr = Constants.qrLink.replace("{amount}", order.getFinalPrice().toString());
+            qr = qr.replace("{addInfo}", "Order " + order.getOrderId());
+            order.setQrLink(qr);
+        }
         order.setOrderStatus(OrderStatus.PENDING.toString());
         order.setPaymentStatus(PaymentStatus.PENDING.toString());
 

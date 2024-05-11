@@ -51,6 +51,15 @@ public class ProductService implements IProductService {
         return product;
     }
 
+    @Override
+    public List<Product> searchProduct(String productName) throws NotFoundException {
+        List<Product> productList = productRepository.searchProduct(productName);
+        if(productList.isEmpty()) {
+            throw new NotFoundException(messages.getString("product.validate.not-found"));
+        }
+        return productList;
+    }
+
     public Product createProduct(ProductRequestDTO productRequestDTO) throws Exception {
         Product product = modelMapper.map(productRequestDTO, Product.class);
         product.setStatus(Constants.PRODUCT_STATUS.IN_STOCK);

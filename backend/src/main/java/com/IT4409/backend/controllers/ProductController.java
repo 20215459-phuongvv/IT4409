@@ -38,6 +38,15 @@ public class ProductController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("products/search")
+    public ResponseEntity<?> searchProduct(@RequestParam String productName) {
+        try{
+            List<Product> productList = productService.searchProduct(productName);
+            return new ResponseEntity<>(productList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
     @RequestMapping(path = "/admin/products", method = POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> createProduct(@ModelAttribute @Valid ProductRequestDTO productRequestDTO){
         try{

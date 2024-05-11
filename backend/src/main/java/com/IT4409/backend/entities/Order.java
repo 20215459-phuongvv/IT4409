@@ -40,6 +40,9 @@ public class Order {
     @Column(name = "final_price")
     private Long finalPrice;
 
+    @Column(name = "qr_link")
+    private String qrLink;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties("orderList")

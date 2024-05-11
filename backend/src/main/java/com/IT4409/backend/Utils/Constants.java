@@ -11,6 +11,7 @@ public class Constants {
     public static final String LOCAL_HOST = "http://localhost:8080";
     public static final String DEPLOYED = "";
     public static final ResourceBundle messages = ResourceBundle.getBundle("messages");
+    public static final String qrLink = "https://img.vietqr.io/image/mb-0963861815-compact2.jpg?amount={amount}&addInfo={addInfo}&accountName=VU%20VIET%20PHUONG";
 
     public interface SHIPPING_FEE {
         Long INSIDE_HANOI = 15000L;
