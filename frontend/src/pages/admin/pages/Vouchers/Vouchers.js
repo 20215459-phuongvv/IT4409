@@ -39,7 +39,7 @@ const columns = [
     {
         id: 'update',
         label: 'Cập nhật',
-        minWidth: 30,
+        minWidth: 100,
         align: 'left',
     },
 ];
@@ -56,17 +56,16 @@ let data = [
 
 const rows = data.map((element, index) => ({ ...element, index: index + 1 }));
 
-console.log(rows);
 
 function Vouchers() {
     const [openAddVoucher, setOpenAddVoucher] = useState(false);
-    const [newVoucher, setNewVoucher] = useState({
-        name: '',
-        code: '',
-        value: '',
-        condition: '',
-        maximum_value: '',
-    });
+    // const [newVoucher, setNewVoucher] = useState({
+    //     name: '',
+    //     code: '',
+    //     value: '',
+    //     condition: '',
+    //     maximum_value: '',
+    // });
 
     const handleOpenAddVoucher = () => {
         setOpenAddVoucher(true);
@@ -76,6 +75,7 @@ function Vouchers() {
         setOpenAddVoucher(false);
     };
 
+    // Gọi API ở đây
     const handleDelete = (index) => {
         alert(`delete voucher ${index}`);
     };
@@ -158,6 +158,7 @@ function Vouchers() {
                     </div>
                 </Modal>
             </div>
+            
             <TableComponent
                 columns={columns}
                 rows={rows}

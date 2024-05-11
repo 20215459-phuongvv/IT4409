@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import classNames from "classnames/bind";
+import React, { useContext } from 'react';
+import classNames from 'classnames/bind';
 import styles from './CartItems.module.scss';
-import remove_icon from '~/assets/images/cart_cross_icon.png'
-import { ShopContext } from "~/context/ShopContext";
-import Button from "../Button";
+import remove_icon from '~/assets/images/cart_cross_icon.png';
+import { ShopContext } from '~/context/ShopContext';
+import Button from '../Button';
 const cx = classNames.bind(styles);
 
 const numberWithCommas = (numberString) => {
@@ -11,8 +11,8 @@ const numberWithCommas = (numberString) => {
     return number.toLocaleString('en-US');
 };
 function CartItems() {
-    const {all_product,cartItems,removeFromCart,getTotalCartAmount} = useContext(ShopContext);
-    return ( 
+    const { all_product, cartItems, removeFromCart, getTotalCartAmount } = useContext(ShopContext);
+    return (
         <div className={cx('wrapper')}>
             <div className={cx('format-main')}>
                 <p>Sản phẩm</p>
@@ -27,49 +27,50 @@ function CartItems() {
             <hr />
             {cartItems.length > 0 ? (
                 all_product.map((product) => {
-                const filteredCartItems = cartItems.filter(
-                (item) => item.id === product.id
-                 );
+                    const filteredCartItems = cartItems.filter((item) => item.id === product.id);
 
-            if (filteredCartItems.length > 0) 
-            {
-              return (
-                <div key={product.id}>
-                  {filteredCartItems.map((cartItem)=> (
-                    <div key={`${product.id}-${cartItem.size}`}>
-                        <div className={cx('cartItems-format','format-main')}>
-                            <img
-                            src={product.img}
-                            alt={product.name}
-                            className={cx('product-icon')}
-                            />
-                            <p>{product.name}</p>
-                            <p>{product.newPrice}₫</p>
-                            <p>     {product.size[cartItem.size]}</p>
-                            <p className={cx("quantity")}>     {cartItem.quantity}</p>
-                            <div className={cx('color-item')} style={{backgroundColor:cartItem.color}}></div>
-                            <p>{numberWithCommas(parseFloat(product.newPrice.replace(",", ""))*cartItem.quantity)}₫</p>
-                            <img
-                            src={remove_icon}
-                            alt="Remove item"
-                            className={cx("cart-remove-icon")}
-                            onClick={() => removeFromCart(product.id, cartItem.size, cartItem.color)}
-                            />
-                        </div>
-                    </div>
-                  ))}
-                  <hr />    
-                </div>
+                    if (filteredCartItems.length > 0) {
+                        return (
+                            <div key={product.id}>
+                                {filteredCartItems.map((cartItem) => (
+                                    <div key={`${product.id}-${cartItem.size}`}>
+                                        <div className={cx('cartItems-format', 'format-main')}>
+                                            <img src={product.img} alt={product.name} className={cx('product-icon')} />
+                                            <p>{product.name}</p>
+                                            <p>{product.newPrice}₫</p>
+                                            <p> {product.size[cartItem.size]}</p>
+                                            <p className={cx('quantity')}> {cartItem.quantity}</p>
+                                            <div
+                                                className={cx('color-item')}
+                                                style={{ backgroundColor: cartItem.color }}
+                                            ></div>
+                                            <p>
+                                                {numberWithCommas(
+                                                    parseFloat(product.newPrice.replace(',', '')) * cartItem.quantity,
+                                                )}
+                                                ₫
+                                            </p>
+                                            <img
+                                                src={remove_icon}
+                                                alt="Remove item"
+                                                className={cx('cart-remove-icon')}
+                                                onClick={() =>
+                                                    removeFromCart(product.id, cartItem.size, cartItem.color)
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                                <hr />
+                            </div>
+                        );
+                    }
 
-              );
-            }
-
-            return null;
-          })
-
-        ) : (
-          <div className="cart-empty">Giỏ hàng trống</div>
-        )}
+                    return null;
+                })
+            ) : (
+                <div className="cart-empty">Giỏ hàng trống</div>
+            )}
             <div className={cx('cartitems-down')}>
                 <div className={cx('cartitems-total')}>
                     <h1>Tổng thanh toán</h1>
@@ -89,21 +90,18 @@ function CartItems() {
                             <h3>{numberWithCommas(getTotalCartAmount())}₫</h3>
                         </div>
                     </div>
-                    <Button children='PROCESS TO CHECKOUT'
-                            className={cx('btn-cart')}
-                            />
+                    <Button children="PROCESS TO CHECKOUT" className={cx('btn-cart')} />
                 </div>
                 <div className={cx('cartitems-promocode')}>
                     <p>Nếu bạn có mã giảm giá, hãy áp dụng vào đây</p>
                     <div className={cx('cartitems-promobox')}>
                         <input type="text" placeholder="Voucher" />
-                        <button 
-                        className={cx('btn-promo')}>SUBMIT</button>
+                        <button className={cx('btn-promo')}>SUBMIT</button>
                     </div>
                 </div>
             </div>
         </div>
-     );
+    );
 }
 
 export default CartItems;

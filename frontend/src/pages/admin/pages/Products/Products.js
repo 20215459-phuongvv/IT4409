@@ -34,6 +34,12 @@ const columns = [
         minWidth: 30,
         align: 'left',
     },
+    {
+        id: 'update',
+        label: 'Cập nhật',
+        minWidth: 30,
+        align: 'left',
+    },
 ];
 
 function createData(index, image, name, category, price, quantity) {
@@ -133,12 +139,15 @@ let data = [
 
 const rows = data.map((element, index) => ({ ...element, index: index + 1 }));
 
-console.log(rows);
-
 function ProductsManagement() {
     const handleDelete = (index) => {
         alert(`delete product ${index}`);
     };
+
+    const handleUpdate = (index) => {
+        console.log(index);
+    }
+
     return (
         <div className={cx('wrapper')}>
             <h1 className={cx('title')}>Danh sách sản phẩm</h1>
@@ -150,7 +159,7 @@ function ProductsManagement() {
                 deleteButton={true}
                 updateButton={true}
                 handleDelete={handleDelete}
-
+                handleUpdate={handleUpdate}
             />
         </div>
     );

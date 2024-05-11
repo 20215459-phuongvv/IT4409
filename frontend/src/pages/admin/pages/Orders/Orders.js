@@ -1,4 +1,3 @@
-
 import classNames from 'classnames/bind';
 import styles from './Orders.module.scss';
 import TableComponent from '../../components/TableComponent';
@@ -32,20 +31,36 @@ const columns = [
         minWidth: 30,
         align: 'left',
     },
+    {
+        id: 'action',
+        label: 'Cập nhật',
+        minWidth: 30,
+        align: 'left',
+    },
 ];
 
-const rows = [
+const data = [
     {
         orderID: 'HD001',
         customerName: 'Đào Anh Quân',
         date: '17/04/2024',
         total: '1.000.000đ',
+        status: 'Đã giao',
+    },
+    {
+        orderID: 'HD002',
+        customerName: 'Đào Anh Quân',
+        date: '17/04/2024',
+        total: '3.000.000đ',
         status: 'Đang giao',
     },
 ];
 
-function OrdersManagement() {
+const rows = data.map((element, index) => ({ ...element, index: index + 1 }));
 
+console.log(rows);
+
+function OrdersManagement() {
     const attributes = ['orderID', 'customerName', 'date', 'total', 'status'];
 
     // useEffect(() => {
@@ -61,7 +76,14 @@ function OrdersManagement() {
     return (
         <div className={cx('wrapper')}>
             <h1 className={cx('title')}>Đơn hàng</h1>
-            <TableComponent columns={columns} rows={rows} attributes={attributes} contactButton={true} />
+            <TableComponent
+                columns={columns}
+                rows={rows}
+                type="order"
+                attributes={attributes}
+                contactButton={true}
+                actionButton={true}
+            />
         </div>
     );
 }
