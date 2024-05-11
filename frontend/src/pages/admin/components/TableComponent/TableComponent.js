@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -6,8 +6,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Avatar, Button, Modal } from '@mui/material';
+import { Avatar, Button, MenuItem, Modal, Popover, Select } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import classNames from 'classnames/bind';
 import styles from './TableComponent.module.scss';
@@ -28,6 +29,7 @@ function TableComponent({
     deleteButton,
     contactButton,
     updateButton,
+    actionButton,
     handleDelete,
     handleUpdate,
 }) {
@@ -36,6 +38,13 @@ function TableComponent({
     const [openDeleteBox, setOpenDeleteBox] = useState([]);
     const [openVoucherUpdateBox, setOpenVoucherUpdateBox] = useState([]);
     const [openProductUpdateBox, setOpenProductUpdateBox] = useState([]);
+
+    const [orderStatusArray, setOrderStatusArray] = useState(rows.map((row) => row.status));
+
+    // useEffect(() => {
+    //     const statusArray = rows.map((row) => row.status);
+    //     setOrderStatusArray(statusArray);
+    // }, []);
 
     const typeName = {
         customer: 'khách hàng',
@@ -99,6 +108,24 @@ function TableComponent({
         });
     };
 
+    // voucher action
+
+    const handleStatusChange = (index, event) => {
+        const newStatus = event.target.value;
+        setOrderStatusArray((prevStatuses) => {
+            const newState = [...prevStatuses];
+            newState[index] = newStatus;
+            return newState;
+        });
+        handleUpdateStatus(newStatus, index);
+        // Gọi hàm xử lý cập nhật trạng thái đơn hàng ở đây (ví dụ: handleUpdateStatus(newStatus))
+    };
+
+    const handleUpdateStatus = (newStatus, index) => {
+        console.log(`Đơn hàng thứ ${index + 1} đã được cập nhật thành ${newStatus}`);
+    }
+
+    console.log('orderStatusArray', orderStatusArray);
 
     return (
         <div>
@@ -126,6 +153,8 @@ function TableComponent({
                                         <StyledTableCell key={attrIndex} align="left">
                                             {attribute === 'image' ? (
                                                 <Avatar src={row[attribute]} alt="" />
+                                            ) : attribute === 'status' ? (
+                                                orderStatusArray[row.index - 1]
                                             ) : (
                                                 row[attribute]
                                             )}
@@ -295,7 +324,7 @@ function TableComponent({
                                             </Modal>
                                         </TableCell>
                                     )}
-                                    
+
                                     {updateButton && type === 'product' && (
                                         // Cập nhật voucher
                                         <TableCell align="left">
@@ -326,8 +355,6 @@ function TableComponent({
                                                                 onChange={null}
                                                             />
                                                         </div>
-
-                                                        
                                                     </div>
 
                                                     <div className={cx('update-modal-buttons')}>
@@ -372,7 +399,16 @@ function TableComponent({
                                             </Modal>
                                         </TableCell>
                                     )}
-                                    
+
+                                    {actionButton && type === 'order' && (
+                                        <TableCell align="left">
+                                            <Select style={{height: '36px'}} value={orderStatusArray[row.index - 1]} onChange={(event) => handleStatusChange(row.index - 1, event)}>
+                                                <MenuItem value="Đang giao">Đang giao</MenuItem>
+                                                <MenuItem value="Đã giao">Đã giao</MenuItem>
+                                                <MenuItem value="Hủy">Hủy</MenuItem>
+                                            </Select>
+                                        </TableCell>
+                                    )}
                                 </TableRow>
                             );
                         })}
@@ -400,7 +436,6 @@ function TableComponent({
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
-                // onRowsPerPageChange={handleChangeRowsPerPage}
             />
         </div>
     );

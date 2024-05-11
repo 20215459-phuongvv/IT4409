@@ -213,7 +213,7 @@ function AddProducts() {
                         </div>
                     </div>
                     <Button
-                        style={{ width: '150px', marginLeft: '300px' }}
+                        style={{ width: '150px', marginLeft: '178px' }}
                         size="medium"
                         variant="outlined"
                         onClick={handleAddColorInput}
