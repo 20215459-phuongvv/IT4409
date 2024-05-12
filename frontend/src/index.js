@@ -6,17 +6,20 @@ import App from '~/App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyles from '~/components/GlobalStyles';
 import ShopContextProvider from './context/ShopContext';
+import { Provider } from 'react-redux';
+import { store } from './redux/Store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-    
+        <Provider store={store}>
             <GlobalStyles>
                 <ShopContextProvider>
                     <App />
                 </ShopContextProvider>
            
          </GlobalStyles>
+         </Provider>
         
     </React.StrictMode>,
 );
