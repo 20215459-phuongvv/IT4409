@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -50,10 +51,12 @@ public class NotificationService implements INotificationService {
         Notification notification = Notification
                 .builder()
                 .user(user)
-                .orderId(orderId)
                 .text(text)
                 .notificationTime(LocalDateTime.now())
                 .build();
+        if(orderId != null) {
+            notification.setOrderId(orderId);
+        }
         return notificationRepository.save(notification);
     }
 
@@ -93,15 +96,19 @@ public class NotificationService implements INotificationService {
     }
     public void sendProductOutOfStockNotification() throws MessagingException, NotFoundException {
         List<Cart> cartList = cartRepository.findAll();
-        for(Cart cart : cartList) {
+        for (Cart cart : cartList) {
             List<CartItem> cartItemList = cart.getCartItemList();
-            for(CartItem cartItem : cartItemList) {
-                Product product = cartItem.getProduct();
-                if (cartItem.getQuantity() > product.getQuantityInStock() || product.getStatus() == Constants.PRODUCT_STATUS.OUT_OF_STOCK) {
-                    addNotification(cart.getUser().getUserId(),null,String.format(messages.getString("cart-item.notification.out-of-stock"), product.getProductName()));
-                    cart.getCartItemList().remove(cartItem);
-                    cartRepository.save(cart);
+            if (cartItemList != null) {
+                Iterator<CartItem> iterator = cartItemList.iterator();
+                while (iterator.hasNext()) {
+                    CartItem cartItem = iterator.next();
+                    Product product = cartItem.getProduct();
+                    if (cartItem.getQuantity() > product.getQuantityInStock() || product.getStatus() == Constants.PRODUCT_STATUS.OUT_OF_STOCK) {
+                        addNotification(cart.getUser().getUserId(), null, String.format(messages.getString("cart-item.notification.out-of-stock"), product.getProductName()));
+                        iterator.remove();
+                    }
                 }
+                cartRepository.save(cart);
             }
         }
     }

@@ -184,7 +184,10 @@ public class OrderService implements IOrderService {
         if(cart.getDiscountCode() != null && isDiscountValid(order, cart.getDiscountCode())) {
             Discount discount = discountRepository.findByDiscountCodeAndStatus(cart.getDiscountCode(), Constants.DISCOUNT_STATUS.AVAILABLE).get();
             order.setDiscountFromVoucher(Math.min( (long) (order.getTotalAmount() * discount.getDiscountValue()), discount.getMaxPossibleValue()));
-            order.setFinalPrice(order.getTotalAmount() - order.getDiscountFromVoucher());
+            order.setFinalPrice(order.getTotalAmount() - order.getDiscountFromVoucher() );
+        }
+        else {
+            order.setFinalPrice(order.getTotalAmount());
         }
         order = orderRepository.save(order);
         // Sinh QR thanh toán

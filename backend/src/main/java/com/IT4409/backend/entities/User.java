@@ -38,8 +38,8 @@ public class User {
     @Column(name = "create_at")
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("user")
+    @OneToMany(/*mappedBy = "user",*/ cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonIgnoreProperties("user")
     private List<UserDetail> userDetailList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
