@@ -7,7 +7,15 @@ const getDefaulthCart = ()=>{
 }
 const ShopContextProvider = (props) => {
     
-    const [cartItems, setCartItems] = useState(getDefaulthCart())
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      const localStorageCart = localStorage.getItem("cartItems");
+      return localStorageCart ? JSON.parse(localStorageCart) : [];
+    } catch (e) {
+      // Xử lý lỗi lấy dữ liệu từ localStorage (nếu có)
+      return [];
+    }
+  });
     const addToCart = (itemId,quantity,size, color) => {
         setCartItems((prev) => {
           const updatedCart = [...prev];
@@ -18,9 +26,11 @@ const ShopContextProvider = (props) => {
           } else {
             updatedCart.push({ id: itemId, size, quantity, color });
           }
-      
+          localStorage.setItem("cartItems", JSON.stringify(updatedCart));
           return updatedCart;
         });
+        
+
       };
       console.log(cartItems);
       const removeFromCart = (itemId, size,color) => {
@@ -32,6 +42,8 @@ const ShopContextProvider = (props) => {
             updatedCart.splice(itemIndex, 1);
           }
       
+          // Lưu giá trị mới của updatedCart vào localStorage
+          localStorage.setItem("cartItems", JSON.stringify(updatedCart));
           return updatedCart;
         });
       };

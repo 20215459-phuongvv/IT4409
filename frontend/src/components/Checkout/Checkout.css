@@ -1,0 +1,11 @@
+.wrapper-checkout {
+    margin-left: 170px;
+    margin-top: 50px;
+    
+}
+.form-group input, textarea, button{
+    font-size: 14px !important;
+}
+.fz16 {
+    font-size: 16px !important;
+}
