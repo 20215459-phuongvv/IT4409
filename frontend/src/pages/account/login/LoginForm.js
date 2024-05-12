@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '~/redux/Auth/Action';
 import classNames from 'classnames/bind';
 import styles from './LoginForm.module.scss';
-import { Link } from 'react-router-dom';
 import config from '~/config';
 import images from '~/assets/images';
 
@@ -10,21 +12,32 @@ const cx = classNames.bind(styles)
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [formData, setFormData] = useState({
-    email:"",
-    password:""
-  })
-  const changeHandler = (e) => {
-    setFormData({...formData,[e.target.name]:e.target.value})
-  }
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const [isLogged, setIsLogged] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { error, isLoading, user } = useSelector((state) => state.auth);
+  const isSubmitted = useRef(false);
 
-    // Xử lý đăng nhập
+  
+  const handleSubmit = (event) => {
+        event.preventDefault();
+        dispatch(login({ email, password }));
+        isSubmitted.current = true;
+        console.log('Email:', email);
+        console.log('Mật khẩu:', password);
+    };
+    useEffect(() => {
+      if (isSubmitted.current && !isLoading && !error) {
+          setIsLogged(true);
+      }
+  }, [isLoading, error]);
 
-    console.log('login excute', formData)
-  };
-
+    useEffect(() => {
+      if (isLogged && user) {
+          if (user.user.role === 'ADMIN') navigate('/admin');
+          else navigate('/');
+      }
+  }, [isLogged, user]);
   return (
     <div className={cx("login-form")}>
       <h2>Đăng nhập</h2>
@@ -37,8 +50,8 @@ const LoginForm = () => {
             name="email"
             placeholder='Nhập email'
             required
-            value={formData.email}
-            onChange={changeHandler}
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </div>
         <div className={cx("form-group")}>
@@ -49,16 +62,17 @@ const LoginForm = () => {
             name="password"
             placeholder='**********'
             required
-            value={formData.password}
-            onChange={changeHandler}
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </div>
+        {error && <p className="error-message">{error}</p>}
         <div className={cx("remember-forgot")}>
             <label><input type='checkbox' /> Nhớ tài khoản</label>
             <a href='#'>Quên mật khẩu?</a>
         </div>
         <div className={cx("form-group")}>
-          <button type="submit" className={cx("btn btn-primary")}>Đăng nhập</button>
+          <button type="submit" className={cx("btn","btn-primary")}>Đăng nhập</button>
         </div>
       </form>
       
