@@ -7,13 +7,18 @@ import star_icon from '~/assets/images/star_icon.png';
 import star_dull_icon from '~/assets/images/star_dull_icon.png';
 import Button from '~/components/Button';
 import { ShopContext } from '~/context/ShopContext';
+import { useNavigate } from 'react-router-dom';
 import ProductReviewCard from '~/pages/user/pages/Products/ProductDetail/ProductReviewCard';
 import { Grid, Rating, Box, LinearProgress } from '@mui/material';
+import ChatModal from '../ChatModal';
+import { adminDetail } from '~/util/adminDetail';
 const cx = classNames.bind(styles);
 
 function ProductDisplay(props) {
     const { product } = props;
+    const navigate = useNavigate();
     const { addToCart } = useContext(ShopContext);
+    const [modalOpen, setModalOpen] = useState(false);
     const [selectedColor, setSelectedColor] = useState(product.colorList[0]); //chọn màu
     const [amount, setAmount] = useState(1); //chọn số lượng
     const [size, setSize] = useState(0); //chọn size
@@ -25,6 +30,15 @@ function ProductDisplay(props) {
     };
     const handleSize = (index) => {
         setSize(index);
+    };
+    const handleClick = (event) => {
+        event.preventDefault(); // Prevent navigation
+        setModalOpen(true);
+    };
+
+    const closeModal = (event) => {
+        event.preventDefault(); // Prevent navigation
+        setModalOpen(false);
     };
 
     return (
@@ -122,6 +136,7 @@ function ProductDisplay(props) {
                             </button>
                         </div>
                     </div>
+                <div className={cx('button-block')}>
 
                     <button
                         onClick={() => {
@@ -131,6 +146,12 @@ function ProductDisplay(props) {
                     >
                         Thêm vào giỏ hàng
                     </button>
+
+                    <button onClick={handleClick} className={cx('message')}>
+                            Liên hệ
+                        </button>
+                        {modalOpen && <ChatModal selectedUser={adminDetail} closeChatBox={closeModal} />}
+                </div>
 
                     <div className={cx('right-description')}>
                         <hr />

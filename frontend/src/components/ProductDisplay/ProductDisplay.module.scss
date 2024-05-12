@@ -148,6 +148,23 @@
 .addToCart:hover{
     background-color: #6e503a;
 }
+
+.message {
+    margin-top: 20px;
+    margin-left: 10px;
+    background-color: #916a4d;
+    color: #fff;
+    padding: 10px 20px;
+    width: auto;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.message:hover {
+    background-color: #6e503a;
+}
+
 .right-description{
     margin-top: 40px;
 }
