@@ -27,7 +27,7 @@ public class Category {
     @Column(name = "thumbnail")
     private String thumbnail;
 
-    @ManyToMany(mappedBy = "categoryList")
-    @JsonIgnoreProperties("categoryList")
+    @OneToMany(mappedBy = "category")
+    @JsonIgnoreProperties("category")
     private List<Product> productList;
 }

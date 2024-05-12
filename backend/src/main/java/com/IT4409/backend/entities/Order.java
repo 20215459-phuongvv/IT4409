@@ -16,6 +16,9 @@ public class Order {
     @Column(name = "order_id")
     private Long orderId;
 
+    @Column(name = "user_id")
+    private Long userId;
+
     @Column(name = "order_status")
     private String orderStatus;
 
@@ -43,10 +46,10 @@ public class Order {
     @Column(name = "qr_link")
     private String qrLink;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties("orderList")
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    @JsonIgnoreProperties("orderList")
+//    private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("order")

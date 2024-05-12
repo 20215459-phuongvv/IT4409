@@ -36,13 +36,10 @@ public class ColorService implements IColorService {
     }
 
     @Override
-    public Color addImageToColor(Long productId, Long colorId, MultipartFile[] images) throws Exception {
+    public Color addImageToColor(Long productId, Long colorId, List<MultipartFile> images) throws Exception {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException(messages.getString("product.validate.not-found")));
-        Color color = product.getColorList()
-                .stream()
-                .filter(color1 -> Objects.equals(color1.getColorId(), colorId))
-                .findFirst()
+        Color color = colorRepository.findById(colorId)
                 .orElseThrow(() -> new NotFoundException(messages.getString("color.validate.not-found")));
         List<ColorImage> colorImageList = color.getColorImageList();
         for(MultipartFile image : images){

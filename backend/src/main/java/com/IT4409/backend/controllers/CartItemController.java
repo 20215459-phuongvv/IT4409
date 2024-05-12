@@ -1,9 +1,7 @@
 package com.IT4409.backend.controllers;
 
 import com.IT4409.backend.dtos.CartItemDTO.CartItemRequestDTO;
-import com.IT4409.backend.entities.Cart;
 import com.IT4409.backend.entities.CartItem;
-import com.IT4409.backend.entities.User;
 import com.IT4409.backend.services.CartItemService;
 import com.IT4409.backend.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,7 @@ public class CartItemController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-    @PutMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<?> addCartItem(@RequestBody CartItemRequestDTO cartItemRequestDTO,
                                          @RequestHeader("Authorization") String jwt) throws Exception {
         try {

@@ -5,6 +5,7 @@ import com.IT4409.backend.Utils.Role;
 import com.IT4409.backend.dtos.AuthDTO.AuthRequestDTO;
 import com.IT4409.backend.dtos.AuthDTO.AuthResponseDTO;
 import com.IT4409.backend.entities.User;
+import com.IT4409.backend.entities.UserDetail;
 import com.IT4409.backend.exceptions.BadRequestException;
 import com.IT4409.backend.exceptions.NotFoundException;
 import com.IT4409.backend.repositories.UserRepository;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -77,6 +79,12 @@ public class UserService implements UserDetailsService {
         newUser.setRole(role);
         newUser.setVerificationToken(verificationToken);
         newUser.setStatus(Constants.ENTITY_STATUS.INACTIVE);
+        newUser = userRepository.save(newUser);
+        // Tạo user detail mới
+        UserDetail userDetail = UserDetail.builder().name(user.getEmail().substring(0, user.getEmail().indexOf('@'))).build();
+        userDetail.setUser(newUser);
+        newUser.setUserDetailList(new ArrayList<>());
+        newUser.getUserDetailList().add(userDetail);
         newUser = userRepository.save(newUser);
         // Tạo ra giỏ hàng mới cho khách hàng mới
         cartService.createCart(newUser);

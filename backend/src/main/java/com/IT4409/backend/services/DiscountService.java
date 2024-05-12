@@ -12,6 +12,8 @@ import com.IT4409.backend.repositories.DiscountRepository;
 import com.IT4409.backend.services.interfaces.IDiscountService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +27,8 @@ public class DiscountService implements IDiscountService {
     private CartRepository cartRepository;
     @Autowired
     private DiscountRepository discountRepository;
+    @Autowired
+    private NotificationService notificationService;
     @Override
     public List<Discount> getAllDiscount() throws NotFoundException {
         List<Discount> discountList = discountRepository.findAll();
@@ -41,11 +45,10 @@ public class DiscountService implements IDiscountService {
     }
 
     @Override
-    public Discount addDiscount(DiscountRequestDTO discountRequestDTO) throws BadRequestException {
-        if(discountRequestDTO.getStartDate().after(discountRequestDTO.getEndDate())) {
-            throw new BadRequestException(messages.getString("discount.validate.date-invalid"));
-        }
-        if(discountRequestDTO.getEndDate().before(Date.from(Instant.now()))) {
+    public Discount addDiscount(DiscountRequestDTO discountRequestDTO) throws BadRequestException, ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date endDate = dateFormat.parse(discountRequestDTO.getEndDate());
+        if(endDate.before(Date.from(Instant.now()))) {
             throw new BadRequestException(messages.getString("discount.validate.end-date-invalid"));
         }
         Discount discount = Discount
@@ -54,30 +57,36 @@ public class DiscountService implements IDiscountService {
                 .discountValue(discountRequestDTO.getDiscountValue())
                 .minCondition(discountRequestDTO.getMinCondition())
                 .maxPossibleValue(discountRequestDTO.getMaxPossibleValue())
-                .startDate(discountRequestDTO.getStartDate())
                 .status(Constants.DISCOUNT_STATUS.AVAILABLE)
-                .endDate(discountRequestDTO.getEndDate())
+                .endDate(endDate)
                 .build();
         return discountRepository.save(discount);
     }
 
     @Override
-    public Discount updateDiscount(Long discountId, DiscountRequestDTO discountRequestDTO) throws BadRequestException, NotFoundException {
+    public Discount updateDiscount(Long discountId, DiscountRequestDTO discountRequestDTO) throws BadRequestException, NotFoundException, ParseException {
         Discount discount = discountRepository.findById(discountId)
                 .orElseThrow(() -> new NotFoundException(messages.getString("discount.validate.not-found")));
-        if(discountRequestDTO.getStartDate().after(discountRequestDTO.getEndDate())) {
-            throw new BadRequestException(messages.getString("discount.validate.date-invalid"));
+
+        if (discountRequestDTO.getStatus() != null && discountRequestDTO.getStatus() == Constants.DISCOUNT_STATUS.OUT_OF_DATE) {
+            List<Cart> cartList = cartRepository.findByDiscountCode(discount.getDiscountCode());
+            for (Cart cart : cartList) {
+                cart.setDiscountCode(null);
+                cartRepository.save(cart);
+                notificationService.addDiscountNotification(cart.getUser().getUserId(), "Discount " + discount.getDiscountCode() + "is expired!");
+            }
         }
-        if(discountRequestDTO.getEndDate().before(Date.from(Instant.now()))) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date endDate = dateFormat.parse(discountRequestDTO.getEndDate());
+        if(endDate.before(Date.from(Instant.now()))) {
             throw new BadRequestException(messages.getString("discount.validate.end-date-invalid"));
         }
         discount.setDiscountCode(discountRequestDTO.getDiscountCode());
         discount.setDiscountValue(discountRequestDTO.getDiscountValue());
-        discount.setStartDate(discountRequestDTO.getStartDate());
-        discount.setEndDate(discountRequestDTO.getEndDate());
+        discount.setEndDate(endDate);
         discount.setMaxPossibleValue(discountRequestDTO.getMaxPossibleValue());
         discount.setMinCondition(discountRequestDTO.getMinCondition());
-        discount.setStatus(discountRequestDTO.getStatus());
+        if(discountRequestDTO.getStatus() != null) discount.setStatus(discountRequestDTO.getStatus());
         return discountRepository.save(discount);
     }
 

@@ -11,6 +11,5 @@ public class CartItemRequestDTO {
     private Long productId;
     private String color;
     private String size;
-    private Long price;
     private Integer quantity;
 }

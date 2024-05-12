@@ -3,6 +3,7 @@ package com.IT4409.backend.controllers;
 import com.IT4409.backend.dtos.ProductDTO.ProductRequestDTO;
 import com.IT4409.backend.entities.Product;
 import com.IT4409.backend.services.ProductService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,16 +48,13 @@ public class ProductController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-    @RequestMapping(path = "/admin/products", method = POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?> createProduct(@ModelAttribute @Valid ProductRequestDTO productRequestDTO){
-        try{
+    @RequestMapping(path = "/api/admin/products", method = POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @Transactional
+    public ResponseEntity<?> createProduct(@ModelAttribute @Valid ProductRequestDTO productRequestDTO) throws Exception {
             Product product = productService.createProduct(productRequestDTO);
             return new ResponseEntity<>(product, HttpStatus.CREATED);
-        } catch(Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
     }
-    @PutMapping("/admin/products/{productId}")
+    @PutMapping("/api/admin/products/{productId}")
     public ResponseEntity<?> updateProduct(@PathVariable Long productId, @RequestBody ProductRequestDTO productRequestDTO){
         try{
             Product product = productService.updateProduct(productId, productRequestDTO);
@@ -65,7 +63,7 @@ public class ProductController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-    @DeleteMapping("/admin/products/{productId}")
+    @DeleteMapping("/api/admin/products/{productId}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long productId){
         try{
             Product product = productService.deleteProduct(productId);

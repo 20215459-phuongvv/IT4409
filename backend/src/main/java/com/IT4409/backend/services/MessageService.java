@@ -11,7 +11,7 @@ import com.IT4409.backend.services.interfaces.IMessageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -52,7 +52,7 @@ public class MessageService implements IMessageService {
         } else {
             message.setConversationId(chatRoomOptional.get().getConversationId());
         }
-        message.setTime(LocalDateTime.now());
+        message.setTime(new Date());
         message = messageRepository.save(message);
         return modelMapper.map(message, MessageResponseDTO.class);
     }
