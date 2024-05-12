@@ -1,43 +1,31 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate, useRoutes } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './RegistrationForm.module.scss';
-import { Link } from 'react-router-dom';
 import config from '~/config';
+import { register } from '~/redux/Auth/Action';
 
 const cx = classNames.bind(styles);
 const RegistrationForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [formData, setFormData] = useState({
-    email:"",
-    password:"",
-    confirmPassword:""
-  })
-  const changeHandler = (e) => {
-    setFormData({...formData,[e.target.name]:e.target.value})
-  }
-  const handleSubmit = async(event) => {
-    event.preventDefault();
+  const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-  //   // Xử lý đăng ký
-  //   console.log(formData)
-  //   let responeData;
-  //   await fetch('http://localhost:3000/auth/signup', {
-  //     method: 'POST',
-  //     headers: {
-  //       Accept: 'application/form-data',
-  //       'Content-Type':'application/json'
-  //     },
-  //     body: JSON.stringify(formData),
-  //   }).then((response) => response.json()).then((data) => responeData=data)
+    const handleSubmit = (event) => {
+        event.preventDefault();
 
-  //   if(responeData.success) {
-  //     localStorage.setItem('auth-token', responeData.token);
-  //     window.location.replace("/");
-  //   }
-    
-  };
+        // Xử lý đăng ký
+        dispatch(register({ email, password }));
+
+        console.log('Email:', email);
+        console.log('Mật khẩu:', password);
+        console.log('Xác nhận mật khẩu:', confirmPassword);
+
+        navigate('/');
+    };
 
   return (
     <div className={cx("registration-form")}>
@@ -51,8 +39,8 @@ const RegistrationForm = () => {
             name="email"
             placeholder='Nhập email'
             required
-            value={formData.email}
-            onChange={changeHandler}
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </div>
         <div className={cx("form-group")}>
@@ -63,8 +51,8 @@ const RegistrationForm = () => {
             name="password"
             placeholder='********'
             required
-            value={formData.password}
-            onChange={changeHandler}
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </div>
         <div className={cx("form-group")}>
@@ -75,8 +63,8 @@ const RegistrationForm = () => {
             name="confirmPassword"
             placeholder='********'
             required
-            value={formData.confirmPassword}
-            onChange={changeHandler}
+            value={confirmPassword}
+            onChange={(event) => setConfirmPassword(event.target.value)}
           />
         </div>
         <div className={cx("form-group")}>

@@ -6,8 +6,8 @@ const routes = {
     login: '/login',
     register: '/register',
     cart: '/cart',
-    checkout: '/checkout'
-
+    checkout: '/checkout',
+    chat: '/chat'
 };
 
 export default routes;
