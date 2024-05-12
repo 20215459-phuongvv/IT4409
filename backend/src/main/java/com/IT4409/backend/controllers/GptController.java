@@ -35,8 +35,7 @@ public class GptController {
     @GetMapping("products/{productId}/reviews/summarize")
     public String summarizeProductReview(@PathVariable("productId") Long productId) throws Exception {
         String prompt = "Hãy tóm tắt các bình luận được cung cấp, biết các bình luận ngăn cách với nhau bằng dấu '|', " +
-                "dưới dạng dấu + <Nội dung tóm tắt của các bình luận tích cực> đối với bình luận tích cực " +
-                "và - <Nội dung tóm tắt của các bình luận tiêu cực> với bình luận tiêu cực: ";
+                "dưới dạng: \"Phần lớn khách hàng ..., tuy nhiên một số chưa hài lòng về ..., một số khác cho rằng ...\"";
         List<Review> reviewList = reviewService.getProductReviews(productId);
         for(Review review : reviewList) {
             prompt += review.getComment() + " | ";

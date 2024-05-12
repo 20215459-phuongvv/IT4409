@@ -30,6 +30,8 @@ public class Product {
     @Column(name = "price")
     private Long price;
 
+    private List<String> sizeList;
+
     @Column(name = "discount_price")
     private Long discountPrice;
 
@@ -39,20 +41,12 @@ public class Product {
     @Column(name = "thumbnail")
     private String thumbnail;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private List<Color> colorList;
 
-    @JoinColumn(name = "product_id")
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Size> sizeList;
-
-    @ManyToMany
-    @JoinTable(
-            name = "category_product",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    @JsonIgnoreProperties("productList")
-    List<Category> categoryList;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @JsonIgnoreProperties("product_list")
+    private Category category;
 }

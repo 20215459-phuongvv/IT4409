@@ -1,11 +1,11 @@
 package com.IT4409.backend.services;
 
 import com.IT4409.backend.Utils.Constants;
+import com.IT4409.backend.dtos.ColorDTO.ColorRequestDTO;
 import com.IT4409.backend.dtos.ProductDTO.ProductRequestDTO;
 import com.IT4409.backend.entities.Category;
 import com.IT4409.backend.entities.Color;
 import com.IT4409.backend.entities.Product;
-import com.IT4409.backend.entities.Size;
 import com.IT4409.backend.exceptions.NotFoundException;
 import com.IT4409.backend.repositories.CategoryRepository;
 import com.IT4409.backend.repositories.ColorRepository;
@@ -27,6 +27,8 @@ public class ProductService implements IProductService {
     private NotificationService notificationService;
     @Autowired
     private ColorRepository colorRepository;
+    @Autowired
+    private ColorService colorService;
     @Autowired
     private SizeRepository sizeRepository;
     @Autowired
@@ -64,29 +66,23 @@ public class ProductService implements IProductService {
         Product product = modelMapper.map(productRequestDTO, Product.class);
         product.setStatus(Constants.PRODUCT_STATUS.IN_STOCK);
         List<Color> colorList = new ArrayList<>();
-        List<Size> sizeList = new ArrayList<>();
-        List<Category> categoryList = new ArrayList<>();
-        for(Long categoryId : productRequestDTO.getCategoryIdList()) {
-            Category category = categoryRepository.findById(categoryId)
-                    .orElseThrow(() -> new NotFoundException(messages.getString("category.validate.not-found")));
-            categoryList.add(category);
-        }
-        for(String colorName : productRequestDTO.getColorNameList()){
-            Color color = new Color();
-            color.setColorName(colorName);
-            color = colorRepository.save(color);
+        Category category = categoryRepository.findById(productRequestDTO.getCategoryId())
+                .orElseThrow(() -> new NotFoundException(messages.getString("category.validate.not-found")));
+        product = productRepository.save(product);
+        for(ColorRequestDTO colorRequestDTO : productRequestDTO.getColorRequestDTOList()){
+            Color color = colorRepository.save(Color
+                    .builder()
+                    .colorName(colorRequestDTO.getColorName())
+                    .productId(product.getProductId())
+                    .colorImageList(new ArrayList<>())
+                    .build());
+            color = colorService.addImageToColor(product.getProductId(), color.getColorId(), colorRequestDTO.getImageList());
             colorList.add(color);
         }
-        for(String sizeName : productRequestDTO.getSizeNameList()){
-            Size size = new Size();
-            size.setSizeName(sizeName);
-            size = sizeRepository.save(size);
-            sizeList.add(size);
-        }
         product.setThumbnail(cloudinaryService.upload(productRequestDTO.getThumbnail().getBytes(), productRequestDTO.getThumbnail().getOriginalFilename(), "thumbnails"));
-        product.setSizeList(sizeList);
+        product.setSizeList(productRequestDTO.getSizeList());
         product.setColorList(colorList);
-        product.setCategoryList(categoryList);
+        product.setCategory(category);
         product.setRating(0.0);
         return productRepository.save(product);
     }
@@ -98,34 +94,13 @@ public class ProductService implements IProductService {
         if(productRequestDTO.getProductName() != null && !"".equals(productRequestDTO.getProductName())) {
             product.setProductName(productRequestDTO.getProductName());
         }
-        if(!productRequestDTO.getCategoryIdList().isEmpty()) {
-            List<Category> categoryList = new ArrayList<>();
-            for(Long categoryId : productRequestDTO.getCategoryIdList()) {
-                Category category = categoryRepository.findById(categoryId)
-                        .orElseThrow(() -> new NotFoundException(messages.getString("category.validate.not-found")));
-                categoryList.add(category);
-            }
-            product.setCategoryList(categoryList);
+        if(productRequestDTO.getCategoryId() != null) {
+            Category category = categoryRepository.findById(productRequestDTO.getCategoryId())
+                    .orElseThrow(() -> new NotFoundException(messages.getString("category.validate.not-found")));
+            product.setCategory(category);
         }
-        if(!productRequestDTO.getSizeNameList().isEmpty()) {
-            List<Size> sizeList = new ArrayList<>();
-            for(String sizeName : productRequestDTO.getSizeNameList()){
-                Size size = new Size();
-                size.setSizeName(sizeName);
-                size = sizeRepository.save(size);
-                sizeList.add(size);
-            }
-            product.setSizeList(sizeList);
-        }
-        if(!productRequestDTO.getColorNameList().isEmpty()) {
-            List<Color> colorList = new ArrayList<>();
-            for(String colorName : productRequestDTO.getColorNameList()){
-                Color color = new Color();
-                color.setColorName(colorName);
-                color = colorRepository.save(color);
-                colorList.add(color);
-            }
-            product.setColorList(colorList);
+        if(!productRequestDTO.getSizeList().isEmpty()) {
+            product.setSizeList(productRequestDTO.getSizeList());
         }
         if(productRequestDTO.getPrice() != null) {
             product.setPrice(productRequestDTO.getPrice());
@@ -135,9 +110,6 @@ public class ProductService implements IProductService {
         }
         if(productRequestDTO.getQuantityInStock() != null) {
             product.setQuantityInStock(productRequestDTO.getQuantityInStock());
-        }
-        if(productRequestDTO.getThumbnail() != null) {
-            product.setThumbnail(product.getThumbnail());
         }
         if (productRequestDTO.getStatus() != null) {
             product.setStatus(productRequestDTO.getStatus());
@@ -151,6 +123,10 @@ public class ProductService implements IProductService {
     public Product deleteProduct(Long productId) throws Exception {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException(messages.getString("product.validate.not-found")));
+        List<Color> colorList = product.getColorList();
+        for(Color color : colorList) {
+            colorRepository.delete(color);
+        }
         productRepository.deleteById(productId);
         return product;
     }

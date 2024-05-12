@@ -89,6 +89,8 @@ public class OrderService implements IOrderService {
     public Order deleteOrder(Long orderId) throws NotFoundException {
         Order order = orderRepository.findById(orderId).
                 orElseThrow(() -> new NotFoundException(messages.getString("order.validate.not-found")));
+        order.setOrderItemList(null);
+        orderRepository.save(order);
         orderRepository.deleteById(orderId);
         return order;
     }
@@ -100,6 +102,8 @@ public class OrderService implements IOrderService {
         User user = userService.findUserByJwt(jwt);
         Cart cart = user.getCart();
         List<OrderItem> orderItemList = new ArrayList<>();
+
+        Order order = orderRepository.save(new Order());
 
         for(CartItem cartItem : cart.getCartItemList()) {
             if(cartItem.getProduct().getStatus() == Constants.PRODUCT_STATUS.OUT_OF_STOCK) {
@@ -127,6 +131,7 @@ public class OrderService implements IOrderService {
             orderItem.setSize(cartItem.getSize());
             orderItem.setColor(cartItem.getColor());
             orderItem.setDiscountPrice(cartItem.getDiscountPrice());
+            orderItem.setOrder(order);
 
             // Tính tổng tiền
             totalAmount += orderItem.getDiscountPrice() * cartItem.getQuantity();
@@ -139,13 +144,18 @@ public class OrderService implements IOrderService {
 
             // Xóa đồ trong giỏ hàng
             cart.getCartItemList().remove(cartItem);
+            cartItemRepository.delete(cartItem);
             cartRepository.save(cart);
         }
 
-        Order order = orderRepository.save(new Order());
-        if (orderRequestDTO.getUserDetail() != null && orderRequestDTO.getUserDetailRequestDTO() == null) {
-            order.setUserDetail(orderRequestDTO.getUserDetail());
-        } else if (orderRequestDTO.getUserDetail() == null && orderRequestDTO.getUserDetailRequestDTO() != null){
+        if (orderRequestDTO.getUserDetailId() != null && orderRequestDTO.getUserDetailRequestDTO() == null) {
+            UserDetail userDetail = user.getUserDetailList()
+                    .stream()
+                    .filter(userDetail1 -> userDetail1.getUserDetailId() == orderRequestDTO.getUserDetailId())
+                    .findFirst()
+                    .orElseThrow(() -> new NotFoundException(messages.getString("user-detail.validate.not-found")));
+            order.setUserDetail(userDetail);
+        } else if (orderRequestDTO.getUserDetailId() == null && orderRequestDTO.getUserDetailRequestDTO() != null){
             UserDetail newUserDetail = UserDetail
                     .builder()
                     .address(orderRequestDTO.getUserDetailRequestDTO().getAddress())
@@ -166,14 +176,14 @@ public class OrderService implements IOrderService {
         }
 
         order.setCreatedAt(LocalDateTime.now());
-        order.setUser(user);
+        order.setUserId(user.getUserId());
         order.setOrderItemList(orderItemList);
         order.setTotalAmount(totalAmount);
         order.setDiscountedAmount(discountedAmount);
         // Áp dụng voucher
         if(cart.getDiscountCode() != null && isDiscountValid(order, cart.getDiscountCode())) {
             Discount discount = discountRepository.findByDiscountCodeAndStatus(cart.getDiscountCode(), Constants.DISCOUNT_STATUS.AVAILABLE).get();
-            order.setDiscountFromVoucher(Math.min(order.getTotalAmount() * discount.getDiscountValue(), discount.getMaxPossibleValue()));
+            order.setDiscountFromVoucher(Math.min( (long) (order.getTotalAmount() * discount.getDiscountValue()), discount.getMaxPossibleValue()));
             order.setFinalPrice(order.getTotalAmount() - order.getDiscountFromVoucher());
         }
         order = orderRepository.save(order);
@@ -181,18 +191,21 @@ public class OrderService implements IOrderService {
         order.setPaymentMethod(orderRequestDTO.getPaymentMethod());
         if (order.getPaymentMethod().equals(PaymentMethod.NET_BANKING.name())) {
             String qr = Constants.qrLink.replace("{amount}", order.getFinalPrice().toString());
-            qr = qr.replace("{addInfo}", "Order " + order.getOrderId());
+            qr = qr.replace("{addInfo}", "Order%20" + order.getOrderId());
             order.setQrLink(qr);
         }
         order.setOrderStatus(OrderStatus.PENDING.toString());
         order.setPaymentStatus(PaymentStatus.PENDING.toString());
+
+        user.getOrderList().add(order);
+        userRepository.save(user);
 
         return orderRepository.save(order);
     }
 
     @Override
     public List<Order> getOrderHistory(long userId) {
-        return orderRepository.findAllByUserUserIdOrderByCreatedAtDesc(userId);
+        return orderRepository.findAllByUserIdOrderByCreatedAtDesc(userId);
     }
 
     @Override

@@ -1,17 +1,21 @@
 package com.IT4409.backend.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.UUID;
+
 @Entity
 @Table(name = "messages")
 @Data
 public class Message {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "message_id")
-    private Long messageId;
+    private UUID messageId;
     @Column(name = "conversation_id")
     private String conversationId;
     @Column(name = "sender_id")
@@ -19,7 +23,7 @@ public class Message {
     @Column(name = "receiver_id")
     private Long receiverId;
     @Column(name = "time")
-    private LocalDateTime time;
+    private Date time;
     @Column(name = "content")
     private String content;
 }

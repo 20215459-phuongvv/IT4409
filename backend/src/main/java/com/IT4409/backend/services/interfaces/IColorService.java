@@ -10,7 +10,7 @@ import java.util.List;
 public interface IColorService {
     List<Color> getProductColors(Long productId) throws Exception;
 
-    Color addImageToColor(Long productId, Long colorId, MultipartFile[] images) throws Exception;
+    Color addImageToColor(Long productId, Long colorId, List<MultipartFile> images) throws Exception;
 
     Color updateColor(Long productId, Long colorId, ColorRequestDTO dto) throws Exception;
 

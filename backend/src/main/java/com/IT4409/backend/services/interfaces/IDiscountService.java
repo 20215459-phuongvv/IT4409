@@ -6,6 +6,7 @@ import com.IT4409.backend.entities.Discount;
 import com.IT4409.backend.exceptions.BadRequestException;
 import com.IT4409.backend.exceptions.NotFoundException;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface IDiscountService {
@@ -13,9 +14,9 @@ public interface IDiscountService {
 
     Discount getById(Long discountId) throws NotFoundException;
 
-    Discount addDiscount(DiscountRequestDTO discountRequestDTO) throws BadRequestException;
+    Discount addDiscount(DiscountRequestDTO discountRequestDTO) throws BadRequestException, ParseException;
 
-    Discount updateDiscount(Long discountId, DiscountRequestDTO discountRequestDTO) throws BadRequestException, NotFoundException;
+    Discount updateDiscount(Long discountId, DiscountRequestDTO discountRequestDTO) throws BadRequestException, NotFoundException, ParseException;
 
     Discount deleteDiscount(Long discountId) throws NotFoundException;
 

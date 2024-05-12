@@ -48,6 +48,9 @@ public class CartItemService implements ICartItemService {
         if(product.getStatus() == Constants.PRODUCT_STATUS.OUT_OF_STOCK) {
             throw new BadRequestException(messages.getString("product.validate.out-of-stock"));
         }
+        if(cartItemRequestDTO.getQuantity() > product.getQuantityInStock()) {
+            throw new BadRequestException(messages.getString("product.validate.insufficient"));
+        }
         for (CartItem cartItem : cart.getCartItemList()) {
             if (cartItem.getProduct().getProductId().equals(cartItemRequestDTO.getProductId())
                     && cartItem.getColor().equals(cartItemRequestDTO.getColor())
@@ -56,6 +59,7 @@ public class CartItemService implements ICartItemService {
                 Long totalPrice = product.getPrice() * newQuantity;
                 cartItem.setQuantity(newQuantity);
                 cartItem.setPrice(totalPrice);
+                cartItem.setDiscountPrice(cartItem.getDiscountPrice() * newQuantity);
                 cartItem.setCreateAt(LocalDateTime.now());
 
                 cartRepository.save(cart);
@@ -71,6 +75,7 @@ public class CartItemService implements ICartItemService {
                 .quantity((cartItemRequestDTO.getQuantity() != null) ? cartItemRequestDTO.getQuantity() : 1)
                 .price(product.getPrice())
                 .discountPrice(product.getDiscountPrice())
+                .createAt(LocalDateTime.now())
                 .cart(cart)
                 .build();
         return cartItemRepository.save(newCartItem);
@@ -85,9 +90,40 @@ public class CartItemService implements ICartItemService {
                 .filter(item -> Objects.equals(item.getCartItemId(), cartItemId))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException(messages.getString("cart-item.validate.not-found")));
+        Product product = cartItem.getProduct();
         cartItem.setSize(cartItemRequestDTO.getSize());
-        cartItem.setColor(cartItem.getColor());
-        cartItem.setQuantity(cartItem.getQuantity());
+        cartItem.setColor(cartItemRequestDTO.getColor());
+
+        if(cartItemRequestDTO.getQuantity() > product.getQuantityInStock()) {
+            throw new BadRequestException(messages.getString("product.validate.insufficient"));
+        }
+        cartItem.setQuantity(cartItemRequestDTO.getQuantity());
+
+        for (CartItem cartItem1 : cart.getCartItemList()) {
+            if ( cartItem1.getColor().equals(cartItemRequestDTO.getColor())
+                    && cartItem1.getSize().equals(cartItemRequestDTO.getSize())
+                    && !Objects.equals(cartItem1.getCartItemId(), cartItemId)
+            ) {
+                int newQuantity = cartItem1.getQuantity() + cartItemRequestDTO.getQuantity();
+                cartItem1.setQuantity(newQuantity);
+
+                if ( newQuantity > product.getQuantityInStock()) {
+                    throw new BadRequestException(messages.getString("product.validate.insufficient"));
+                }
+
+                cartItem1.setPrice(product.getPrice() * newQuantity);
+                cartItem1.setDiscountPrice(product.getDiscountPrice() * newQuantity);
+                cartItem1.setCreateAt(LocalDateTime.now());
+
+                cart.getCartItemList().remove(cartItem);
+                cartItemRepository.delete(cartItem);
+                cartRepository.save(cart);
+                return cartItem1;
+            }
+        }
+
+        cartItem.setDiscountPrice(product.getDiscountPrice() * cartItemRequestDTO.getQuantity());
+        cartItem.setPrice(product.getPrice() * cartItemRequestDTO.getQuantity());
         return cartItemRepository.save(cartItem);
     }
 

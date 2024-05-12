@@ -21,12 +21,20 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @Transactional
     public ResponseEntity<?> createOrder(@RequestBody OrderRequestDTO orderRequestDTO,
                                          @RequestHeader("Authorization")String jwt) throws Exception {
             Order order = orderService.createOrder(jwt, orderRequestDTO);
             return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+
+    @GetMapping("/qr/{orderId}")
+    public ResponseEntity<?> getQrCode(@PathVariable Long orderId,
+                                       @RequestHeader("Authorization") String jwt) throws Exception {
+        Order order = orderService.getOrderByOrderIdAndUserId(jwt, orderId);
+        String qrLink = order.getQrLink();
+        return new ResponseEntity<>(qrLink, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/user")
@@ -44,8 +52,8 @@ public class OrderController {
     public ResponseEntity<?> findOrder(@PathVariable Long orderId,
                                        @RequestHeader("Authorization") String jwt){
         try {
-            Order orders = orderService.getOrderByOrderIdAndUserId(jwt, orderId);
-            return new ResponseEntity<>(orders,HttpStatus.ACCEPTED);
+            Order order = orderService.getOrderByOrderIdAndUserId(jwt, orderId);
+            return new ResponseEntity<>(order,HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

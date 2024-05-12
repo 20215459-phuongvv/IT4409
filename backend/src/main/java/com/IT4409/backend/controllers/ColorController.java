@@ -35,7 +35,7 @@ public class ColorController {
     @RequestMapping(path = "/admin/products/{productId}/colors/{colorId}", method = POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> addImageToColor(@PathVariable("productId") Long productId,
                                              @PathVariable("colorId") Long colorId,
-                                             @ModelAttribute MultipartFile[] images){
+                                             @ModelAttribute List<MultipartFile> images){
         try{
             Color color = colorService.addImageToColor(productId, colorId, images);
             return new ResponseEntity<>(color, HttpStatus.OK);
