@@ -6,6 +6,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#333',
@@ -27,7 +50,29 @@ const allProducts = [
                        },
                     
                 ], 
-        
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ]        
     },
     {
         id: 2,
@@ -36,6 +81,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -57,6 +125,29 @@ const allProducts = [
                        },
                     
                 ], 
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ]
     },
     {
         id: 3,
@@ -65,6 +156,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -86,6 +200,29 @@ const allProducts = [
                        },
                     
                 ], 
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ]
     },
     {
         id: 4,
@@ -94,6 +231,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -115,6 +275,29 @@ const allProducts = [
                        },
                     
                 ], 
+                reviews: [
+                    {
+                        username: 'Trung Quân',
+                        time: 'April 5, 2024',
+                        rating: 5,
+                        review: 'Sản phẩm tốt'
+        
+                    },
+                    {
+                        username: 'Khánh',
+                        time: 'April 2, 2024',
+                        rating: 4,
+                        review: 'Vải mịn, tạm được'
+        
+                    },
+                    {
+                        username: 'Phương',
+                        time: 'April 1, 2024',
+                        rating: 4.5,
+                        review: 'Sản phẩm đẹp'
+        
+                    }
+                ]
     },
     {
         id: 5,
@@ -123,6 +306,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -144,6 +350,29 @@ const allProducts = [
                        },
                     
                 ], 
+                reviews: [
+                    {
+                        username: 'Trung Quân',
+                        time: 'April 5, 2024',
+                        rating: 5,
+                        review: 'Sản phẩm tốt'
+        
+                    },
+                    {
+                        username: 'Khánh',
+                        time: 'April 2, 2024',
+                        rating: 4,
+                        review: 'Vải mịn, tạm được'
+        
+                    },
+                    {
+                        username: 'Phương',
+                        time: 'April 1, 2024',
+                        rating: 4.5,
+                        review: 'Sản phẩm đẹp'
+        
+                    }
+                ]
     },
     {
         id: 6,
@@ -152,6 +381,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -173,6 +425,29 @@ const allProducts = [
                        },
                     
                 ], 
+        reviews: [
+                    {
+                        username: 'Trung Quân',
+                        time: 'April 5, 2024',
+                        rating: 5,
+                        review: 'Sản phẩm tốt'
+        
+                    },
+                    {
+                        username: 'Khánh',
+                        time: 'April 2, 2024',
+                        rating: 4,
+                        review: 'Vải mịn, tạm được'
+        
+                    },
+                    {
+                        username: 'Phương',
+                        time: 'April 1, 2024',
+                        rating: 4.5,
+                        review: 'Sản phẩm đẹp'
+        
+                    }
+                ]
     },
     {
         id: 7,
@@ -181,6 +456,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -210,6 +508,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -239,6 +560,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -268,6 +612,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -297,6 +664,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -326,6 +716,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -355,6 +768,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -384,6 +820,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -413,6 +872,29 @@ const allProducts = [
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -443,6 +925,29 @@ const allProducts = [
         size: ['S','M', 'L','XL'],
         newPrice: '690,000',
         oldPrice: '999,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -471,6 +976,29 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -501,6 +1029,29 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -531,6 +1082,29 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -561,6 +1135,29 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -591,6 +1188,29 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -621,6 +1241,29 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -651,6 +1294,29 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -681,6 +1347,29 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -711,6 +1400,29 @@ const allProducts = [
         name: 'Áo Chuchu Linh Lan',
         category: 'ao' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -740,6 +1452,29 @@ const allProducts = [
         name: 'Váy Rẻ Quạt Xanh Đen MỚI',
         category: 'vay' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#333',
@@ -762,6 +1497,29 @@ const allProducts = [
                     
                 ], 
         newPrice: '690,000',
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -790,6 +1548,29 @@ const allProducts = [
         name: 'Quần tokyo nút da bò',
         category: 'quan' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -819,6 +1600,29 @@ const allProducts = [
         name: 'Quần tokyo nút da bò',
         category: 'quan' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -848,6 +1652,29 @@ const allProducts = [
         name: 'Quần tokyo nút da bò',
         category: 'quan' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -877,6 +1704,29 @@ const allProducts = [
         name: 'Quần tokyo nút da bò',
         category: 'quan' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -906,6 +1756,29 @@ const allProducts = [
         name: 'Nón vành xếp kem',
         category: 'phukien' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -935,6 +1808,29 @@ const allProducts = [
         name: 'Nón vành xếp kem',
         category: 'phukien' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',
@@ -964,6 +1860,29 @@ const allProducts = [
         name: 'Nón vành xếp kem',
         category: 'phukien' ,
         size: ['S','M', 'L','XL'],
+        reviews: [
+            {
+                username: 'Trung Quân',
+                time: 'April 5, 2024',
+                rating: 5,
+                review: 'Sản phẩm tốt'
+
+            },
+            {
+                username: 'Khánh',
+                time: 'April 2, 2024',
+                rating: 4,
+                review: 'Vải mịn, tạm được'
+
+            },
+            {
+                username: 'Phương',
+                time: 'April 1, 2024',
+                rating: 4.5,
+                review: 'Sản phẩm đẹp'
+
+            }
+        ],
         colorList: [
             {colorId: 1,
             colorName: '#c3957b',

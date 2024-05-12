@@ -1,28 +1,49 @@
 import React, { useState } from 'react';
-import './RegistrationForm.css';
+import classNames from 'classnames/bind';
+import styles from './RegistrationForm.module.scss';
 import { Link } from 'react-router-dom';
 import config from '~/config';
 
+const cx = classNames.bind(styles);
 const RegistrationForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
-  const handleSubmit = (event) => {
+  const [formData, setFormData] = useState({
+    email:"",
+    password:"",
+    confirmPassword:""
+  })
+  const changeHandler = (e) => {
+    setFormData({...formData,[e.target.name]:e.target.value})
+  }
+  const handleSubmit = async(event) => {
     event.preventDefault();
 
-    // Xử lý đăng ký
+  //   // Xử lý đăng ký
+  //   console.log(formData)
+  //   let responeData;
+  //   await fetch('http://localhost:3000/auth/signup', {
+  //     method: 'POST',
+  //     headers: {
+  //       Accept: 'application/form-data',
+  //       'Content-Type':'application/json'
+  //     },
+  //     body: JSON.stringify(formData),
+  //   }).then((response) => response.json()).then((data) => responeData=data)
 
-    console.log('Email:', email);
-    console.log('Mật khẩu:', password);
-    console.log('Xác nhận mật khẩu:', confirmPassword);
+  //   if(responeData.success) {
+  //     localStorage.setItem('auth-token', responeData.token);
+  //     window.location.replace("/");
+  //   }
+    
   };
 
   return (
-    <div className="registration-form">
+    <div className={cx("registration-form")}>
       <h2>Đăng ký</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className={cx("form-group")}>
           <label htmlFor="email">Email</label>
           <input
             type="email"
@@ -30,11 +51,11 @@ const RegistrationForm = () => {
             name="email"
             placeholder='Nhập email'
             required
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            value={formData.email}
+            onChange={changeHandler}
           />
         </div>
-        <div className="form-group">
+        <div className={cx("form-group")}>
           <label htmlFor="password">Mật khẩu</label>
           <input
             type="password"
@@ -42,11 +63,11 @@ const RegistrationForm = () => {
             name="password"
             placeholder='********'
             required
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            value={formData.password}
+            onChange={changeHandler}
           />
         </div>
-        <div className="form-group">
+        <div className={cx("form-group")}>
           <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
           <input
             type="password"
@@ -54,19 +75,19 @@ const RegistrationForm = () => {
             name="confirmPassword"
             placeholder='********'
             required
-            value={confirmPassword}
-            onChange={(event) => setConfirmPassword(event.target.value)}
+            value={formData.confirmPassword}
+            onChange={changeHandler}
           />
         </div>
-        <div className="form-group">
-          <button type="submit" className="btn btn-primary">Đăng ký</button>
+        <div className={cx("form-group")}>
+          <button type="submit" className={cx("btn", "btn-primary")}>Đăng ký</button>
         </div>
       </form>
-      <div className="registration-options">
+      <div className={cx("registration-options")}>
       <Link to = {config.routes.login}>Bạn đã có tài khoản? Đăng nhập</Link>
 
       </div>
-      <div className="registration-terms">
+      <div className={cx("registration-terms")}>
         <p>
           Việc tiếp tục sử dụng trang web này đồng nghĩa bạn đồng ý với điều khoản
           sử dụng của chúng tôi.

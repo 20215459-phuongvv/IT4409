@@ -4,6 +4,8 @@ import styles from './CartItems.module.scss';
 import remove_icon from '~/assets/images/cart_cross_icon.png';
 import { ShopContext } from '~/context/ShopContext';
 import Button from '../Button';
+import config from '~/config';
+import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 const numberWithCommas = (numberString) => {
@@ -90,7 +92,8 @@ function CartItems() {
                             <h3>{numberWithCommas(getTotalCartAmount())}₫</h3>
                         </div>
                     </div>
-                    <Button children="PROCESS TO CHECKOUT" className={cx('btn-cart')} />
+                  <Link to = {config.routes.checkout}><Button children="PROCESS TO CHECKOUT" className={cx('btn-cart')}  /> </Link>  
+                  
                 </div>
                 <div className={cx('cartitems-promocode')}>
                     <p>Nếu bạn có mã giảm giá, hãy áp dụng vào đây</p>

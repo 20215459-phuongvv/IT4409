@@ -2,6 +2,13 @@
     background-color: #ccc;
     padding: 50px 150px;
 }
+.cate-filter {
+    display: flex;
+}
+.filter {
+    position: relative;
+    right: 30px;
+}
 
 .category {
     width: 30%;

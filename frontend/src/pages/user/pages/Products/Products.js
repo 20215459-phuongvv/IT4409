@@ -15,7 +15,8 @@ function Products() {
     )
 
     return <div className={cx('wrapper')}>
-        <div className={cx('category')}>
+        <div className={cx('cate-filter')}>
+            <div className={cx('category')}>
             <p>Loại sản phẩm</p>
             <div className={cx('category-detail')}>
                <Link to ='#'>
@@ -49,9 +50,11 @@ function Products() {
             </div>
         </div>
 
-        <div className={cx('filter')}>
-
+            <div className={cx('filter')}>
+                filter
+            </div>
         </div>
+        
 
         <div className={cx('products-body')}>
             {menu === 0 && <ShopCategory category="quan" />}
