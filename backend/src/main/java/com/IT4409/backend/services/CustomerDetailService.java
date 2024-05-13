@@ -48,7 +48,9 @@ public class CustomerDetailService implements IUserDetailService {
     public UserDetail createUserDetail(String jwt, UserDetailRequestDTO userDetailRequestDTO) throws Exception {
         User user = userService.findUserByJwt(jwt);
         UserDetail userDetail = modelMapper.map(userDetailRequestDTO, UserDetail.class);
-        userDetail.setUser(user);
+//        userDetail.setUser(user);
+        user.setUserDetailList(List.of(userDetail));
+        userRepository.save(user);
         return customerDetailRepository.save(userDetail);
     }
 

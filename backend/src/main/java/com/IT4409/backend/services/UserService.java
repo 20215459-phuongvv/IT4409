@@ -82,7 +82,7 @@ public class UserService implements UserDetailsService {
         newUser = userRepository.save(newUser);
         // Tạo user detail mới
         UserDetail userDetail = UserDetail.builder().name(user.getEmail().substring(0, user.getEmail().indexOf('@'))).build();
-        userDetail.setUser(newUser);
+//        userDetail.setUser(newUser);
         newUser.setUserDetailList(new ArrayList<>());
         newUser.getUserDetailList().add(userDetail);
         newUser = userRepository.save(newUser);
