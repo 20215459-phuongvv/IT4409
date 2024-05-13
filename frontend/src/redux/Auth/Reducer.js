@@ -10,6 +10,9 @@ import {
     GET_USER_FAILURE,
     LOGOUT,
     GET_ALL_CUSTOMERS_SUCCESS,
+    GET_ADMIN_REQUEST,
+    GET_ADMIN_SUCCESS,
+    GET_ADMIN_FAILURE,
 } from './ActionTypes';
 
 const initialState = {
@@ -17,6 +20,7 @@ const initialState = {
     isLoading: false,
     error: null,
     customers: [],
+    admin: null
 };
 
 const authReducer = (state = initialState, action) => {
@@ -53,6 +57,21 @@ const authReducer = (state = initialState, action) => {
                 isLoading: false,
                 error: action.payload,
                 fetchingUser: false,
+            };
+        case GET_ADMIN_REQUEST:
+            return { ...state, isLoading: true, error: null, fetchingAdmin: true };
+        case GET_ADMIN_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                error: action.payload,
+                fetchingAdmin: false,
+            };
+        case GET_ADMIN_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                admin: action.payload,
             };
         case LOGOUT:
             localStorage.removeItem('jwt');
