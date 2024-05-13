@@ -6,7 +6,7 @@ import Button from '~/components/Button';
 import { ShopContext } from '~/context/ShopContext';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import Search from '~/components/Search';
 import { useContext, useEffect, useState } from 'react';
@@ -83,6 +83,14 @@ function Header() {
                     <div className={cx('actions')}>
                         {auth.user ? (
                             <div>
+                            <div className={cx('nav-login-cart')}>
+                                <FontAwesomeIcon icon={faBell} />
+                                <div className={cx('cart-icon-wrapper')}>
+                                    <Link to={config.routes.cart}>
+                                        <FontAwesomeIcon icon={faShoppingCart} />
+                                    </Link>
+                                    <span className={cx('nav-cart-count')}>{getTotalCartItem()}</span>
+                                </div>
                                 <Avatar
                                     className="text-white"
                                     onClick={handleUserClick}
@@ -112,15 +120,10 @@ function Header() {
                                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                                 </Menu>
                             </div>
+                               
+                            </div>
                         ) : (
                             <div className={cx('nav-login-cart')}>
-                                <FontAwesomeIcon icon={faHeart} />
-                                <div className={cx('cart-icon-wrapper')}>
-                                    <Link to={config.routes.cart}>
-                                        <FontAwesomeIcon icon={faShoppingCart} />
-                                    </Link>
-                                    <span className={cx('nav-cart-count')}>{getTotalCartItem()}</span>
-                                </div>
                                 <Link to={config.routes.login}>
                                     <Button primary>Đăng nhập</Button>
                                 </Link>
