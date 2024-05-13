@@ -45,11 +45,11 @@ public class DataSeeder implements CommandLineRunner {
                     .phoneNumber("0963861815")
                     .address("Hà Nội")
                     .build();
-            User admin = userRepository.save(adminUser);
-            admin.setUserDetailList(new ArrayList<>());
-            admin.getUserDetailList().add(userDetail);
-            userRepository.save(admin);
-            cartService.createCart(admin);
+            adminUser = userRepository.save(adminUser);
+            adminUser.setUserDetailList(new ArrayList<>());
+            adminUser.getUserDetailList().add(userDetail);
+            userRepository.save(adminUser);
+            cartService.createCart(adminUser);
         }
 
         // Pull code về chạy thì bỏ comment đoạn code này
