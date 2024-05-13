@@ -3,25 +3,31 @@ import { FaTimes } from 'react-icons/fa';
 import ChatBox from '../Chat/ChatBox';
 import './ChatModal.scss';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'; 
+import { getAdmin } from '~/redux/Auth/Action';
+import { useFetchData } from '~/hooks/useFetchData';
 
 const ChatModal = (props) => {
     const { selectedUser, closeChatBox } = props;
-
-    const { user } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+    const { user, admin } = useSelector((state) => state.auth);
 
     const currentUser = user;
     const [chosenUser, setChosenUser] = useState(null);
 
+    const isFetched = useFetchData(() => {
+        return dispatch(getAdmin());
+    });
+
     useEffect(() => {
-        setChosenUser(selectedUser);
-        console.log(selectedUser);
+        setChosenUser(admin);
+        console.log(admin);
         return () => {
             setChosenUser(null);
             console.log(chosenUser);
         };
-    }, [selectedUser]); // Thêm selectedUser vào dependency array của useEffect để trigger khi selectedUser thay đổi
+    }, [admin]); // Thêm selectedUser vào dependency array của useEffect để trigger khi selectedUser thay đổi
 
     const sendMessage = useSocket(currentUser?.user?.userId); // Kiểm tra currentUser tồn tại trước khi truy cập user.userId
 
@@ -36,12 +42,14 @@ const ChatModal = (props) => {
 
     return (
         <div>
-            <div className="modal-container">
-                <div className="chat-modal">
-                    <ChatBox selectedUser={chosenUser} sendMessage={sendMessage} />
-                    <FaTimes className="modal-close" onClick={closeChatBox} />
+            {isFetched && (
+                <div className="modal-container">
+                    <div className="chat-modal">
+                        <ChatBox selectedUser={chosenUser} sendMessage={sendMessage} />
+                        <FaTimes className="modal-close" onClick={closeChatBox} />
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

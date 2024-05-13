@@ -13,9 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.IT4409.backend.Utils.Constants.messages;
@@ -34,10 +32,12 @@ public class NotificationService implements INotificationService {
     @Override
     public List<NotificationResponseDTO> getNotificationsByUserId(String jwt) throws Exception {
         User user = userService.findUserByJwt(jwt);
-        List<Notification> notificationList = notificationRepository.findByUserUserIdOrderByNotificationTimeDesc(user.getUserId());
+//        List<Notification> notificationList = notificationRepository.findByUserUserIdOrderByNotificationTimeDesc(user.getUserId());
+        List<Notification> notificationList = user.getNotificationList();
         if(notificationList.isEmpty()) {
             throw new NotFoundException(messages.getString("notification.validate.not-found"));
         }
+        Collections.sort(notificationList, Comparator.comparing(Notification::getNotificationTime).reversed());
         return notificationList
                 .stream()
                 .map(notification -> modelMapper.map(notification, NotificationResponseDTO.class))
@@ -50,13 +50,16 @@ public class NotificationService implements INotificationService {
                 .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
         Notification notification = Notification
                 .builder()
-                .user(user)
+//                .user(user)
                 .text(text)
                 .notificationTime(LocalDateTime.now())
                 .build();
         if(orderId != null) {
             notification.setOrderId(orderId);
         }
+        if(user.getNotificationList() == null) user.setNotificationList(new ArrayList<>());
+        user.getNotificationList().add(notification);
+        userRepository.save(user);
         return notificationRepository.save(notification);
     }
 
@@ -66,17 +69,21 @@ public class NotificationService implements INotificationService {
                 .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
         Notification notification = Notification
                 .builder()
-                .user(user)
+//                .user(user)
                 .text(text)
                 .notificationTime(LocalDateTime.now())
                 .build();
+        if(user.getNotificationList() == null) user.setNotificationList(new ArrayList<>());
+        user.getNotificationList().add(notification);
+        userRepository.save(user);
         return notificationRepository.save(notification);
     }
 
     @Override
     public Notification deleteNotification(String jwt, Long notificationId) throws Exception {
         User user = userService.findUserByJwt(jwt);
-        Notification deletedNotification = notificationRepository.findByUserUserIdOrderByNotificationTimeDesc(user.getUserId())
+        List<Notification> notificationList = user.getNotificationList();
+        Notification deletedNotification = notificationList
                 .stream()
                 .filter(notification -> Objects.equals(notification.getNotificationId(), notificationId))
                 .findFirst()
@@ -89,8 +96,12 @@ public class NotificationService implements INotificationService {
     @Override
     public List<Notification> deleteAllNotifications(String jwt) throws Exception {
         User user = userService.findUserByJwt(jwt);
-        List<Notification> notificationList = notificationRepository.findByUserUserIdOrderByNotificationTimeDesc(user.getUserId());
-        user.setNotificationList(null);
+        List<Notification> notificationList = user.getNotificationList();
+        if (!notificationList.isEmpty()) {
+            for (Notification notification : notificationList) {
+                notificationList.remove(notification);
+            }
+        }
         userRepository.save(user);
         return notificationList;
     }

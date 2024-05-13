@@ -38,23 +38,23 @@ public class User {
     @Column(name = "create_at")
     private LocalDateTime createdAt;
 
-    @OneToMany(/*mappedBy = "user",*/ cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JsonIgnoreProperties("user")
-    private List<UserDetail> userDetailList;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("user")
+    private List<UserDetail> userDetailList;
+
+    @OneToMany(/*mappedBy = "user",*/ cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonIgnoreProperties("user")
     private List<Review> reviewList;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("user")
     private Cart cart;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("user")
     private List<Order> orderList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("user")
+    @OneToMany(/*mappedBy = "user",*/ cascade = CascadeType.ALL)
+//    @JsonIgnoreProperties("user")
     private List<Notification> notificationList;
 }

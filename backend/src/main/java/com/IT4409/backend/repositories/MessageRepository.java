@@ -10,4 +10,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     Optional<List<Message>> findByConversationId(String conversationId);
 
     Optional<List<Message>> findBySenderIdOrReceiverId(Long userId, Long userId1);
+
+    Optional<List<Message>> findBySenderIdOrReceiverIdOrderByTimeAsc(Long userId, Long userId1);
 }

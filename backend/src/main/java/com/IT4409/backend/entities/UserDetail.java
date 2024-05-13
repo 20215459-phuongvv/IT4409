@@ -1,5 +1,6 @@
 package com.IT4409.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,8 +28,8 @@ public class UserDetail {
     @Column(name = "phoneNumber")
     private String phoneNumber;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    @JsonIgnoreProperties("userDetailList")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties("userDetailList")
+    private User user;
 }

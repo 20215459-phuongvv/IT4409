@@ -74,7 +74,7 @@ public class MessageService implements IMessageService {
     public List<MessageResponseDTO> getAllMessageOfUser(String jwt) throws Exception {
         User user= userService.findUserByJwt(jwt);
         Long userId = user.getUserId();
-        List<Message> messageList = messageRepository.findBySenderIdOrReceiverId(userId, userId)
+        List<Message> messageList = messageRepository.findBySenderIdOrReceiverIdOrderByTimeAsc(userId, userId)
                 .orElseThrow(() -> new NotFoundException(messages.getString("message.validate.not-found")));
         return messageList
                 .stream()
