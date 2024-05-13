@@ -77,10 +77,14 @@ public class ReviewService implements IReviewService {
 
         Product product = orderItem.getProduct();
         Review review = new Review();
-        review.setUser(user);
+        review.setUserId(user.getUserId());
         review.setOrderItem(orderItem);
         review.setRatingValue(reviewRequestDTO.getRatingValue());
         review.setComment(reviewRequestDTO.getComment());
+
+        if(user.getReviewList() == null) user.setReviewList(new ArrayList<>());
+        user.getReviewList().add(review);
+
         review = reviewRepository.save(review);
         if(!reviewRequestDTO.getImages().isEmpty()) {
             for(MultipartFile image : reviewRequestDTO.getImages()) {
