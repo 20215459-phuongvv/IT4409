@@ -24,6 +24,12 @@ function ProductDisplay(props) {
     const [size, setSize] = useState(0); //chọn size
     const [avtiveImg, setActiveImg] = useState(selectedColor.colorImageList[0]); //main img
     const [colorChecked, setColorChecked] = useState(0);
+    const [activeImage, setActiveImage] = useState(null);
+
+    const handleChooseImg = (imageItem) => {
+        setActiveImage(imageItem);
+        setActiveImg(imageItem)
+    };
     const handleColorSelect = (color) => {
         setSelectedColor(color);
         setActiveImg(color.colorImageList[0]);
@@ -50,14 +56,15 @@ function ProductDisplay(props) {
                     </div>
 
                     <div className={cx('img-list')}>
-                        {selectedColor.colorImageList.map((imageItem) => (
-                            <img
-                                className={cx('img-list-item')}
-                                src={imageItem}
-                                onClick={() => setActiveImg(imageItem)}
-                            ></img>
-                        ))}
-                    </div>
+            {selectedColor.colorImageList.map((imageItem, index) => (
+                <img
+                    key={index}
+                    className={cx('img-list-item', { img_active: activeImage === imageItem })}
+                    src={imageItem}
+                    onMouseOver={() => handleChooseImg(imageItem)}
+                />
+            ))}
+        </div>
                 </div>
 
                 <div className={cx('right')}>
@@ -174,7 +181,7 @@ function ProductDisplay(props) {
                                 <ProductReviewCard product={product} />
                             </div>
                         </Grid>
-                        <Grid item xs={5}>
+                        {/* <Grid item xs={5}>
                             <h2 className="text-xl font-semibold pb-1">Đánh giá sản phẩm</h2>
                             <div className="flex items-center space-x-3 pb-10">
                                 <Rating name="read-only" value={5} precision={0.5} readOnly />
@@ -258,7 +265,7 @@ function ProductDisplay(props) {
                                 </Grid>
                             </Box>
                             
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </div>
             </div>
