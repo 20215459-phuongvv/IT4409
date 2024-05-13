@@ -1,0 +1,60 @@
+.registration-form {
+    max-width: 420px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  
+  .registration-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #C69774;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+   
+  .form-group input:focus {
+    outline: none;
+    border-color: #999;
+  }
+  
+  .form-group input[type="checkbox"] {
+    margin-right: 5px;
+  }
+  
+  .form-group input[type="checkbox"]:checked {
+    transform: scale(1.2);
+  }
+  
+  .btn {
+    background-color: #B28665;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btn:hover {
+    background-color: #B28665;
+  }
+  
+  .registration-options {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .registration-options a {
+    color: #B28665;
+    text-decoration: none;
+  }
+  
+ .registration-terms{
+  margin-top: 20px;
+  text-align: center;
+  font-size: 11px;
+  color: #666;
+ }
