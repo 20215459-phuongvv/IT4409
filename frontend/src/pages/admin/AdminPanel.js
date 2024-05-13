@@ -9,13 +9,26 @@ import OrdersManagement from './pages/Orders';
 import TopBar from './components/TopBar';
 import AddProducts from './pages/AddProducts';
 import Vouchers from './pages/Vouchers';
+import Chat from '~/components/Chat';
 
 import { SideBarAdminData } from './SideBarData';
 import SideBar from './components/SideBar/SideBar';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getUser } from '~/redux/Auth/Action';
 
 const cx = classNames.bind(styles);
 
 function AdminPanel() {
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
+    const jwt = localStorage.jwt;
+    useEffect(() => {
+        if (jwt) {
+            dispatch(getUser(jwt));
+        }
+    }, [jwt]);
+    console.log(state);
     return (
         <div className={cx('admin-wrapper')}>
             <TopBar />
@@ -29,6 +42,7 @@ function AdminPanel() {
                         <Route path="/add-products" element={<AddProducts />}></Route>
                         <Route path="/discount" element={<Vouchers />}></Route>
                         <Route path="/orders" element={<OrdersManagement />}></Route>
+                        <Route path="/chat" element={<Chat />}></Route>
                     </Routes>
                 </div>
             </div>

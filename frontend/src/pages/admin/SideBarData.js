@@ -36,4 +36,9 @@ export const SideBarAdminData = [
         icon: <ListAltIcon />,
         link: '/admin/orders',
     },
+    {
+        title: 'Tin nhắn',
+        icon: <ListAltIcon />,
+        link: '/admin/chat',
+    },
 ];
