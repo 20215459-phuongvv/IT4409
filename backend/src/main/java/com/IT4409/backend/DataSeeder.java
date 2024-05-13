@@ -53,9 +53,17 @@ public class DataSeeder implements CommandLineRunner {
         }
 
         // Pull code về chạy thì bỏ comment đoạn code này
-        categoryRepository.save(Category.builder().categoryName("QUẦN TÂY NỮ CÔNG SỞ").thumbnail("http://res.cloudinary.com/dj2lvmrop/image/upload/v1714919202/hustore/thumbnails/Qu%E1%BA%A7n.jpg.jpg").build());
-        categoryRepository.save(Category.builder().categoryName("ÁO SƠ MI NỮ CÔNG SỞ").thumbnail("http://res.cloudinary.com/dj2lvmrop/image/upload/v1714919873/hustore/thumbnails/%C3%81O%20S%C6%A0%20MI.jpeg.jpg").build());
-        categoryRepository.save(Category.builder().categoryName("CHÂN VÁY").thumbnail("http://res.cloudinary.com/dj2lvmrop/image/upload/v1714920462/hustore/thumbnails/CH%C3%82N%20V%C3%81Y.jpeg.jpg").build());
-        categoryRepository.save(Category.builder().categoryName("PHỤ KIỆN").thumbnail("http://res.cloudinary.com/dj2lvmrop/image/upload/v1714921172/hustore/thumbnails/PH%E1%BB%A4%20KI%E1%BB%86N.jpg.jpg").build());
+        if(!categoryRepository.existsByCategoryName("QUẦN TÂY NỮ CÔNG SỞ")){
+            categoryRepository.save(Category.builder().categoryName("QUẦN TÂY NỮ CÔNG SỞ").thumbnail("http://res.cloudinary.com/dj2lvmrop/image/upload/v1714919202/hustore/thumbnails/Qu%E1%BA%A7n.jpg.jpg").build());
+        }
+        if(!categoryRepository.existsByCategoryName("ÁO SƠ MI NỮ CÔNG SỞ")){
+            categoryRepository.save(Category.builder().categoryName("ÁO SƠ MI NỮ CÔNG SỞ").thumbnail("http://res.cloudinary.com/dj2lvmrop/image/upload/v1714919873/hustore/thumbnails/%C3%81O%20S%C6%A0%20MI.jpeg.jpg").build());
+        }
+        if(!categoryRepository.existsByCategoryName("CHÂN VÁY")){
+            categoryRepository.save(Category.builder().categoryName("CHÂN VÁY").thumbnail("http://res.cloudinary.com/dj2lvmrop/image/upload/v1714920462/hustore/thumbnails/CH%C3%82N%20V%C3%81Y.jpeg.jpg").build());
+        }
+        if(!categoryRepository.existsByCategoryName("PHỤ KIỆN")){
+            categoryRepository.save(Category.builder().categoryName("PHỤ KIỆN").thumbnail("http://res.cloudinary.com/dj2lvmrop/image/upload/v1714921172/hustore/thumbnails/PH%E1%BB%A4%20KI%E1%BB%86N.jpg.jpg").build());
+        }
     }
 }
