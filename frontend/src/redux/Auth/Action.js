@@ -13,6 +13,9 @@ import {
     GET_ALL_CUSTOMERS_REQUEST,
     GET_ALL_CUSTOMERS_SUCCESS,
     GET_ALL_CUSTOMERS_FAILURE,
+    GET_ADMIN_REQUEST,
+    GET_ADMIN_SUCCESS,
+    GET_ADMIN_FAILURE,
 } from './ActionTypes';
 import axiosClient, { API_BASE_URL } from '../../config/api';
 
@@ -90,6 +93,21 @@ export const getUser = (token) => {
         } catch (error) {
             const errorMessage = error.message;
             dispatch({ type: GET_USER_FAILURE, payload: errorMessage });
+        }
+    };
+};
+
+export const getAdmin = () => {
+    return async (dispatch) => {
+        dispatch({ type: GET_ADMIN_REQUEST });
+        try {
+            const response = await axios.get(`${API_BASE_URL}/users/1`);
+            const admin = response.data;
+            dispatch({ type: GET_ADMIN_SUCCESS, payload: admin });
+            console.log('req Admin ', admin);
+        } catch (error) {
+            const errorMessage = error.message;
+            dispatch({ type: GET_ADMIN_FAILURE, payload: errorMessage });
         }
     };
 };

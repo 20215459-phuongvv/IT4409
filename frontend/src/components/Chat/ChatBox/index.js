@@ -8,6 +8,7 @@ import { getMessages } from '~/redux/Message/Action';
 
 const ChatBox = (props) => {
     const { selectedUser, sendMessage } = props;
+    console.log(selectedUser);
     const { user } = useSelector((state) => state.auth);
     const currentUser = user;
     const token = localStorage.jwt;
