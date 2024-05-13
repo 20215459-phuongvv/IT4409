@@ -16,8 +16,7 @@ root.render(
             <GlobalStyles>
                 <ShopContextProvider>
                     <App />
-                </ShopContextProvider>
-           
+                </ShopContextProvider>    
          </GlobalStyles>
          </Provider>
         
