@@ -17,14 +17,13 @@ function AddProducts() {
     const [type, setType] = useState('');
     const [size, setSize] = useState([]);
     const [price, setPrice] = useState('');
-    const [discountPrice, setDiscountPrice] = useState('');
     const [colorInputs, setColorInputs] = useState([{ colorName: '#1677ff', imageList: [], imagePreviewList: [] }]);
     const [quantity, setQuantity] = useState('');
     const [description, setDescription] = useState('');
 
     const dispatch = useDispatch();
 
-
+    
     // Đăng nhập lại thay đổi cái này
     const jwt =
         'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU2NTYxMjgsImV4cCI6MTcxNTc0MjUyOCwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.xzaxy9uT538OUaYAMXcnJUCHmvWOA2rU2EiPGu038zTwFnI4C0340vckwFod5-x7fk-eKCXSY8W8bu-WEB53qQ';
@@ -82,7 +81,9 @@ function AddProducts() {
     };
 
     const handleAddColorInput = () => {
-        setColorInputs([...colorInputs, { colorName: '#1677ff', imageList: [], imagePreviewList: [] }]);
+        // const newId = colorInputs[colorInputs.length - 1]?.id + 1;
+        setColorInputs([...colorInputs, { colorName: '#1677ff', imageList: [] }]);
+        // updateColorIds();
     };
 
     const handleRemoveColor = (colorIndex) => {
@@ -118,9 +119,8 @@ function AddProducts() {
             newProduct.append('thumbnail', thumbnail);
         }
 
-        newProduct.append('sizeList', size);
+        newProduct.append('sizeList', JSON.stringify(size));
         newProduct.append('price', price);
-        newProduct.append('discountPrice', discountPrice);
         newProduct.append('quantityInStock', quantity);
         newProduct.append('description', description);
 
@@ -130,11 +130,15 @@ function AddProducts() {
                 newProduct.append(`colorRequestDTOList[${index}].imageList[${fileIndex}]`, file);
             });
         });
-
         // Call api
+
         dispatch(createProduct({ data: newProduct, jwt }));
 
         console.log('colorInputs', colorInputs);
+        console.log('thumbnail', thumbnail);
+        console.log('newProduct', newProduct);
+        // console.log('newProduct.colorRequestDTOList[0].colorName', newProduct.colorRequestDTOList[0].colorName);
+        // console.log('newProduct.colorRequestDTOList[0].imageList', newProduct.colorRequestDTOList[0].imageList);
     };
 
     return (
@@ -228,16 +232,6 @@ function AddProducts() {
                                 placeholder="Nhập giá sản phẩm"
                                 onChange={(e) => {
                                     setPrice(e.target.value);
-                                }}
-                            />
-                        </div>
-
-                        <div className={cx('input-row')}>
-                            <span className={cx('input-label')}>Giá sau giảm</span>
-                            <Input
-                                placeholder="Nhập giá sản phẩm sau giảm"
-                                onChange={(e) => {
-                                    setDiscountPrice(e.target.value);
                                 }}
                             />
                         </div>

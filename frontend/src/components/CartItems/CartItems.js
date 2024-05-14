@@ -3,9 +3,9 @@ import classNames from 'classnames/bind';
 import styles from './CartItems.module.scss';
 import remove_icon from '~/assets/images/cart_cross_icon.png';
 import { ShopContext } from '~/context/ShopContext';
-import { Button } from '@mui/material';
+import Button from '../Button';
 import config from '~/config';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 const numberWithCommas = (numberString) => {
@@ -13,7 +13,6 @@ const numberWithCommas = (numberString) => {
     return number.toLocaleString('en-US');
 };
 function CartItems() {
-    const navigate = useNavigate();
     const { all_product, cartItems, removeFromCart, getTotalCartAmount } = useContext(ShopContext);
     return (
         <div className={cx('wrapper')}>
@@ -93,15 +92,8 @@ function CartItems() {
                             <h3>{numberWithCommas(getTotalCartAmount())}₫</h3>
                         </div>
                     </div>
-                    <Button
-                        onClick={() => navigate('/checkout?step=2')}
-                        variant="contained"
-                        type="submit"
-                        sx={{ padding: '.8rem 2rem', marginTop: '2rem', width: '50%',backgroundColor: '#ff5a5a', fontSize: '1.25rem' }}
-                        className={cx('btn-cart')}
-                    >
-                        PROCESS TO CHECKOUT
-                    </Button>
+                  <Link to = {config.routes.checkout}><Button children="PROCESS TO CHECKOUT" className={cx('btn-cart')}  /> </Link>  
+                  
                 </div>
                 <div className={cx('cartitems-promocode')}>
                     <p>Nếu bạn có mã giảm giá, hãy áp dụng vào đây</p>

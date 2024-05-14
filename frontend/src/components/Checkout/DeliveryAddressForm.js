@@ -9,13 +9,14 @@ import AddressCard from "../AddressCard/AddressCard";
 import { useState } from "react";
 
 const cx = classNames.bind(styles);
-
 export default function DeliveryAddressForm({ handleNext }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
   const { auth } = useSelector((store) => store);
   const [selectedAddress, setSelectedAdress] = useState(null);
+
+  // console.log("auth", auth);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -56,10 +57,10 @@ export default function DeliveryAddressForm({ handleNext }) {
                 <AddressCard address={item} />
                 {selectedAddress?.id === item.id && (
                   <Button
-                    sx={{ mt: 2, backgroundColor: '#8d6a50' }}
+                    sx={{ mt: 2 }}
                     size="large"
                     variant="contained"
-                    
+                    color="primary"
                     onClick={() => handleCreateOrder(item)}
                   >
                     Deliver Here
@@ -151,11 +152,11 @@ export default function DeliveryAddressForm({ handleNext }) {
               </Grid>
               <Grid item xs={12}>
                 <Button
-                  sx={{ padding: ".9rem 1.5rem", backgroundColor: '#8d6a50' }}
+                  sx={{ padding: ".9rem 1.5rem" }}
                   size="large"
                   type="submit"
                   variant="contained"
-                  
+                  color="primary"
                 >
                   Deliverd Here
                 </Button>

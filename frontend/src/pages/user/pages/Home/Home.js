@@ -8,12 +8,13 @@ import Discount from '~/pages/user/pages/Home/Discount';
 import NewProducts from '~/pages/user/pages/Home/NewProducts';
 import Blog from './Blog';
 import SliderComponent from '~/components/Slider/Slider';
+import { HomeMenuTab } from '~/util/constant';
 
 const cx = classNames.bind(styles);
 
 function Home() {
     // const homeElements = [MostSale, Discount];
-    const [displayElement, setDisplayElement] = useState(0);
+    const [displayElement, setDisplayElement] = useState(HomeMenuTab.MostSale);
 
     const handleDisplayElement = (index) => {
         setDisplayElement(index);
@@ -26,7 +27,7 @@ function Home() {
             <div className={cx('slider')}>
                 {/* <img src={homeImage.banner1} alt="banner" />
                  */}
-                <SliderComponent arrImage={sliderImages}/>
+                <SliderComponent arrImage={sliderImages} />
             </div>
 
             <div className={cx('products')}>
@@ -34,24 +35,24 @@ function Home() {
                     <Button
                         className={cx('home-product-nav', { 'home-product-nav-active': displayElement === 0 })}
                         children="Mua nhiều"
-                        onClick={() => handleDisplayElement(0)}
+                        onClick={() => handleDisplayElement(HomeMenuTab.MostSale)}
                     />
                     <Button
                         className={cx('home-product-nav', { 'home-product-nav-active': displayElement === 1 })}
                         children="Hàng mới"
-                        onClick={() => handleDisplayElement(1)}
+                        onClick={() => handleDisplayElement(HomeMenuTab.NewProducts)}
                     />
                     <Button
                         className={cx('home-product-nav', { 'home-product-nav-active': displayElement === 2 })}
                         children="Giảm giá"
-                        onClick={() => handleDisplayElement(2)}
+                        onClick={() => handleDisplayElement(HomeMenuTab.Discount)}
                     />
                 </div>
 
                 <div className={cx('products-body')}>
-                    {displayElement === 0 && <MostSale />}
-                    {displayElement === 1 && <NewProducts />}
-                    {displayElement === 2 && <Discount />}
+                    {displayElement === HomeMenuTab.MostSale && <MostSale />}
+                    {displayElement === HomeMenuTab.NewProducts && <NewProducts />}
+                    {displayElement === HomeMenuTab.Discount && <Discount />}
                 </div>
             </div>
             <Blog />

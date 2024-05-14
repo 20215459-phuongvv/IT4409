@@ -52,8 +52,7 @@ export const createProduct = (product) => async (dispatch) => {
             payload: data,
         });
 
-        alert('Thêm sản phẩm thành công !');
-        
+        console.log('created product ', data);
     } catch (error) {
         dispatch({
             type: CREATE_PRODUCT_FAILURE,

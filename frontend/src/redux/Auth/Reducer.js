@@ -13,6 +13,7 @@ import {
     GET_ADMIN_REQUEST,
     GET_ADMIN_SUCCESS,
     GET_ADMIN_FAILURE,
+    SET_ERROR,
 } from './ActionTypes';
 
 const initialState = {
@@ -20,7 +21,7 @@ const initialState = {
     isLoading: false,
     error: null,
     customers: [],
-    admin: null
+    admin: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -72,6 +73,11 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 admin: action.payload,
+            };
+        case SET_ERROR:
+            return {
+                ...state,
+                error: null,
             };
         case LOGOUT:
             localStorage.removeItem('jwt');

@@ -16,6 +16,7 @@ import {
     GET_ADMIN_REQUEST,
     GET_ADMIN_SUCCESS,
     GET_ADMIN_FAILURE,
+    SET_ERROR,
 } from './ActionTypes';
 import axiosClient, { API_BASE_URL } from '../../config/api';
 
@@ -109,6 +110,12 @@ export const getAdmin = () => {
             const errorMessage = error.message;
             dispatch({ type: GET_ADMIN_FAILURE, payload: errorMessage });
         }
+    };
+};
+
+export const resetError = () => {
+    return async (dispatch) => {
+        dispatch({ type: SET_ERROR });
     };
 };
 
