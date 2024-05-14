@@ -1,100 +1,144 @@
 import classNames from 'classnames/bind';
 import styles from './AddProducts.module.scss';
-import { Avatar, Checkbox, ColorPicker, Image, Input, Select, Upload } from 'antd';
+import { Checkbox, ColorPicker, Image, Input, Select, Upload } from 'antd';
 import { Button } from '@mui/material';
 import { UploadOutlined } from '@ant-design/icons';
-import { getBase64 } from '~/utils';
 import { useState } from 'react';
-import admin_images from '~/assets/images/admin';
+import { useDispatch } from 'react-redux';
+import { createProduct } from '~/redux/Admin/Product/Action';
 
 const cx = classNames.bind(styles);
 const { TextArea } = Input;
 
 function AddProducts() {
     const [name, setName] = useState('');
-    const [thumbnail, setThumbnail] = useState('');
+    const [thumbnail, setThumbnail] = useState(null);
+    const [thumbnailPreview, setThumbnailPreview] = useState('');
     const [type, setType] = useState('');
     const [size, setSize] = useState([]);
     const [price, setPrice] = useState('');
-    const [colorInputs, setColorInputs] = useState([{ id: 1, color: '#1677ff', imageList: [] }]);
+    const [colorInputs, setColorInputs] = useState([{ colorName: '#1677ff', imageList: [], imagePreviewList: [] }]);
     const [quantity, setQuantity] = useState('');
     const [description, setDescription] = useState('');
+
+    const dispatch = useDispatch();
+
+    
+    // Đăng nhập lại thay đổi cái này
+    const jwt =
+        'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU2NTYxMjgsImV4cCI6MTcxNTc0MjUyOCwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.xzaxy9uT538OUaYAMXcnJUCHmvWOA2rU2EiPGu038zTwFnI4C0340vckwFod5-x7fk-eKCXSY8W8bu-WEB53qQ';
+
 
     const handleChangeProductType = (value) => {
         setType(value);
     };
 
-    const handleOnChangeProductThumbnail = async (fileInfo) => {
-        const file = fileInfo.file;
-        if (file.status === 'error') {
-            if (!file.url && !file.preview) {
-                file.preview = await getBase64(file.originFileObj);
-            }
+    // const handleOnChangeProductThumbnail = async (fileInfo) => {
+    //     const file = fileInfo.file;
+    //     if (file.status === 'error') {
+    //         if (!file.url && !file.preview) {
+    //             file.preview = await getBase64(file.originFileObj);
+    //         }
+    //     }
+    //     setThumbnail(file.preview);
+    // };
+
+    const handleOnChangeProductThumbnail = (fileInfo) => {
+        if (fileInfo.file.status === 'error') {
+            setThumbnail(fileInfo.file.originFileObj);
+            setThumbnailPreview(URL.createObjectURL(fileInfo.file.originFileObj));
         }
-        setThumbnail(file.preview);
     };
 
     const handleRemoveThumbnail = () => {
-        setThumbnail('');
+        setThumbnail(null);
+        setThumbnailPreview('');
     };
 
     const handleChangeSize = (checkedValues) => {
         setSize(checkedValues);
     };
 
-    const handleOnChangeProductImage = async (fileInfo, colorIndex) => {
-        const file = fileInfo.file;
-        if (file.status === 'error') {
-            if (!file.url && !file.preview) {
-                file.preview = await getBase64(file.originFileObj);
-            }
+    // const handleOnChangeProductImage = async (fileInfo, colorIndex) => {
+    //     const file = fileInfo.file;
+    //     if (file.status === 'error') {
+    //         if (!file.url && !file.preview) {
+    //             file.preview = await getBase64(file.originFileObj);
+    //         }
+    //         const updatedColorInputs = [...colorInputs];
+    //         updatedColorInputs[colorIndex].imageList.push(file.preview);
+    //         setColorInputs(updatedColorInputs);
+    //     }
+    // };
+
+    const handleOnChangeProductImage = (fileInfo, colorIndex) => {
+        if (fileInfo.file.status === 'error') {
             const updatedColorInputs = [...colorInputs];
-            updatedColorInputs[colorIndex].imageList.push(file.preview);
+            updatedColorInputs[colorIndex].imageList.push(fileInfo.file.originFileObj);
+            updatedColorInputs[colorIndex].imagePreviewList.push(URL.createObjectURL(fileInfo.file.originFileObj));
             setColorInputs(updatedColorInputs);
         }
     };
 
     const handleAddColorInput = () => {
-        const newId = colorInputs[colorInputs.length - 1]?.id + 1;
-        setColorInputs([...colorInputs, { id: newId, color: '#1677ff', imageList: [] }]);
-        updateColorIds();
+        // const newId = colorInputs[colorInputs.length - 1]?.id + 1;
+        setColorInputs([...colorInputs, { colorName: '#1677ff', imageList: [] }]);
+        // updateColorIds();
     };
 
     const handleRemoveColor = (colorIndex) => {
         const updatedColorInputs = [...colorInputs];
         updatedColorInputs.splice(colorIndex, 1);
         setColorInputs(updatedColorInputs);
-        updateColorIds();
+        // updateColorIds();
     };
 
     const handleRemoveImage = (colorIndex, imageIndex) => {
         const updatedColorInputs = [...colorInputs];
         updatedColorInputs[colorIndex].imageList.splice(imageIndex, 1);
+        updatedColorInputs[colorIndex].imagePreviewList.splice(imageIndex, 1);
         setColorInputs(updatedColorInputs);
     };
 
-    const updateColorIds = () => {
-        setColorInputs((prevColorInputs) =>
-            prevColorInputs.map((colorInput, index) => ({
-                ...colorInput,
-                id: index + 1,
-            })),
-        );
-    };
+    // const updateColorIds = () => {
+    //     setColorInputs((prevColorInputs) =>
+    //         prevColorInputs.map((colorInput, index) => ({
+    //             ...colorInput,
+    //             id: index + 1,
+    //         })),
+    //     );
+    // };
 
     const handleAddProduct = () => {
-        const data = {
-            name: name,
-            thumbnail: thumbnail,
-            type: type,
-            size: size,
-            price: price,
-            color: colorInputs,
-            quantity: quantity,
-            description: description,
-        };
+        const newProduct = new FormData();
+
+        newProduct.append('productName', name);
+        newProduct.append('categoryId', type);
+
+        if (thumbnail) {
+            newProduct.append('thumbnail', thumbnail);
+        }
+
+        newProduct.append('sizeList', JSON.stringify(size));
+        newProduct.append('price', price);
+        newProduct.append('quantityInStock', quantity);
+        newProduct.append('description', description);
+
+        colorInputs.forEach((colorInput, index) => {
+            newProduct.append(`colorRequestDTOList[${index}].colorName`, colorInput.colorName);
+            colorInput.imageList.forEach((file, fileIndex) => {
+                newProduct.append(`colorRequestDTOList[${index}].imageList[${fileIndex}]`, file);
+            });
+        });
         // Call api
-        console.log('product sent', data);
+
+        dispatch(createProduct({ data: newProduct, jwt }));
+
+        console.log('colorInputs', colorInputs);
+        console.log('thumbnail', thumbnail);
+        console.log('newProduct', newProduct);
+        // console.log('newProduct.colorRequestDTOList[0].colorName', newProduct.colorRequestDTOList[0].colorName);
+        // console.log('newProduct.colorRequestDTOList[0].imageList', newProduct.colorRequestDTOList[0].imageList);
     };
 
     return (
@@ -126,7 +170,7 @@ function AddProducts() {
                                     </button>
                                 </Upload>
 
-                                {thumbnail && <Image className={cx('image-item')} alt="" src={thumbnail} />}
+                                {thumbnail && <Image className={cx('image-item')} alt="" src={thumbnailPreview} />}
 
                                 {thumbnail && (
                                     <Button
@@ -225,7 +269,7 @@ function AddProducts() {
                                             defaultValue="#1677ff"
                                             onChange={(value, hex) => {
                                                 const updatedColorInputs = [...colorInputs];
-                                                updatedColorInputs[colorIndex].color = hex;
+                                                updatedColorInputs[colorIndex].colorName = hex;
                                                 setColorInputs(updatedColorInputs);
                                             }}
                                         />
@@ -243,9 +287,9 @@ function AddProducts() {
                                                 </button>
                                             </Upload>
 
-                                            {input.imageList && (
+                                            {input.imagePreviewList && (
                                                 <div className={cx('input-image-display')}>
-                                                    {input.imageList.map((image, imageIndex) => (
+                                                    {input.imagePreviewList.map((image, imageIndex) => (
                                                         <div key={imageIndex} className={cx('image-item-wrapper')}>
                                                             <Image className={cx('image-item')} alt="" src={image} />
                                                             <Button
@@ -285,7 +329,7 @@ function AddProducts() {
                         </Button>
                     </div>
 
-                    <img alt="" src={admin_images.add_product_image} />
+                    {/* <img alt="" src={admin_images.add_product_image} /> */}
                 </div>
 
                 <div className={cx('add-product-btn')}>

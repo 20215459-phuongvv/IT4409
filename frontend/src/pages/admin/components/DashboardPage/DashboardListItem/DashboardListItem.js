@@ -8,8 +8,8 @@ function NewCustomerItem({ img, row1, row2 }) {
         <div className={cx('wrapper')}>
             <img className={cx('image')} src={img} alt="" />
             <div className={cx('right')}>
-                <p className={cx('row1')}>{row1}</p>
-                <p className={cx('row2')}>{row2}</p>
+                <span className={cx('row1')}>{row1}</span>
+                <span className={cx('row2')}>{row2}</span>
             </div>
         </div>
     );

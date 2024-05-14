@@ -9,7 +9,7 @@ function SideBar({ data }) {
     console.log('location', location);
     return (
         <div className={cx('wrapper')}>
-            <ul>
+            <ul className={cx('container')}>
                 {data.map((item, key) => {
                     const isActive = location.pathname === item.link;
                     return (
