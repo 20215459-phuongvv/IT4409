@@ -20,8 +20,9 @@
     width: 115px;
 }
 .main-img {
-    height: 515px;
-    width: 515px;
+    height: 600px;
+    width: 600px;
+    object-fit: contain;
 }
 .right {
     margin: 0px 100px;
@@ -188,6 +189,7 @@
 }
 .img-list-item {
     cursor: pointer;
+    object-fit: contain;
 }
 .color-item-checked{
     border: solid 3px #ccc;
@@ -197,4 +199,7 @@
 }
 .review h2 {
     margin-left: 170px;
+}
+.img_active {
+    border: 1px solid #916a4d;
 }

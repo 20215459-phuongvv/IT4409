@@ -1,6 +1,6 @@
 .wrapper {
     margin-left:  170px;
-    padding: 20px;
+    padding: 10px;
     
 }
 .box-comment {
@@ -11,6 +11,7 @@
     width: 56px;
     height: 56px;
     background: #9155FD;
+    margin-top: 5px;
 }
 .info {
     margin-top: 0.5rem;
@@ -18,4 +19,9 @@
 .name {
     font-weight: 600; 
     font-size: 1.125em;
+}
+.content {
+    p {
+        margin-bottom: 0px !important;
+    }
 }
