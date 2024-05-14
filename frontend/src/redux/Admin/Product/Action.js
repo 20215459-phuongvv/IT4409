@@ -15,26 +15,23 @@ import {
 } from './ActionType';
 import api, { API_BASE_URL } from '../../../config/api';
 
-// export const getProducts = () => async (dispatch) => {
-//   try {
-//     dispatch({ type: GET_PRODUCTS_REQUEST });
+export const getAllProducts = () => async (dispatch) => {
+    try {
+        dispatch({ type: GET_PRODUCTS_REQUEST });
 
-//     const { data } = await api.get(`${API_BASE_URL}/api/admin/products/`);
+        const { data } = await api.get(`${API_BASE_URL}/products`);
 
-//     dispatch({
-//       type: GET_PRODUCTS_SUCCESS,
-//       payload: data,
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: GET_PRODUCTS_FAILURE,
-//       payload:
-//         error.response && error.response.data.message
-//           ? error.response.data.message
-//           : error.message,
-//     });
-//   }
-// };
+        dispatch({
+            type: GET_PRODUCTS_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: GET_PRODUCTS_FAILURE,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+        });
+    }
+};
 
 export const createProduct = (product) => async (dispatch) => {
     try {
@@ -43,7 +40,7 @@ export const createProduct = (product) => async (dispatch) => {
         const { data } = await api.post(`${API_BASE_URL}/api/admin/products`, product.data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${product.jwt}`,
+                Authorization: `Bearer ${product.jwt}`,
             },
         });
 
@@ -53,7 +50,6 @@ export const createProduct = (product) => async (dispatch) => {
         });
 
         alert('Thêm sản phẩm thành công !');
-        
     } catch (error) {
         dispatch({
             type: CREATE_PRODUCT_FAILURE,
@@ -86,23 +82,20 @@ export const createProduct = (product) => async (dispatch) => {
 //   }
 // };
 
-// export const deleteProduct = (data) => async (dispatch) => {
-//   try {
-//     dispatch({ type: DELETE_PRODUCT_REQUEST });
+export const deleteProduct = (data) => async (dispatch) => {
+    try {
+        dispatch({ type: DELETE_PRODUCT_REQUEST });
 
-//     await api.delete(`/api/admin/products/${data.productId}`);
+        await api.delete(`/api/admin/products/${data.productId}`);
 
-//     dispatch({
-//       type: DELETE_PRODUCT_SUCCESS,
-//       payload: data.productId,
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: DELETE_PRODUCT_FAILURE,
-//       payload:
-//         error.response && error.response.data.message
-//           ? error.response.data.message
-//           : error.message,
-//     });
-//   }
-// };
+        dispatch({
+            type: DELETE_PRODUCT_SUCCESS,
+            payload: data.productId,
+        });
+    } catch (error) {
+        dispatch({
+            type: DELETE_PRODUCT_FAILURE,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+        });
+    }
+};

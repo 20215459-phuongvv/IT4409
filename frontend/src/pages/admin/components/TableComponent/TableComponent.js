@@ -6,9 +6,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Avatar, Button, MenuItem, Modal, Popover, Select } from '@mui/material';
+import { Avatar, Button, MenuItem, Modal, Select } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import classNames from 'classnames/bind';
 import styles from './TableComponent.module.scss';
@@ -17,7 +16,7 @@ const cx = classNames.bind(styles);
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 16,
+        fontSize: 14,
     },
 }));
 
@@ -123,12 +122,10 @@ function TableComponent({
 
     const handleUpdateStatus = (newStatus, index) => {
         console.log(`Đơn hàng thứ ${index + 1} đã được cập nhật thành ${newStatus}`);
-    }
-
-    console.log('orderStatusArray', orderStatusArray);
+    };
 
     return (
-        <div>
+        <div className={cx('wrapper')}>
             <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -149,9 +146,9 @@ function TableComponent({
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row.index}>
-                                    {attributes.map((attribute, attrIndex) => (
+                                    {/* {attributes.map((attribute, attrIndex) => (
                                         <StyledTableCell key={attrIndex} align="left">
-                                            {attribute === 'image' ? (
+                                            {attribute === 'thumbnail' ? (
                                                 <Avatar src={row[attribute]} alt="" />
                                             ) : attribute === 'status' ? (
                                                 orderStatusArray[row.index - 1]
@@ -159,8 +156,29 @@ function TableComponent({
                                                 row[attribute]
                                             )}
                                         </StyledTableCell>
-                                    ))}
+                                    ))} */}
 
+                                    {/* Bảng sản phẩm */}
+                                    {type === 'product' && (
+                                        <>
+                                            <StyledTableCell align="left">{row?.index}</StyledTableCell>
+                                            <StyledTableCell align="left">
+                                                <Avatar src={row?.thumbnail} alt="" />
+                                            </StyledTableCell>
+
+                                            <StyledTableCell align="left">{row?.productName}</StyledTableCell>
+
+                                            <StyledTableCell align="left">
+                                                {row?.category?.categoryName}
+                                            </StyledTableCell>
+
+                                            <StyledTableCell align="left">{row?.price}</StyledTableCell>
+
+                                            <StyledTableCell align="left">{row?.quantityInStock}</StyledTableCell>
+                                        </>
+                                    )}
+
+                                    {/* Các nút hành động */}
                                     {deleteButton && (
                                         <TableCell align="left">
                                             <Button
@@ -178,14 +196,17 @@ function TableComponent({
                                             >
                                                 <div className={cx('delete-confirm-box')}>
                                                     <p>
-                                                        Xóa {typeName[type]} {row.name} ?
+                                                        Xóa {typeName[type]} {row.productName} ?
                                                     </p>
                                                     <div className={cx('delete-box-row')}>
                                                         <Button
                                                             size="large"
                                                             variant="contained"
                                                             color="error"
-                                                            onClick={() => handleDelete(row.index)}
+                                                            onClick={() => {
+                                                                handleDelete(row);
+                                                                handleCloseDeleteBox(row.index - 1);
+                                                            }}
                                                         >
                                                             Xóa
                                                         </Button>
@@ -402,7 +423,11 @@ function TableComponent({
 
                                     {actionButton && type === 'order' && (
                                         <TableCell align="left">
-                                            <Select style={{height: '36px'}} value={orderStatusArray[row.index - 1]} onChange={(event) => handleStatusChange(row.index - 1, event)}>
+                                            <Select
+                                                style={{ height: '36px' }}
+                                                value={orderStatusArray[row.index - 1]}
+                                                onChange={(event) => handleStatusChange(row.index - 1, event)}
+                                            >
                                                 <MenuItem value="Đang giao">Đang giao</MenuItem>
                                                 <MenuItem value="Đã giao">Đã giao</MenuItem>
                                                 <MenuItem value="Hủy">Hủy</MenuItem>
@@ -428,6 +453,7 @@ function TableComponent({
                     },
                     '.MuiTablePagination-displayedRows': {
                         fontSize: '1.4rem',
+                        marginBottom: 0,
                     },
                 }}
                 rowsPerPageOptions={[6]}
