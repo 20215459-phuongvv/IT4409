@@ -174,6 +174,7 @@ function ProductDisplay(props) {
             {/* rating and review section */}
             <div className={cx('review')}>
                 <h2 className="font-semibold text-lg pb-4">Nhận xét và đánh giá</h2>
+                
                 <div>
                     <Grid container spacing={7}>
                         <Grid item xs={7}>
