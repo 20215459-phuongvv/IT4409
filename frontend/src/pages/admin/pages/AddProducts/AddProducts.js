@@ -17,6 +17,7 @@ function AddProducts() {
     const [type, setType] = useState('');
     const [size, setSize] = useState([]);
     const [price, setPrice] = useState('');
+    const [discountPrice, setDiscountPrice] = useState('');
     const [colorInputs, setColorInputs] = useState([{ colorName: '#1677ff', imageList: [], imagePreviewList: [] }]);
     const [quantity, setQuantity] = useState('');
     const [description, setDescription] = useState('');
@@ -80,9 +81,7 @@ function AddProducts() {
     };
 
     const handleAddColorInput = () => {
-        // const newId = colorInputs[colorInputs.length - 1]?.id + 1;
-        setColorInputs([...colorInputs, { colorName: '#1677ff', imageList: [] }]);
-        // updateColorIds();
+        setColorInputs([...colorInputs, { colorName: '#1677ff', imageList: [], imagePreviewList: [] }]);
     };
 
     const handleRemoveColor = (colorIndex) => {
@@ -130,15 +129,11 @@ function AddProducts() {
                 newProduct.append(`colorRequestDTOList[${index}].imageList[${fileIndex}]`, file);
             });
         });
-        // Call api
 
+        // Call api
         dispatch(createProduct({ data: newProduct, jwt }));
 
         console.log('colorInputs', colorInputs);
-        console.log('thumbnail', thumbnail);
-        console.log('newProduct', newProduct);
-        // console.log('newProduct.colorRequestDTOList[0].colorName', newProduct.colorRequestDTOList[0].colorName);
-        // console.log('newProduct.colorRequestDTOList[0].imageList', newProduct.colorRequestDTOList[0].imageList);
     };
 
     return (
@@ -235,6 +230,7 @@ function AddProducts() {
                                 }}
                             />
                         </div>
+
                         <div className={cx('input-row')}>
                             <span className={cx('input-label')}>Giá sau giảm</span>
                             <Input
@@ -244,6 +240,7 @@ function AddProducts() {
                                 }}
                             />
                         </div>
+
                         <div className={cx('input-row')}>
                             <span className={cx('input-label')}>Số lượng</span>
                             <Input
