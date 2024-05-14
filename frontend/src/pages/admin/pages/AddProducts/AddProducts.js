@@ -118,8 +118,9 @@ function AddProducts() {
             newProduct.append('thumbnail', thumbnail);
         }
 
-        newProduct.append('sizeList', JSON.stringify(size));
+        newProduct.append('sizeList', size);
         newProduct.append('price', price);
+        newProduct.append('discountPrice', discountPrice);
         newProduct.append('quantityInStock', quantity);
         newProduct.append('description', description);
 
@@ -234,7 +235,15 @@ function AddProducts() {
                                 }}
                             />
                         </div>
-
+                        <div className={cx('input-row')}>
+                            <span className={cx('input-label')}>Giá sau giảm</span>
+                            <Input
+                                placeholder="Nhập giá sản phẩm sau giảm"
+                                onChange={(e) => {
+                                    setDiscountPrice(e.target.value);
+                                }}
+                            />
+                        </div>
                         <div className={cx('input-row')}>
                             <span className={cx('input-label')}>Số lượng</span>
                             <Input
