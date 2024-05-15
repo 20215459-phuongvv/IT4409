@@ -7,6 +7,8 @@ import RegistrationForm from '~/pages/account/register/RegistrationForm';
 import Cart from '~/pages/user/pages/Cart/Cart';
 import Checkout from '~/components/Checkout/Checkout';
 import Chat from '~/components/Chat';
+import Order from '~/components/Order/Order';
+import OrderDetails from '~/components/Order/OrderDetail';
 
 // không cần đăng nhập vẫn xem được
 const publicRoutes = [
@@ -17,7 +19,9 @@ const publicRoutes = [
     { path: config.routes.register, component: RegistrationForm},
     { path: config.routes.cart, component: Cart},
     { path: config.routes.checkout, component: Checkout},
-    { path: config.routes.chat, component: Chat}
+    { path: config.routes.chat, component: Chat},
+    { path: '/account/order', component: Order},
+    { path: '/account/order/:orderId', component: OrderDetails}
 ];
 
 // phải đăng nhập, nếu không sẽ đưa ra login

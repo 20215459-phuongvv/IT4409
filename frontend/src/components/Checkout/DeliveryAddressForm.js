@@ -32,12 +32,12 @@ export default function DeliveryAddressForm({ handleNext }) {
       lastName: data.get("lastName"),
       streetAddress: data.get("address"),
       city: data.get("city"),
-      state: data.get("state"),
-      zipCode: data.get("zip"),
+      district: data.get("district"),
+      ward: data.get("ward"),
       mobile: data.get("phoneNumber"),
     };
     createAddress(address)
-    deliveryAddress(address)
+    deliveryAddress(address) // selectedAddress trong ShopContex = address  
     handleNext()
   }
 
@@ -52,8 +52,8 @@ export default function DeliveryAddressForm({ handleNext }) {
   //     lastName: data.get("lastName"),
   //     streetAddress: data.get("address"),
   //     city: data.get("city"),
-  //     state: data.get("state"),
-  //     zipCode: data.get("zip"),
+  //     district: data.get("district"),
+  //     ward: data.get("ward"),
   //     mobile: data.get("phoneNumber"),
   //   };
 
@@ -104,7 +104,6 @@ export default function DeliveryAddressForm({ handleNext }) {
           {address.length > 0 ? (
             address.map((item) => (
               <div
-                onClick={() => deliveryAddress(item)}
                 className={cx('selectedAddress')}
               >
                 {" "}
@@ -115,7 +114,9 @@ export default function DeliveryAddressForm({ handleNext }) {
                     size="large"
                     variant="contained"
                     color="primary"
-                    onClick={() => deliveryAddress(item)} 
+                    onClick={() => {deliveryAddress(item)
+                                    handleNext();
+                    }} 
                   >
                     Deliver Here
                   </Button>
@@ -138,7 +139,7 @@ export default function DeliveryAddressForm({ handleNext }) {
                   required
                   id="firstName"
                   name="firstName"
-                  label="First Name"
+                  label="Họ"
                   fullWidth
                   autoComplete="given-name"
                 />
@@ -148,7 +149,7 @@ export default function DeliveryAddressForm({ handleNext }) {
                   required
                   id="lastName"
                   name="lastName"
-                  label="Last Name"
+                  label="Tên"
                   fullWidth
                   autoComplete="given-name"
                 />
@@ -158,7 +159,7 @@ export default function DeliveryAddressForm({ handleNext }) {
                   required
                   id="address"
                   name="address"
-                  label="Address"
+                  label="Địa chỉ"
                   fullWidth
                   autoComplete="shipping address"
                   multiline
@@ -170,7 +171,7 @@ export default function DeliveryAddressForm({ handleNext }) {
                   required
                   id="city"
                   name="city"
-                  label="City"
+                  label="Tỉnh/Thành Phố"
                   fullWidth
                   autoComplete="shipping address-level2"
                 />
@@ -178,20 +179,19 @@ export default function DeliveryAddressForm({ handleNext }) {
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
-                  id="state"
-                  name="state"
-                  label="State/Province/Region"
+                  id="district"
+                  name="district"
+                  label="Quận/Huyện"
                   fullWidth
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
-                  id="zip"
-                  name="zip"
-                  label="Zip / Postal code"
+                  id="ward"
+                  name="ward"
+                  label="Xã/Phường "
                   fullWidth
-                  autoComplete="shipping postal-code"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -199,7 +199,7 @@ export default function DeliveryAddressForm({ handleNext }) {
                   required
                   id="phoneNumber"
                   name="phoneNumber"
-                  label="Phone Number"
+                  label="Số điện thoại"
                   fullWidth
                   autoComplete="tel"
                 />

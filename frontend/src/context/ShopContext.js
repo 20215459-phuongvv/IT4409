@@ -15,7 +15,7 @@ const ShopContextProvider = (props) => {
             return [];
         }
     });
-    const [order, setOrder] = useState(null);
+    const [orders, setOrders] = useState([]); // Mảng lưu trữ các đơn hàng
     const [address, setAddress] = useState([]);
     const [selectedAddress, setSelectedAdress] = useState({});
     const addToCart = (itemId, quantity, size, color) => {
@@ -62,10 +62,20 @@ const ShopContextProvider = (props) => {
         return totalAmount;
     };
     const getTotalCartItem = () => cartItems.length;
-    const createOrder = (orderData) => {
-        // Cập nhật thông tin đơn hàng khi tạo đơn hàng
-        setOrder(orderData);
-    };
+    const createOrder = (orderData, selectedAddress) => {
+        // Tạo một đối tượng mới chứa thông tin của đơn hàng mới
+        const newOrder = {
+          items: orderData,
+          address: selectedAddress,
+          orderStatus: 'Pending'
+        };
+      
+        // Tạo một mảng mới bằng cách kết hợp đơn hàng mới và tất cả các đơn hàng cũ
+        const updatedOrders = [...orders, newOrder];
+      
+        // Cập nhật mảng đơn hàng với thông tin mới
+        setOrders(updatedOrders);
+      };
     const createAddress = (newAddress) => {
       setAddress(prev => [...prev, newAddress]);
     }
@@ -79,7 +89,7 @@ const ShopContextProvider = (props) => {
         removeFromCart,
         getTotalCartAmount,
         getTotalCartItem,
-        order,
+        orders,
         createOrder,
         createAddress,
         address,

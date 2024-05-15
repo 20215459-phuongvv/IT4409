@@ -29,11 +29,17 @@ const OrderSummary = () => {
     //     dispatch(getOrderById(orderId));
     // }, [orderId]);
 
+    // const handleCreatePayment = () => {
+    //     // const data = { orderId: order.order?.id, jwt };
+    //     // dispatch(createPayment(data));
+    // };
+
+
+    //Khi bấm vào nút Payment sẽ tạo đơn hàng --> Thử nghiệm
     const handleCreatePayment = () => {
-        // const data = { orderId: order.order?.id, jwt };
-        // dispatch(createPayment(data));
-    };
-    const { all_product, cartItems, getTotalCartAmount, selectedAddress } = useContext(ShopContext);
+        createOrder(cartItems, selectedAddress);
+    }
+    const { all_product, cartItems, getTotalCartAmount, selectedAddress, createOrder } = useContext(ShopContext);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('addressCard')}>
