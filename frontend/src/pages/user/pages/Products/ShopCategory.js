@@ -1,29 +1,38 @@
-import React, { useContext } from "react";
-import classNames from "classnames/bind";
-import { ShopContext } from "~/context/ShopContext";
+import React, { useContext, useEffect, useState } from 'react';
+import classNames from 'classnames/bind';
+import { ShopContext } from '~/context/ShopContext';
 import styles from './ShopCategory.module.scss';
-import ProductItem from "~/components/ProductItem";
+import ProductItem from '~/components/ProductItem';
+import productApi from '~/api/productApi';
 const cx = classNames.bind(styles);
 
-
 function ShopCategory(props) {
-    const {all_product} = useContext(ShopContext);
+    const [products, setProducts] = useState(null);
+    useEffect(() => {
+        async function getProductData() {
+            try {
+                const productsResponse = await productApi.getAll();
+                setProducts(productsResponse);
+                console.log(productsResponse);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getProductData();
+    }, []);
 
-    return (  
+    return (
         <div className={cx('shop-category')}>
             <div className={cx('shopcategory-products')}>
-                {all_product.map((item, index)=>{
-                    if(props.category === item.category) {
-                        return <ProductItem key={index} data={item} />
-                    }
-                    else {
+                {products?.map((item, index) => {
+                    if (props.categoryId === item.category.categoryId) {
+                        return <ProductItem key={index} data={item} />;
+                    } else {
                         return null;
                     }
                 })}
             </div>
-            <div className={cx('shopcategory-loadmore')}>
-                Hiện thị thêm sản phẩm
-            </div>
+            <div className={cx('shopcategory-loadmore')}>Hiện thị thêm sản phẩm</div>
         </div>
     );
 }

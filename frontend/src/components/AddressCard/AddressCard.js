@@ -13,11 +13,14 @@ const AddressCard = ({address}) => {
         <p className={cx("font-semibold")}>{`${address?.firstName} ${address?.lastName}`}</p>
 
         <p>
-          {`${address?.streetAddress} ${address?.city} ${address?.state} ${address?.zipCode}`}
+          {`${address?.streetAddress}`}
+        </p>
+        <p>
+          {`${address?.city} ${address?.district} ${address?.ward}`}
         </p>
 
         <div className={cx("space-y-1")}>
-          <p className={cx("font-semibold")}>Phone Number</p>
+          <p className={cx("font-semibold")}>Số điện thoại</p>
           <p>{address?.mobile}</p>
         </div>
       </div>

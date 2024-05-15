@@ -102,6 +102,7 @@ function CartItems() {
                     >
                         PROCESS TO CHECKOUT
                     </Button>
+                  
                 </div>
                 <div className={cx('cartitems-promocode')}>
                     <p>Nếu bạn có mã giảm giá, hãy áp dụng vào đây</p>

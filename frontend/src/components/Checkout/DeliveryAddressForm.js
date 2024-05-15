@@ -7,16 +7,21 @@ import styles from './DeliveryAddressForm.module.scss';
 import classNames from "classnames/bind";
 import AddressCard from "../AddressCard/AddressCard";
 import { useState } from "react";
+import { ShopContext } from "~/context/ShopContext";
 
 const cx = classNames.bind(styles);
 
 export default function DeliveryAddressForm({ handleNext }) {
+  const {createAddress, address, deliveryAddress, selectedAddress} = React.useContext(ShopContext);
+  const [submittedAddress, setSubmittedAddress] = useState(null);
+  const [deliveryAddressCalled, setDeliveryAddressCalled] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
   const { auth } = useSelector((store) => store);
-  const [selectedAddress, setSelectedAdress] = useState(null);
+  
 
+  // console.log("auth", auth);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -27,44 +32,95 @@ export default function DeliveryAddressForm({ handleNext }) {
       lastName: data.get("lastName"),
       streetAddress: data.get("address"),
       city: data.get("city"),
-      state: data.get("state"),
-      zipCode: data.get("zip"),
+      district: data.get("district"),
+      ward: data.get("ward"),
       mobile: data.get("phoneNumber"),
     };
+    createAddress(address)
+    deliveryAddress(address) // selectedAddress trong ShopContex = address  
+    handleNext()
+  }
 
-    dispatch(createOrder({ address, jwt, navigate }));
-    // after perfoming all the opration
-    handleNext();
-  };
 
-  const handleCreateOrder = (item) => {
-    dispatch(createOrder({ address: item, jwt, navigate }));
-    handleNext();
-  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   // eslint-disable-next-line no-console
+
+  //   const address = {
+  //     firstName: data.get("firstName"),
+  //     lastName: data.get("lastName"),
+  //     streetAddress: data.get("address"),
+  //     city: data.get("city"),
+  //     district: data.get("district"),
+  //     ward: data.get("ward"),
+  //     mobile: data.get("phoneNumber"),
+  //   };
+
+  //   dispatch(createOrder({ address, jwt, navigate }));
+  //   // after perfoming all the opration
+  //   handleNext();
+  // };
+
+  // const handleCreateOrder = (item) => {
+  //   dispatch(createOrder({ address: item, jwt, navigate }));
+  //   handleNext();
+  // };
 
   return (
     <Grid container spacing={4}>
       <Grid item xs={12} lg={5}>
         <Box className={cx('left-container')}>
-          {auth.user?.addresses.length > 0 ? (
+          
+          {/* Code ghép API */}
+          {/* {auth.user?.addresses.length > 0 ? (
             auth.user.addresses.map((item) => (
               <div
                 onClick={() => setSelectedAdress(item)}
                 className={cx('selectedAddress')}
               >
                 {" "}
-                <AddressCard address={item} />
+                <AddressCard address={address} />
                 {selectedAddress?.id === item.id && (
                   <Button
-                    sx={{ mt: 2, backgroundColor: '#8d6a50' }}
+                    sx={{ mt: 2 }}
                     size="large"
                     variant="contained"
-                    
-                    onClick={() => handleCreateOrder(item)}
+                    color="primary"
+                    onClick={() => handleCreateOrder(item)} 
                   >
                     Deliver Here
                   </Button>
                 )}
+              </div>
+            ))
+          ) : (
+            <div>
+              Bạn chưa có địa chỉ, vui lòng thêm địa chỉ mới
+            </div>
+          )} */}
+
+          {/* Code chạy thử */}
+          {address.length > 0 ? (
+            address.map((item) => (
+              <div
+                className={cx('selectedAddress')}
+              >
+                {" "}
+                <AddressCard address={item} />
+                
+                  <Button
+                    sx={{ mt: 2 }}
+                    size="large"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {deliveryAddress(item)
+                                    handleNext();
+                    }} 
+                  >
+                    Deliver Here
+                  </Button>
+                
               </div>
             ))
           ) : (
@@ -83,7 +139,7 @@ export default function DeliveryAddressForm({ handleNext }) {
                   required
                   id="firstName"
                   name="firstName"
-                  label="First Name"
+                  label="Họ"
                   fullWidth
                   autoComplete="given-name"
                 />
@@ -93,7 +149,7 @@ export default function DeliveryAddressForm({ handleNext }) {
                   required
                   id="lastName"
                   name="lastName"
-                  label="Last Name"
+                  label="Tên"
                   fullWidth
                   autoComplete="given-name"
                 />
@@ -103,7 +159,7 @@ export default function DeliveryAddressForm({ handleNext }) {
                   required
                   id="address"
                   name="address"
-                  label="Address"
+                  label="Địa chỉ"
                   fullWidth
                   autoComplete="shipping address"
                   multiline
@@ -115,7 +171,7 @@ export default function DeliveryAddressForm({ handleNext }) {
                   required
                   id="city"
                   name="city"
-                  label="City"
+                  label="Tỉnh/Thành Phố"
                   fullWidth
                   autoComplete="shipping address-level2"
                 />
@@ -123,20 +179,19 @@ export default function DeliveryAddressForm({ handleNext }) {
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
-                  id="state"
-                  name="state"
-                  label="State/Province/Region"
+                  id="district"
+                  name="district"
+                  label="Quận/Huyện"
                   fullWidth
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
-                  id="zip"
-                  name="zip"
-                  label="Zip / Postal code"
+                  id="ward"
+                  name="ward"
+                  label="Xã/Phường "
                   fullWidth
-                  autoComplete="shipping postal-code"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -144,18 +199,18 @@ export default function DeliveryAddressForm({ handleNext }) {
                   required
                   id="phoneNumber"
                   name="phoneNumber"
-                  label="Phone Number"
+                  label="Số điện thoại"
                   fullWidth
                   autoComplete="tel"
                 />
               </Grid>
               <Grid item xs={12}>
                 <Button
-                  sx={{ padding: ".9rem 1.5rem", backgroundColor: '#8d6a50' }}
+                  sx={{ padding: ".9rem 1.5rem" }}
                   size="large"
                   type="submit"
                   variant="contained"
-                  
+                  color="primary"
                 >
                   Deliverd Here
                 </Button>

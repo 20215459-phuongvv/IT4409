@@ -1,19 +1,18 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import classNames from 'classnames/bind';
-import styles from './OrderSummary.module.scss';
-import AddressCard from '../AddressCard/AddressCard';
+import React, { useState, useContext } from 'react';
+import classNames from "classnames/bind";
+import styles from './OrderSummary.module.scss'
+import AddressCard from "../AddressCard/AddressCard";
 import { ShopContext } from '~/context/ShopContext';
 import { Button } from '@mui/material';
-// import { getOrderById } from '~/redux/Customers/Order/Action';
-// import { createPayment } from '~/redux/Customers/Payment/Action';
-
 const cx = classNames.bind(styles);
 const numberWithCommas = (numberString) => {
     const number = parseInt(numberString, 10); // Chuyển đổi chuỗi thành số nguyên
     return number.toLocaleString('en-US');
 };
+const handleCreatePayment = () => {
+    // const data={orderId:order.order?.id,jwt}
+    // dispatch(createPayment(data))
+}
 
 const OrderSummary = () => {
     // const navigate = useNavigate();
@@ -30,15 +29,21 @@ const OrderSummary = () => {
     //     dispatch(getOrderById(orderId));
     // }, [orderId]);
 
+    // const handleCreatePayment = () => {
+    //     // const data = { orderId: order.order?.id, jwt };
+    //     // dispatch(createPayment(data));
+    // };
+
+
+    //Khi bấm vào nút Payment sẽ tạo đơn hàng --> Thử nghiệm
     const handleCreatePayment = () => {
-        // const data = { orderId: order.order?.id, jwt };
-        // dispatch(createPayment(data));
-    };
-    const { all_product, cartItems, getTotalCartAmount } = useContext(ShopContext);
+        createOrder(cartItems, selectedAddress);
+    }
+    const { all_product, cartItems, getTotalCartAmount, selectedAddress, createOrder } = useContext(ShopContext);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('addressCard')}>
-                <AddressCard />
+                <AddressCard address={selectedAddress}/>
             </div>
             <div className={cx('orderSummary')}>
                 <div className={cx('order')}>
@@ -62,11 +67,7 @@ const OrderSummary = () => {
                                         {filteredCartItems.map((cartItem) => (
                                             <div key={`${product.id}-${cartItem.size}`}>
                                                 <div className={cx('cartItems-format', 'format-main')}>
-                                                    <img
-                                                        src={product.img}
-                                                        alt={product.name}
-                                                        className={cx('product-icon')}
-                                                    />
+                                                    <img src={product.img} alt={product.name} className={cx('product-icon')} />
                                                     <p>{product.name}</p>
                                                     <p>{product.newPrice}₫</p>
                                                     <p> {product.size[cartItem.size]}</p>
@@ -77,8 +78,7 @@ const OrderSummary = () => {
                                                     ></div>
                                                     <p>
                                                         {numberWithCommas(
-                                                            parseFloat(product.newPrice.replace(',', '')) *
-                                                                cartItem.quantity,
+                                                            parseFloat(product.newPrice.replace(',', '')) * cartItem.quantity,
                                                         )}
                                                         ₫
                                                     </p>
@@ -115,19 +115,21 @@ const OrderSummary = () => {
                                 <h3>{numberWithCommas(getTotalCartAmount())}₫</h3>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <Button
                     onClick={handleCreatePayment}
                     variant="contained"
                     type="submit"
-                    sx={{ padding: '.8rem 2rem', marginTop: '2rem', width: '200px', height: '50px' }}
+                    sx={{ padding: ".8rem 2rem", marginTop: "2rem", width: "200px", height: "50px" }}
                 >
                     Payment
                 </Button>
+
             </div>
         </div>
-    );
-};
+    )
+}
 
 export default OrderSummary;

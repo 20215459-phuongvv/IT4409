@@ -21,7 +21,6 @@ const cx = classNames.bind(styles);
 
 function AdminPanel() {
     const state = useSelector((state) => state);
-
     const dispatch = useDispatch();
     const jwt = localStorage.jwt;
     useEffect(() => {
@@ -29,9 +28,7 @@ function AdminPanel() {
             dispatch(getUser(jwt));
         }
     }, [jwt]);
-
-    console.log('state', state);
-
+    console.log(state);
     return (
         <div className={cx('admin-wrapper')}>
             <TopBar />
