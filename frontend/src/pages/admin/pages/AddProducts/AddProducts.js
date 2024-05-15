@@ -3,9 +3,10 @@ import styles from './AddProducts.module.scss';
 import { Checkbox, ColorPicker, Image, Input, Select, Upload } from 'antd';
 import { Button } from '@mui/material';
 import { UploadOutlined } from '@ant-design/icons';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '~/redux/Admin/Product/Action';
+import { getAllCategories } from '~/redux/Admin/Category/Action';
 
 const cx = classNames.bind(styles);
 const { TextArea } = Input;
@@ -23,25 +24,30 @@ function AddProducts() {
     const [description, setDescription] = useState('');
 
     const dispatch = useDispatch();
+    const categoriesState = useSelector((state) => state.categories);
+    
+    // const isLoading = categoriesState.loading;
+    // const isError = categoriesState.error;
+
+    const categoriesSelect = categoriesState.categories.map((category) => ({
+        value: category.categoryId,
+        label: category.categoryName,
+    }));
+
+    console.log('categoriesSelect', categoriesSelect);
+
+    useEffect(() => {
+        dispatch(getAllCategories());
+    }, [dispatch]);
+
 
     // Đăng nhập lại thay đổi cái này
     const jwt =
-        'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU2NTYxMjgsImV4cCI6MTcxNTc0MjUyOCwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.xzaxy9uT538OUaYAMXcnJUCHmvWOA2rU2EiPGu038zTwFnI4C0340vckwFod5-x7fk-eKCXSY8W8bu-WEB53qQ';
-
+        'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU3NDU4MTcsImV4cCI6MTcxNTgzMjIxNywiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.-0twLgEGVHuE2YcQjM26cJw0p4iEGCLCuUPZBWaicqsPHKcMs3IQ_IWDsCzAbC6OOxQGxIblqfDrmMc5QXMUGA';
 
     const handleChangeProductType = (value) => {
         setType(value);
     };
-
-    // const handleOnChangeProductThumbnail = async (fileInfo) => {
-    //     const file = fileInfo.file;
-    //     if (file.status === 'error') {
-    //         if (!file.url && !file.preview) {
-    //             file.preview = await getBase64(file.originFileObj);
-    //         }
-    //     }
-    //     setThumbnail(file.preview);
-    // };
 
     const handleOnChangeProductThumbnail = (fileInfo) => {
         if (fileInfo.file.status === 'error') {
@@ -58,18 +64,6 @@ function AddProducts() {
     const handleChangeSize = (checkedValues) => {
         setSize(checkedValues);
     };
-
-    // const handleOnChangeProductImage = async (fileInfo, colorIndex) => {
-    //     const file = fileInfo.file;
-    //     if (file.status === 'error') {
-    //         if (!file.url && !file.preview) {
-    //             file.preview = await getBase64(file.originFileObj);
-    //         }
-    //         const updatedColorInputs = [...colorInputs];
-    //         updatedColorInputs[colorIndex].imageList.push(file.preview);
-    //         setColorInputs(updatedColorInputs);
-    //     }
-    // };
 
     const handleOnChangeProductImage = (fileInfo, colorIndex) => {
         if (fileInfo.file.status === 'error') {
@@ -183,29 +177,12 @@ function AddProducts() {
                         <div className={cx('input-row')}>
                             <span className={cx('input-label')}>Phân loại</span>
                             <Select
-                                defaultValue="Áo"
+                                defaultValue={categoriesSelect[0].label}
                                 style={{
-                                    width: 120,
+                                    maxWidth: 500,
                                 }}
                                 onChange={handleChangeProductType}
-                                options={[
-                                    {
-                                        value: '1',
-                                        label: 'Áo',
-                                    },
-                                    {
-                                        value: '2',
-                                        label: 'Quần',
-                                    },
-                                    {
-                                        value: '3',
-                                        label: 'Váy',
-                                    },
-                                    {
-                                        value: '4',
-                                        label: 'Phụ kiện',
-                                    },
-                                ]}
+                                options={categoriesSelect}
                             />
                         </div>
 

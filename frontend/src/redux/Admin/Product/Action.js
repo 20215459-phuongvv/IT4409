@@ -40,7 +40,7 @@ export const createProduct = (product) => async (dispatch) => {
         const { data } = await api.post(`${API_BASE_URL}/api/admin/products`, product.data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${product.jwt}`,
+                'Authorization': `Bearer ${product.jwt}`,
             },
         });
 
@@ -92,6 +92,7 @@ export const deleteProduct = (data) => async (dispatch) => {
             type: DELETE_PRODUCT_SUCCESS,
             payload: data.productId,
         });
+        
     } catch (error) {
         dispatch({
             type: DELETE_PRODUCT_FAILURE,

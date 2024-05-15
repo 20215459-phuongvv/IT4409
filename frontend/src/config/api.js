@@ -7,7 +7,7 @@ const axiosClient = axios.create({
     baseURL: API_BASE_URL,
 });
 
-const token = 'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU2NTYxMjgsImV4cCI6MTcxNTc0MjUyOCwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.xzaxy9uT538OUaYAMXcnJUCHmvWOA2rU2EiPGu038zTwFnI4C0340vckwFod5-x7fk-eKCXSY8W8bu-WEB53qQ';
+const token = 'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU3NDU4MTcsImV4cCI6MTcxNTgzMjIxNywiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.-0twLgEGVHuE2YcQjM26cJw0p4iEGCLCuUPZBWaicqsPHKcMs3IQ_IWDsCzAbC6OOxQGxIblqfDrmMc5QXMUGA';
 // token
 
 

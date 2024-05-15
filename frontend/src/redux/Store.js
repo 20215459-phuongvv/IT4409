@@ -4,12 +4,14 @@ import authReducer from './Auth/Reducer';
 import messageReducer from './Message/Reducer';
 import loadingReducer from './Loading/Reducer';
 import productReducer from './Admin/Product/Reducer';
+import categoryReducer from './Admin/Category/Reducer';
 
 const rootReducers = combineReducers({
     auth: authReducer,
     message: messageReducer,
     loading: loadingReducer,
     products: productReducer,
+    categories: categoryReducer,
 });
 
 export const store = legacy_createStore(rootReducers, applyMiddleware(thunk));
