@@ -83,6 +83,7 @@ function ProductsManagement() {
                 <TableComponent
                     columns={columns}
                     rows={rows}
+                    rowPerPage={6}
                     type="product"
                     attributes={['index', 'thumbnail', 'productName', 'categoryId', 'price', 'quantityInStock']}
                     deleteButton={true}

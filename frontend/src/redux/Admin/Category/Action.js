@@ -33,30 +33,28 @@ export const getAllCategories = () => async (dispatch) => {
     }
 };
 
-// export const createProduct = (product) => async (dispatch) => {
-//     try {
-//         dispatch({ type: CREATE_PRODUCT_REQUEST });
+export const createCategory = (category) => async (dispatch) => {
+    try {
+        dispatch({ type: CREATE_CATEGORY_REQUEST });
 
-//         const { data } = await api.post(`${API_BASE_URL}/api/admin/products`, product.data, {
-//             headers: {
-//                 'Content-Type': 'multipart/form-data',
-//                 'Authorization': `Bearer ${product.jwt}`,
-//             },
-//         });
+        const { data } = await api.post(`${API_BASE_URL}/api/admin/categories`, category.data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${category.jwt}`,
+            },
+        });
 
-//         dispatch({
-//             type: CREATE_PRODUCT_SUCCESS,
-//             payload: data,
-//         });
-
-//         alert('Thêm sản phẩm thành công !');
-//     } catch (error) {
-//         dispatch({
-//             type: CREATE_PRODUCT_FAILURE,
-//             payload: error.response && error.response.data.message ? error.response.data.message : error.message,
-//         });
-//     }
-// };
+        dispatch({
+            type: CREATE_CATEGORY_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: CREATE_CATEGORY_FAILURE,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+        });
+    }
+};
 
 // // export const updateProduct = (product) => async (dispatch) => {
 // //   try {
@@ -92,7 +90,7 @@ export const getAllCategories = () => async (dispatch) => {
 //             type: DELETE_PRODUCT_SUCCESS,
 //             payload: data.productId,
 //         });
-        
+
 //     } catch (error) {
 //         dispatch({
 //             type: DELETE_PRODUCT_FAILURE,

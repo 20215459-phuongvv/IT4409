@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '~/redux/Admin/Product/Action';
 import { getAllCategories } from '~/redux/Admin/Category/Action';
+import Loading from '~/components/LoadingComponent/Loading';
+import * as message from '~/components/Message/Message';
 
 const cx = classNames.bind(styles);
 const { TextArea } = Input;
@@ -22,28 +24,26 @@ function AddProducts() {
     const [colorInputs, setColorInputs] = useState([{ colorName: '#1677ff', imageList: [], imagePreviewList: [] }]);
     const [quantity, setQuantity] = useState('');
     const [description, setDescription] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const dispatch = useDispatch();
-    const categoriesState = useSelector((state) => state.categories);
-    
-    // const isLoading = categoriesState.loading;
-    // const isError = categoriesState.error;
 
+    const categoriesState = useSelector((state) => state.categories);
+    const productsState = useSelector((state) => state.products);
+
+    const isLoading = categoriesState.loading;
     const categoriesSelect = categoriesState.categories.map((category) => ({
         value: category.categoryId,
         label: category.categoryName,
     }));
 
-    console.log('categoriesSelect', categoriesSelect);
-
     useEffect(() => {
         dispatch(getAllCategories());
     }, [dispatch]);
 
-
     // Đăng nhập lại thay đổi cái này
     const jwt =
-        'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU3NDU4MTcsImV4cCI6MTcxNTgzMjIxNywiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.-0twLgEGVHuE2YcQjM26cJw0p4iEGCLCuUPZBWaicqsPHKcMs3IQ_IWDsCzAbC6OOxQGxIblqfDrmMc5QXMUGA';
+        'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU3NjI3NzksImV4cCI6MTcxNTg0OTE3OSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.8NnaPwJu6-Ehj039gMBxnW9Z1pWdoGXslxCQo1F-gACNrTMlMBeF_pAZGXGUEyYXmZlfBznMUVSu1yqixIxqdA';
 
     const handleChangeProductType = (value) => {
         setType(value);
@@ -82,7 +82,6 @@ function AddProducts() {
         const updatedColorInputs = [...colorInputs];
         updatedColorInputs.splice(colorIndex, 1);
         setColorInputs(updatedColorInputs);
-        // updateColorIds();
     };
 
     const handleRemoveImage = (colorIndex, imageIndex) => {
@@ -91,15 +90,6 @@ function AddProducts() {
         updatedColorInputs[colorIndex].imagePreviewList.splice(imageIndex, 1);
         setColorInputs(updatedColorInputs);
     };
-
-    // const updateColorIds = () => {
-    //     setColorInputs((prevColorInputs) =>
-    //         prevColorInputs.map((colorInput, index) => ({
-    //             ...colorInput,
-    //             id: index + 1,
-    //         })),
-    //     );
-    // };
 
     const handleAddProduct = () => {
         const newProduct = new FormData();
@@ -124,11 +114,21 @@ function AddProducts() {
             });
         });
 
+        setIsSubmitting(true);
         // Call api
         dispatch(createProduct({ data: newProduct, jwt }));
-
-        console.log('colorInputs', colorInputs);
     };
+
+    useEffect(() => {
+        if (isSubmitting && !productsState.loading) {
+            if (productsState.error) {
+                message.error('Thêm sản phẩm thất bại, chưa nhập đúng các trường thông tin hoặc lỗi đường truyền');
+            } else {
+                message.success('Thêm sản phẩm mới thành công!');
+            }
+            setIsSubmitting(false); // Reset submission state
+        }
+    }, [isSubmitting, productsState.loading, productsState.error]);
 
     return (
         <div className={cx('wrapper')}>
@@ -176,14 +176,17 @@ function AddProducts() {
 
                         <div className={cx('input-row')}>
                             <span className={cx('input-label')}>Phân loại</span>
-                            <Select
-                                defaultValue={categoriesSelect[0].label}
-                                style={{
-                                    maxWidth: 500,
-                                }}
-                                onChange={handleChangeProductType}
-                                options={categoriesSelect}
-                            />
+                            <Loading isLoading={isLoading}>
+                                <Select
+                                    defaultValue="Chọn loại sản phẩm"
+                                    style={{
+                                        minWidth: 500,
+                                        maxWidth: 1000,
+                                    }}
+                                    onChange={handleChangeProductType}
+                                    options={categoriesSelect}
+                                />
+                            </Loading>
                         </div>
 
                         <div className={cx('input-row')}>

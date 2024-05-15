@@ -1,9 +1,11 @@
 import Home from '@mui/icons-material/Home';
 import People from '@mui/icons-material/People';
+import CategoryIcon from '@mui/icons-material/Category';
 import Inventory2 from '@mui/icons-material/Inventory2';
 import Discount from '@mui/icons-material/Discount';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
+import ChatIcon from '@mui/icons-material/Chat';
 
 export const SideBarAdminData = [
     {
@@ -15,6 +17,11 @@ export const SideBarAdminData = [
         title: 'Khách hàng',
         icon: <People />,
         link: '/admin/users',
+    },
+    {
+        title: 'Danh mục sản phẩm',
+        icon: <CategoryIcon />,
+        link: '/admin/categories',
     },
     {
         title: 'Sản phẩm',
@@ -38,7 +45,7 @@ export const SideBarAdminData = [
     },
     {
         title: 'Tin nhắn',
-        icon: <ListAltIcon />,
+        icon: <ChatIcon />,
         link: '/admin/chat',
     },
 ];

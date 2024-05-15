@@ -6,7 +6,7 @@ const cx = classNames.bind(styles);
 
 function SideBar({ data }) {
     const location = useLocation();
-    console.log('location', location);
+    
     return (
         <div className={cx('wrapper')}>
             <ul className={cx('container')}>

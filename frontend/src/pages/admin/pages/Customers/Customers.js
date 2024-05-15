@@ -35,15 +35,15 @@ function UsersManagement() {
     const [customerList, setCustomerList] = useState([]);
     const attributes = ['index', 'username', 'name', 'email', 'phone'];
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            const users = await customerApi.getAll();
-            const customersWithIndex = users.map((user, index) => ({ ...user, index: index + 1 }));
-            setCustomerList(customersWithIndex);
-        };
+    // useEffect(() => {
+    //     const fetchUsers = async () => {
+    //         const users = await customerApi.getAll();
+    //         const customersWithIndex = users.map((user, index) => ({ ...user, index: index + 1 }));
+    //         setCustomerList(customersWithIndex);
+    //     };
 
-        fetchUsers();
-    }, []);
+    //     fetchUsers();
+    // }, []);
 
     return (
         <div className={cx('wrapper')}>
