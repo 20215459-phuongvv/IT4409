@@ -29,6 +29,7 @@ export default function Checkout() {
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
+    navigate(`/checkout?step=${parseInt(step) + 1}`);
   };
 
   const handleBack = () => {
@@ -82,7 +83,7 @@ export default function Checkout() {
             
 
             <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              
             </Button>
           </Box>
         <div>

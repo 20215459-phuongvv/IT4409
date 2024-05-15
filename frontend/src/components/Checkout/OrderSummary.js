@@ -15,11 +15,29 @@ const handleCreatePayment = () => {
 }
 
 const OrderSummary = () => {
-    const { all_product, cartItems, getTotalCartAmount } = useContext(ShopContext);
+    // const navigate = useNavigate();
+    // const location = useLocation();
+    // const searchParams = new URLSearchParams(location.search);
+    // const orderId = searchParams.get('order_id');
+    // const dispatch = useDispatch();
+    // const jwt = localStorage.getItem('jwt');
+    // const { order } = useSelector((state) => state);
+
+    // console.log('orderId ', order.order);
+
+    // useEffect(() => {
+    //     dispatch(getOrderById(orderId));
+    // }, [orderId]);
+
+    const handleCreatePayment = () => {
+        // const data = { orderId: order.order?.id, jwt };
+        // dispatch(createPayment(data));
+    };
+    const { all_product, cartItems, getTotalCartAmount, selectedAddress } = useContext(ShopContext);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('addressCard')}>
-                <AddressCard />
+                <AddressCard address={selectedAddress}/>
             </div>
             <div className={cx('orderSummary')}>
                 <div className={cx('order')}>

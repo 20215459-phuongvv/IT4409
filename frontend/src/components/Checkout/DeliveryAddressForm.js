@@ -7,17 +7,21 @@ import styles from './DeliveryAddressForm.module.scss';
 import classNames from "classnames/bind";
 import AddressCard from "../AddressCard/AddressCard";
 import { useState } from "react";
+import { ShopContext } from "~/context/ShopContext";
 
 const cx = classNames.bind(styles);
+
 export default function DeliveryAddressForm({ handleNext }) {
+  const {createAddress, address, deliveryAddress, selectedAddress} = React.useContext(ShopContext);
+  const [submittedAddress, setSubmittedAddress] = useState(null);
+  const [deliveryAddressCalled, setDeliveryAddressCalled] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
   const { auth } = useSelector((store) => store);
-  const [selectedAddress, setSelectedAdress] = useState(null);
+  
 
   // console.log("auth", auth);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -32,40 +36,90 @@ export default function DeliveryAddressForm({ handleNext }) {
       zipCode: data.get("zip"),
       mobile: data.get("phoneNumber"),
     };
+    createAddress(address)
+    deliveryAddress(address)
+    handleNext()
+  }
 
-    dispatch(createOrder({ address, jwt, navigate }));
-    // after perfoming all the opration
-    handleNext();
-  };
 
-  const handleCreateOrder = (item) => {
-    dispatch(createOrder({ address: item, jwt, navigate }));
-    handleNext();
-  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   // eslint-disable-next-line no-console
+
+  //   const address = {
+  //     firstName: data.get("firstName"),
+  //     lastName: data.get("lastName"),
+  //     streetAddress: data.get("address"),
+  //     city: data.get("city"),
+  //     state: data.get("state"),
+  //     zipCode: data.get("zip"),
+  //     mobile: data.get("phoneNumber"),
+  //   };
+
+  //   dispatch(createOrder({ address, jwt, navigate }));
+  //   // after perfoming all the opration
+  //   handleNext();
+  // };
+
+  // const handleCreateOrder = (item) => {
+  //   dispatch(createOrder({ address: item, jwt, navigate }));
+  //   handleNext();
+  // };
 
   return (
     <Grid container spacing={4}>
       <Grid item xs={12} lg={5}>
         <Box className={cx('left-container')}>
-          {auth.user?.addresses.length > 0 ? (
+          
+          {/* Code ghép API */}
+          {/* {auth.user?.addresses.length > 0 ? (
             auth.user.addresses.map((item) => (
               <div
                 onClick={() => setSelectedAdress(item)}
                 className={cx('selectedAddress')}
               >
                 {" "}
-                <AddressCard address={item} />
+                <AddressCard address={address} />
                 {selectedAddress?.id === item.id && (
                   <Button
                     sx={{ mt: 2 }}
                     size="large"
                     variant="contained"
                     color="primary"
-                    onClick={() => handleCreateOrder(item)}
+                    onClick={() => handleCreateOrder(item)} 
                   >
                     Deliver Here
                   </Button>
                 )}
+              </div>
+            ))
+          ) : (
+            <div>
+              Bạn chưa có địa chỉ, vui lòng thêm địa chỉ mới
+            </div>
+          )} */}
+
+          {/* Code chạy thử */}
+          {address.length > 0 ? (
+            address.map((item) => (
+              <div
+                onClick={() => deliveryAddress(item)}
+                className={cx('selectedAddress')}
+              >
+                {" "}
+                <AddressCard address={item} />
+                
+                  <Button
+                    sx={{ mt: 2 }}
+                    size="large"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => deliveryAddress(item)} 
+                  >
+                    Deliver Here
+                  </Button>
+                
               </div>
             ))
           ) : (
