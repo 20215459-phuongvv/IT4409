@@ -25,7 +25,7 @@ function AddProducts() {
 
     const dispatch = useDispatch();
     const categoriesState = useSelector((state) => state.categories);
-    
+
     // const isLoading = categoriesState.loading;
     // const isError = categoriesState.error;
 
@@ -39,7 +39,6 @@ function AddProducts() {
     useEffect(() => {
         dispatch(getAllCategories());
     }, [dispatch]);
-
 
     // Đăng nhập lại thay đổi cái này
     const jwt =
@@ -177,7 +176,7 @@ function AddProducts() {
                         <div className={cx('input-row')}>
                             <span className={cx('input-label')}>Phân loại</span>
                             <Select
-                                defaultValue={categoriesSelect[0].label}
+                                defaultValue={categoriesSelect[0]?.label}
                                 style={{
                                     maxWidth: 500,
                                 }}
