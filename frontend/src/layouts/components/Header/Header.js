@@ -17,6 +17,7 @@ import { Avatar, Menu, MenuItem } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import ChatModal from '~/components/ChatModal';
 import { adminDetail } from '~/util/adminDetail';
+import Notification from '~/components/Notification/Notification';
 
 const cx = classNames.bind(styles);
 
@@ -81,13 +82,16 @@ function Header() {
                     </nav>
                     {modalOpen && <ChatModal selectedUser={adminDetail} closeChatBox={closeModal} />}
                     <div className={cx('actions')}>
-                        {auth.user ? (
+                        {!auth.user ? (
                             <div>
                             <div className={cx('nav-login-cart')}>
-                                <FontAwesomeIcon icon={faBell} />
+                                <div className={cx('noti')}>
+                                <Notification />
+
+                                </div>
                                 <div className={cx('cart-icon-wrapper')}>
                                     <Link to={config.routes.cart}>
-                                        <FontAwesomeIcon icon={faShoppingCart} />
+                                        <FontAwesomeIcon icon={faShoppingCart} size='2x' />
                                     </Link>
                                     <span className={cx('nav-cart-count')}>{getTotalCartItem()}</span>
                                 </div>
