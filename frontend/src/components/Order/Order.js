@@ -1,11 +1,12 @@
 import { Box, Grid } from "@mui/material";
-import React, { useEffect, useSyncExternalStore } from "react";
+import React, { useContext, useEffect, useSyncExternalStore } from "react";
 import OrderCard from "./OrderCard";
 import classNames from "classnames/bind";
 import styles from './Order.module.scss'
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrderById } from "~/redux/Customers/Order/Action";
+import { ShopContext } from "~/context/ShopContext";
 const cx = classNames.bind(styles)
 
 const orderStatus = [
@@ -17,7 +18,7 @@ const orderStatus = [
 
 const Order = () => {
 
-
+  const {orders} = useContext(ShopContext)
   return (
     <Box className={cx('wrapper')}> 
       <Grid container spacing={0} sx={{ justifyContent: "space-between" }}>
@@ -25,9 +26,9 @@ const Order = () => {
         </Grid>
         <Grid item xs={9}>
           <Box className={cx('list-card')}>
-            {[1,1,1,1,1].map((item) =>(
+            {orders.map((order) =>(
                 <div className={cx('item-card')}>
-                        <OrderCard />
+                        <OrderCard orderId = {order.orderId}/>
                 </div>
             ))}
                 

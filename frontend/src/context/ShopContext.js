@@ -62,9 +62,12 @@ const ShopContextProvider = (props) => {
         return totalAmount;
     };
     const getTotalCartItem = () => cartItems.length;
+
+    let orderId = 1;
     const createOrder = (orderData, selectedAddress) => {
         // Tạo một đối tượng mới chứa thông tin của đơn hàng mới
         const newOrder = {
+          orderId: orderId++,
           items: orderData,
           address: selectedAddress,
           orderStatus: 'Pending'
@@ -82,6 +85,16 @@ const ShopContextProvider = (props) => {
     const deliveryAddress = (choosedAddress) => {
       setSelectedAdress(choosedAddress);
     }
+    function getProductById(id) {
+        return all_product.find(product => product.id === id);
+      }
+    function getOrderByOrderId(orderId) {
+        return orders.find(order => order.orderId === orderId);
+      }
+    //Lấy ra các sản phẩm đã được bán cho customer
+    const customersProduct = orders.flatMap(order =>
+        order.items.map(item => all_product.find(product => product.id === item.id))
+      ).filter(product => product);
     const contextValue = {
         all_product,
         cartItems,
@@ -94,7 +107,10 @@ const ShopContextProvider = (props) => {
         createAddress,
         address,
         deliveryAddress,
-        selectedAddress
+        selectedAddress,
+        customersProduct,
+        getProductById,
+        getOrderByOrderId
     };
     return <ShopContext.Provider value={contextValue}>{props.children}</ShopContext.Provider>;
 };

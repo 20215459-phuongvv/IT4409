@@ -4,6 +4,7 @@ import styles from './OrderSummary.module.scss'
 import AddressCard from "../AddressCard/AddressCard";
 import { ShopContext } from '~/context/ShopContext';
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 const numberWithCommas = (numberString) => {
     const number = parseInt(numberString, 10); // Chuyển đổi chuỗi thành số nguyên
@@ -36,8 +37,10 @@ const OrderSummary = () => {
 
 
     //Khi bấm vào nút Payment sẽ tạo đơn hàng --> Thử nghiệm
+    const nevigate = useNavigate();
     const handleCreatePayment = () => {
         createOrder(cartItems, selectedAddress);
+        nevigate('/account/order')
     }
     const { all_product, cartItems, getTotalCartAmount, selectedAddress, createOrder } = useContext(ShopContext);
     return (

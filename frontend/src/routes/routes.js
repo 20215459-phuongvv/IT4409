@@ -9,6 +9,7 @@ import Checkout from '~/components/Checkout/Checkout';
 import Chat from '~/components/Chat';
 import Order from '~/components/Order/Order';
 import OrderDetails from '~/components/Order/OrderDetail';
+import RateProduct from '~/components/ReviewProduct/RateProduct';
 
 // không cần đăng nhập vẫn xem được
 const publicRoutes = [
@@ -21,7 +22,8 @@ const publicRoutes = [
     { path: config.routes.checkout, component: Checkout},
     { path: config.routes.chat, component: Chat},
     { path: '/account/order', component: Order},
-    { path: '/account/order/:orderId', component: OrderDetails}
+    { path: '/account/order/:orderId', component: OrderDetails},
+    { path: '/account/rate/', component: RateProduct} //:/account/rate/:productId
 ];
 
 // phải đăng nhập, nếu không sẽ đưa ra login

@@ -1,18 +1,30 @@
 import { Box, Grid, Typography } from "@mui/material";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import AdjustIcon from "@mui/icons-material/Adjust";
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import StarIcon from "@mui/icons-material/Star";
 import classNames from "classnames/bind";
 import styles from './OrderCard.module.scss';
+import { ShopContext } from "~/context/ShopContext";
 const cx = classNames.bind(styles);
 
-const OrderCard = () => {
+
+// Orders:Mảng chứa các order có dạng
+// {
+// 	         orderId: 1, tăng dần
+//           items: [{ id: itemId (id_ product), size, quantity, color },....]
+//           address: selectedAddress,
+//           orderStatus: 'Pending'
+//         };
+
+const OrderCard = ({orderId}) => {
   const navigate = useNavigate();
-  
+  const {getOrderByOrderId, getProductById} = useContext(ShopContext);
+  const order = getOrderByOrderId(orderId);
+  const firstProduct = getProductById(order.items[0].id);
   return (
-    <div onClick={() => navigate(`/account/order/${1}`)}>
+    <div onClick={() => navigate(`/account/order/${orderId}`)}>
 
     <Box className={cx('wrapper')}>
       <Grid spacing={2} container sx={{ justifyContent: "space-between" }}>
@@ -23,25 +35,25 @@ const OrderCard = () => {
           >
             <img
               className="w-[5rem] h-[5rem] object-cover object-top"
-              src="https://product.hstatic.net/200000037048/product/z5389847628985_2af0a4ff1cc71c498970772c54cd79f6_5eb3502d3d9347baa8d5762cd0ba0c7b_master.jpg"
+              src={firstProduct.img}
               alt=""
             />
             <div  className={cx('item')}>
-              <p className={cx('item-title')}>Áo Chuchu Linh Lan</p> {/*title*/}
+              <p className={cx('item-title')}>{firstProduct.name}</p> {/*title*/}
               <p className={cx('item-size')} >
-                 <span>Size: M</span> {/* {item?.size} */}
+                 <span>Size: {order.items[0].size}</span> {/* {item?.size} */}
               </p>
             </div>
           </div>
         </Grid>
 
         <Grid item xs={2}>
-          <p>699,999đ</p>  {/*item?.price*/}
+          <p>{firstProduct.newPrice}</p>  {/*item?.price*/}
         </Grid>
         <Grid item xs={4}>
           <p className="space-y-2 font-semibold">
         {/*order?.orderStatus === "DELIVERED" thay vào true*/ }    
-        { true ? ( 
+        { order?.orderStatus === "DELIVERED" ? ( 
              <>
              <FiberManualRecordIcon
                   sx={{ width: "15px", height: "15px" }}
