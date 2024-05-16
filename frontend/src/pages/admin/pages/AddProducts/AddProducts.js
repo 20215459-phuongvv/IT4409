@@ -3,9 +3,12 @@ import styles from './AddProducts.module.scss';
 import { Checkbox, ColorPicker, Image, Input, Select, Upload } from 'antd';
 import { Button } from '@mui/material';
 import { UploadOutlined } from '@ant-design/icons';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '~/redux/Admin/Product/Action';
+import { getAllCategories } from '~/redux/Admin/Category/Action';
+import Loading from '~/components/LoadingComponent/Loading';
+import * as message from '~/components/Message/Message';
 
 const cx = classNames.bind(styles);
 const { TextArea } = Input;
@@ -21,27 +24,30 @@ function AddProducts() {
     const [colorInputs, setColorInputs] = useState([{ colorName: '#1677ff', imageList: [], imagePreviewList: [] }]);
     const [quantity, setQuantity] = useState('');
     const [description, setDescription] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const dispatch = useDispatch();
 
+    const categoriesState = useSelector((state) => state.categories);
+    const productsState = useSelector((state) => state.products);
+
+    const isLoading = categoriesState.loading;
+    const categoriesSelect = categoriesState.categories.map((category) => ({
+        value: category.categoryId,
+        label: category.categoryName,
+    }));
+
+    useEffect(() => {
+        dispatch(getAllCategories());
+    }, [dispatch]);
+
     // Đăng nhập lại thay đổi cái này
     const jwt =
-        'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU2NTYxMjgsImV4cCI6MTcxNTc0MjUyOCwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.xzaxy9uT538OUaYAMXcnJUCHmvWOA2rU2EiPGu038zTwFnI4C0340vckwFod5-x7fk-eKCXSY8W8bu-WEB53qQ';
-
+        'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU3NjI3NzksImV4cCI6MTcxNTg0OTE3OSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.8NnaPwJu6-Ehj039gMBxnW9Z1pWdoGXslxCQo1F-gACNrTMlMBeF_pAZGXGUEyYXmZlfBznMUVSu1yqixIxqdA';
 
     const handleChangeProductType = (value) => {
         setType(value);
     };
-
-    // const handleOnChangeProductThumbnail = async (fileInfo) => {
-    //     const file = fileInfo.file;
-    //     if (file.status === 'error') {
-    //         if (!file.url && !file.preview) {
-    //             file.preview = await getBase64(file.originFileObj);
-    //         }
-    //     }
-    //     setThumbnail(file.preview);
-    // };
 
     const handleOnChangeProductThumbnail = (fileInfo) => {
         if (fileInfo.file.status === 'error') {
@@ -58,18 +64,6 @@ function AddProducts() {
     const handleChangeSize = (checkedValues) => {
         setSize(checkedValues);
     };
-
-    // const handleOnChangeProductImage = async (fileInfo, colorIndex) => {
-    //     const file = fileInfo.file;
-    //     if (file.status === 'error') {
-    //         if (!file.url && !file.preview) {
-    //             file.preview = await getBase64(file.originFileObj);
-    //         }
-    //         const updatedColorInputs = [...colorInputs];
-    //         updatedColorInputs[colorIndex].imageList.push(file.preview);
-    //         setColorInputs(updatedColorInputs);
-    //     }
-    // };
 
     const handleOnChangeProductImage = (fileInfo, colorIndex) => {
         if (fileInfo.file.status === 'error') {
@@ -88,7 +82,6 @@ function AddProducts() {
         const updatedColorInputs = [...colorInputs];
         updatedColorInputs.splice(colorIndex, 1);
         setColorInputs(updatedColorInputs);
-        // updateColorIds();
     };
 
     const handleRemoveImage = (colorIndex, imageIndex) => {
@@ -97,15 +90,6 @@ function AddProducts() {
         updatedColorInputs[colorIndex].imagePreviewList.splice(imageIndex, 1);
         setColorInputs(updatedColorInputs);
     };
-
-    // const updateColorIds = () => {
-    //     setColorInputs((prevColorInputs) =>
-    //         prevColorInputs.map((colorInput, index) => ({
-    //             ...colorInput,
-    //             id: index + 1,
-    //         })),
-    //     );
-    // };
 
     const handleAddProduct = () => {
         const newProduct = new FormData();
@@ -130,11 +114,21 @@ function AddProducts() {
             });
         });
 
+        setIsSubmitting(true);
         // Call api
         dispatch(createProduct({ data: newProduct, jwt }));
-
-        console.log('colorInputs', colorInputs);
     };
+
+    useEffect(() => {
+        if (isSubmitting && !productsState.loading) {
+            if (productsState.error) {
+                message.error('Thêm sản phẩm thất bại, chưa nhập đúng các trường thông tin hoặc lỗi đường truyền');
+            } else {
+                message.success('Thêm sản phẩm mới thành công!');
+            }
+            setIsSubmitting(false); // Reset submission state
+        }
+    }, [isSubmitting, productsState.loading, productsState.error]);
 
     return (
         <div className={cx('wrapper')}>
@@ -182,31 +176,17 @@ function AddProducts() {
 
                         <div className={cx('input-row')}>
                             <span className={cx('input-label')}>Phân loại</span>
-                            <Select
-                                defaultValue="Áo"
-                                style={{
-                                    width: 120,
-                                }}
-                                onChange={handleChangeProductType}
-                                options={[
-                                    {
-                                        value: '1',
-                                        label: 'Áo',
-                                    },
-                                    {
-                                        value: '2',
-                                        label: 'Quần',
-                                    },
-                                    {
-                                        value: '3',
-                                        label: 'Váy',
-                                    },
-                                    {
-                                        value: '4',
-                                        label: 'Phụ kiện',
-                                    },
-                                ]}
-                            />
+                            <Loading isLoading={isLoading}>
+                                <Select
+                                    defaultValue="Chọn loại sản phẩm"
+                                    style={{
+                                        minWidth: 500,
+                                        maxWidth: 1000,
+                                    }}
+                                    onChange={handleChangeProductType}
+                                    options={categoriesSelect}
+                                />
+                            </Loading>
                         </div>
 
                         <div className={cx('input-row')}>

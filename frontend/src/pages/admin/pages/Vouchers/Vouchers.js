@@ -56,7 +56,6 @@ let data = [
 
 const rows = data.map((element, index) => ({ ...element, index: index + 1 }));
 
-
 function Vouchers() {
     const [openAddVoucher, setOpenAddVoucher] = useState(false);
     // const [newVoucher, setNewVoucher] = useState({
@@ -158,10 +157,11 @@ function Vouchers() {
                     </div>
                 </Modal>
             </div>
-            
+
             <TableComponent
                 columns={columns}
                 rows={rows}
+                rowPerPage={6}
                 type="voucher"
                 attributes={['index', 'name', 'code', 'value', 'condition', 'maximum_value']}
                 deleteButton={true}

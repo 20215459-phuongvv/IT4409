@@ -79,6 +79,7 @@ function OrdersManagement() {
             <TableComponent
                 columns={columns}
                 rows={rows}
+                rowPerPage={6}
                 type="order"
                 attributes={attributes}
                 contactButton={true}

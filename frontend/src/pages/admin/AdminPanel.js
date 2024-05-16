@@ -16,6 +16,7 @@ import SideBar from './components/SideBar/SideBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getUser } from '~/redux/Auth/Action';
+import CategoriesManagement from './pages/Categories/Categories';
 
 const cx = classNames.bind(styles);
 
@@ -38,6 +39,7 @@ function AdminPanel() {
                     <Routes>
                         <Route path="/" element={<Dashboard />}></Route>
                         <Route path="/products" element={<ProductsManagement />}></Route>
+                        <Route path="/categories" element={<CategoriesManagement />}></Route>
                         <Route path="/users" element={<UsersManagement />}></Route>
                         <Route path="/add-products" element={<AddProducts />}></Route>
                         <Route path="/discount" element={<Vouchers />}></Route>

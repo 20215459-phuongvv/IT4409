@@ -11,6 +11,7 @@ import { styled } from '@mui/material/styles';
 
 import classNames from 'classnames/bind';
 import styles from './TableComponent.module.scss';
+import { Image } from 'antd';
 
 const cx = classNames.bind(styles);
 
@@ -23,6 +24,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 function TableComponent({
     columns,
     rows,
+    rowPerPage,
     type,
     attributes,
     deleteButton,
@@ -33,7 +35,7 @@ function TableComponent({
     handleUpdate,
 }) {
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(6);
+    const [rowsPerPage, setRowsPerPage] = useState(rowPerPage);
     const [openDeleteBox, setOpenDeleteBox] = useState([]);
     const [openVoucherUpdateBox, setOpenVoucherUpdateBox] = useState([]);
     const [openProductUpdateBox, setOpenProductUpdateBox] = useState([]);
@@ -50,6 +52,7 @@ function TableComponent({
         product: 'sản phẩm',
         order: 'đơn hàng',
         voucher: 'mã giảm giá',
+        categories: 'danh mục',
     };
 
     const handleChangePage = (event, newPage) => {
@@ -163,7 +166,11 @@ function TableComponent({
                                         <>
                                             <StyledTableCell align="left">{row?.index}</StyledTableCell>
                                             <StyledTableCell align="left">
-                                                <Avatar src={row?.thumbnail} alt="" />
+                                                <Image
+                                                    style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'contain' }}
+                                                    src={row?.thumbnail}
+                                                    alt=""
+                                                />
                                             </StyledTableCell>
 
                                             <StyledTableCell align="left">{row?.productName}</StyledTableCell>

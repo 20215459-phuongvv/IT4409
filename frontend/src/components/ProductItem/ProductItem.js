@@ -10,8 +10,14 @@ function ProductItem({ data }) {
             <img className={cx('img')} src={data.thumbnail} alt="" />
             <p className={cx('name')}>{data.productName}</p>
             <div className={cx('price')}>
-                <p className={cx('new-price')}>{data.discountPrice}đ</p>
-                {data.price && <p className={cx('old-price')}>{data.price}đ</p>}
+                {data.discountPrice ? (
+                    <>
+                        <p className={cx('new-price')}>{data.discountPrice}đ</p>
+                        <p className={cx('old-price')}>{data.price}đ</p>
+                    </>
+                ) : (
+                    <p className={cx('new-price')}>{data.price}đ</p>
+                )}
             </div>
         </Link>
     );
