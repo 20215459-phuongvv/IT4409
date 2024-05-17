@@ -57,7 +57,6 @@ function CategoriesManagement() {
         dispatch(getAllCategories());
     }, [dispatch]);
 
-    console.log('categoriesState', categoriesState);
 
     const rows = categoriesState.categories.map((element, index) => {
         const totalQuantity = element.productList?.reduce((acc, product) => acc + product.quantityInStock, 0);

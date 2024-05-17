@@ -5,6 +5,7 @@ import messageReducer from './Message/Reducer';
 import loadingReducer from './Loading/Reducer';
 import productReducer from './Admin/Product/Reducer';
 import categoryReducer from './Admin/Category/Reducer';
+import voucherReducer from './Admin/Voucher/Reducer';
 
 const rootReducers = combineReducers({
     auth: authReducer,
@@ -12,6 +13,7 @@ const rootReducers = combineReducers({
     loading: loadingReducer,
     products: productReducer,
     categories: categoryReducer,
+    vouchers: voucherReducer,
 });
 
 export const store = legacy_createStore(rootReducers, applyMiddleware(thunk));

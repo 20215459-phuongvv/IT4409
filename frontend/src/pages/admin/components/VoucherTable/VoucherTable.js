@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -6,11 +6,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Avatar, Button, MenuItem, Modal } from '@mui/material';
+import { Button, Modal } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import classNames from 'classnames/bind';
-import styles from './ProductTable.module.scss';
-import { Image } from 'antd';
+import styles from './VoucherTable.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -20,17 +19,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-function ProductTable({ columns, rows, rowPerPage, handleDelete, handleUpdate }) {
+function VoucherTable({ columns, rows, rowPerPage, handleDelete, handleUpdate }) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(rowPerPage);
     const [openDeleteBox, setOpenDeleteBox] = useState([]);
-    const [openProductUpdateBox, setOpenProductUpdateBox] = useState([]);
-    const [updatedProduct, setUpdatedProduct] = useState({
-        productName: '',
-        price: '',
-        discountPrice: '',
-        quantityInStock: '',
-    });
+    const [openVoucherUpdateBox, setOpenVoucherUpdateBox] = useState([]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -52,41 +45,21 @@ function ProductTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
         });
     };
 
-    const handleOpenProductUpdateBox = (index, row) => {
-        setUpdatedProduct({
-            productName: row.productName,
-            category: row.category?.categoryName,
-            price: row.price,
-            discountPrice: row.discountPrice,
-            quantityInStock: row.quantityInStock,
-        });
-        setOpenProductUpdateBox((prev) => {
+    const handleOpenVoucherUpdateBox = (index) => {
+        setOpenVoucherUpdateBox((prev) => {
             const newState = [...prev];
             newState[index] = true;
             return newState;
         });
     };
 
-    const handleCloseProductUpdateBox = (index) => {
-        setOpenProductUpdateBox((prev) => {
+    const handleCloseVoucherUpdateBox = (index) => {
+        setOpenVoucherUpdateBox((prev) => {
             const newState = [...prev];
             newState[index] = false;
             return newState;
         });
     };
-
-    const handleInputChange = (field, value) => {
-        setUpdatedProduct((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
-    };
-
-    const handleUpdateClick = (index) => {
-        handleUpdate(updatedProduct);
-        handleCloseProductUpdateBox(index);
-    };
-
 
     return (
         <div className={cx('wrapper')}>
@@ -108,34 +81,23 @@ function ProductTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
 
                     <TableBody>
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                            const date = new Date(row?.endDate);
+                            const endDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1)
+                                .toString()
+                                .padStart(2, '0')}/${date.getFullYear()}`;
+
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row.index}>
                                     <StyledTableCell align="left">{row?.index}</StyledTableCell>
+                                    <StyledTableCell align="left">{row?.discountCode}</StyledTableCell>
+                                    <StyledTableCell align="left">{row?.discountValue * 100 + ' %'}</StyledTableCell>
                                     <StyledTableCell align="left">
-                                        <Image
-                                            style={{
-                                                width: '50px',
-                                                height: '50px',
-                                                borderRadius: '50%',
-                                                objectFit: 'contain',
-                                            }}
-                                            src={row?.thumbnail}
-                                            alt=""
-                                        />
+                                        {'≥ ' + row?.minCondition.toLocaleString('vn-VN') + ' đ'}
                                     </StyledTableCell>
-
-                                    <StyledTableCell align="left">{row?.productName}</StyledTableCell>
-
-                                    <StyledTableCell align="left">{row?.category?.categoryName}</StyledTableCell>
-
                                     <StyledTableCell align="left">
-                                        {row?.price.toLocaleString('vn-VN') + ' đ'}
+                                        {row?.maxPossibleValue.toLocaleString('vn-VN') + ' đ'}
                                     </StyledTableCell>
-
-                                    <StyledTableCell align="left">{row?.quantityInStock}</StyledTableCell>
-                                    <StyledTableCell align="left">
-                                        {row?.state === 0 ? 'Hết hàng' : 'Còn hàng'}
-                                    </StyledTableCell>
+                                    <StyledTableCell align="left">{endDate}</StyledTableCell>
 
                                     <TableCell align="left">
                                         <Button
@@ -152,7 +114,7 @@ function ProductTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
                                             aria-describedby="modal-modal-description"
                                         >
                                             <div className={cx('delete-confirm-box')}>
-                                                <p>Xóa sản phẩm {row.productName} ?</p>
+                                                <p>Xóa mã giảm giá {row?.discountCode} ?</p>
                                                 <div className={cx('delete-box-row')}>
                                                     <Button
                                                         size="large"
@@ -179,7 +141,7 @@ function ProductTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
 
                                     <TableCell align="left">
                                         <Button
-                                            onClick={() => handleOpenProductUpdateBox(row.index - 1, row)}
+                                            onClick={() => handleOpenVoucherUpdateBox(row.index - 1)}
                                             variant="contained"
                                             color="secondary"
                                         >
@@ -187,68 +149,62 @@ function ProductTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
                                         </Button>
 
                                         <Modal
-                                            open={openProductUpdateBox[row.index - 1]}
-                                            onClose={() => handleCloseProductUpdateBox(row.index - 1)}
+                                            open={openVoucherUpdateBox[row.index - 1]}
+                                            onClose={() => handleCloseVoucherUpdateBox(row.index - 1)}
                                             aria-labelledby="modal-modal-title"
                                             aria-describedby="modal-modal-description"
                                         >
                                             <div className={cx('update-modal-box')}>
-                                                <p className={cx('update-modal-title')}>Cập nhật sản phẩm</p>
+                                                <p className={cx('update-modal-title')}>Cập nhật Voucher</p>
 
                                                 <div className={cx('update-input-wrapper')}>
                                                     <div className={cx('update-input-row')}>
-                                                        <p>Tên sản phẩm</p>
+                                                        <p>Mã voucher</p>
                                                         <input
+                                                            id={`voucher-code-${row.index - 1}`}
                                                             type="text"
-                                                            defaultValue={updatedProduct.productName}
-                                                            onChange={(e) =>
-                                                                handleInputChange('productName', e.target.value)
-                                                            }
-                                                        />
-                                                    </div>
-
-                                                    {/* <div className={cx('update-input-row')}>
-                                                        <p>Phân loại</p>
-
-                                                        <Select
-                                                            defaultValue="Chọn loại sản phẩm"
-                                                            style={{
-                                                                minWidth: 500,
-                                                                maxWidth: 1000,
-                                                            }}
-                                                            // onChange={handleChangeProductType}
-                                                            options={categoriesSelect}
-                                                        />
-                                                    </div> */}
-
-                                                    <div className={cx('update-input-row')}>
-                                                        <p>Giá</p>
-                                                        <input
-                                                            type="number"
-                                                            defaultValue={updatedProduct.price}
-                                                            onChange={(e) => handleInputChange('price', e.target.value)}
+                                                            defaultValue={row?.discountCode}
+                                                            onChange={null}
                                                         />
                                                     </div>
 
                                                     <div className={cx('update-input-row')}>
-                                                        <p>Giá sau giảm</p>
+                                                        <p>Giá trị (%)</p>
                                                         <input
-                                                            type="number"
-                                                            defaultValue={updatedProduct.discountPrice}
-                                                            onChange={(e) =>
-                                                                handleInputChange('discountPrice', e.target.value)
-                                                            }
+                                                            id={`voucher-value-${row.index - 1}`}
+                                                            type="text"
+                                                            onChange={null}
+                                                            defaultValue={row?.discountValue * 100}
                                                         />
                                                     </div>
 
                                                     <div className={cx('update-input-row')}>
-                                                        <p>Số lượng hàng</p>
+                                                        <p>Điều kiện (≥ vnd)</p>
                                                         <input
-                                                            type="number"
-                                                            defaultValue={updatedProduct.quantityInStock}
-                                                            onChange={(e) =>
-                                                                handleInputChange('quantityInStock', e.target.value)
-                                                            }
+                                                            id={`voucher-condition-${row.index - 1}`}
+                                                            type="text"
+                                                            onChange={null}
+                                                            defaultValue={row?.minCondition}
+                                                        />
+                                                    </div>
+
+                                                    <div className={cx('update-input-row')}>
+                                                        <p>Giá trị tối đa (vnd)</p>
+                                                        <input
+                                                            id={`voucher-maximum-value-${row.index - 1}`}
+                                                            type="text"
+                                                            onChange={null}
+                                                            defaultValue={row?.maxPossibleValue}
+                                                        />
+                                                    </div>
+
+                                                    <div className={cx('update-input-row')}>
+                                                        <p>Ngày hết hạn (DD/MM/YYYY)</p>
+                                                        <input
+                                                            id={`voucher-endDate-${row.index - 1}`}
+                                                            type="text"
+                                                            onChange={null}
+                                                            defaultValue={endDate}
                                                         />
                                                     </div>
                                                 </div>
@@ -257,7 +213,31 @@ function ProductTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
                                                     <Button
                                                         color="info"
                                                         variant="contained"
-                                                        onClick={() => handleUpdateClick(row.index - 1)}
+                                                        onClick={() => {
+                                                            let data = {
+                                                                discountCode: document.getElementById(
+                                                                    `voucher-code-${row.index - 1}`,
+                                                                )?.value,
+                                                                discountValue:
+                                                                    Number(
+                                                                        document.getElementById(
+                                                                            `voucher-value-${row.index - 1}`,
+                                                                        )?.value,
+                                                                    ) / 100,
+                                                                endDate: document.getElementById(
+                                                                    `voucher-endDate-${row.index - 1}`,
+                                                                )?.value,
+                                                                minCondition: document.getElementById(
+                                                                    `voucher-condition-${row.index - 1}`,
+                                                                )?.value,
+                                                                maxPossibleValue: document.getElementById(
+                                                                    `voucher-maximum-value-${row.index - 1}`,
+                                                                )?.value,
+                                                            };
+
+                                                            handleUpdate(data, row.discountCodeId);
+                                                            handleCloseVoucherUpdateBox(row.index - 1);
+                                                        }}
                                                     >
                                                         Cập nhật
                                                     </Button>
@@ -265,7 +245,7 @@ function ProductTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
                                                     <Button
                                                         color="error"
                                                         variant="outlined"
-                                                        onClick={() => handleCloseProductUpdateBox(row.index - 1)}
+                                                        onClick={() => handleCloseVoucherUpdateBox(row.index - 1)}
                                                     >
                                                         Hủy
                                                     </Button>
@@ -306,4 +286,4 @@ function ProductTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
     );
 }
 
-export default ProductTable;
+export default VoucherTable;

@@ -55,12 +55,12 @@ const columns = [
 
 function ProductsManagement() {
     const dispatch = useDispatch();
-    
+
     useEffect(() => {
         dispatch(getAllCategories());
         dispatch(getAllProducts());
     }, [dispatch]);
-    
+
     const productsState = useSelector((state) => state.products);
     const categoriesState = useSelector((state) => state.categories);
 
@@ -73,7 +73,6 @@ function ProductsManagement() {
     }));
 
     console.log('categoriesSelect', categoriesSelect);
-
 
     console.log('productsState', productsState);
 
@@ -95,19 +94,18 @@ function ProductsManagement() {
         }
     };
 
-    const handleUpdate = (index) => {
-        console.log(index);
+    const handleUpdate = (product) => {
+        console.log('update product', product);
     };
 
     return (
         <Loading isLoading={isLoading}>
             <div className={cx('wrapper')}>
                 <h1 className={cx('title')}>Danh sách sản phẩm</h1>
-                <ProductTable 
+                <ProductTable
                     columns={columns}
                     rows={rows}
                     rowPerPage={6}
-                    categoriesSelect={categoriesSelect}
                     handleDelete={handleDelete}
                     handleUpdate={handleUpdate}
                 />
