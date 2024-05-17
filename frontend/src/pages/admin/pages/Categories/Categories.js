@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
-import { createCategory, deleteCategory, getAllCategories } from '~/redux/Admin/Category/Action';
+import { createCategory, deleteCategory, getAllCategories, updateCategory } from '~/redux/Admin/Category/Action';
 import * as message from '~/components/Message/Message';
 import { useDispatch, useSelector } from 'react-redux';
 import TableComponent from '../../components/TableComponent';
@@ -58,7 +58,6 @@ function CategoriesManagement() {
     }, [dispatch]);
 
     console.log('categoriesState', categoriesState);
-
 
     const rows = categoriesState.categories.map((element, index) => {
         const totalQuantity = element.productList?.reduce((acc, product) => acc + product.quantityInStock, 0);
@@ -127,77 +126,95 @@ function CategoriesManagement() {
 
     const handleUpdate = (category) => {
         console.log('update category', category);
+
+        const data = new FormData();
+
+        data.append('categoryName', category.categoryName);
+        if (category.thumbnail) {
+            data.append('thumbnail', category.thumbnail);
+        }
+
+        dispatch(updateCategory(data, category.categoryId, jwt)).then(() => {
+            dispatch(getAllCategories());
+        });
+        if (!isError) {
+            message.success();
+        } else {
+            message.error();
+        }
     };
 
     return (
-        <div className={cx('wrapper')}>
-            <h1 className={cx('title')}>Danh mục sản phẩm</h1>
-            <div className={cx('show-add-category-modal')} onClick={showModal}>
-                <AddCircleIcon />
-                <span>Thêm danh mục</span>
-            </div>
+        <Loading isLoading={isLoading}>
+            <div className={cx('wrapper')}>
+                <h1 className={cx('title')}>Danh mục sản phẩm</h1>
+                <div className={cx('show-add-category-modal')} onClick={showModal}>
+                    <AddCircleIcon />
+                    <span>Thêm danh mục</span>
+                </div>
 
-            <CategoryTable
-                columns={columns}
-                rows={rows}
-                rowPerPage={6}
-                handleDelete={handleDelete}
-                handleUpdate={handleUpdate}
-            />
+                <CategoryTable
+                    columns={columns}
+                    rows={rows}
+                    rowPerPage={6}
+                    handleDelete={handleDelete}
+                    handleUpdate={handleUpdate}
+                />
 
-            <Modal
-                width={700}
-                title="Thêm danh mục mới"
-                open={isModalVisible}
-                onCancel={handleCancel}
-                footer={[
-                    <Button key="submit" variant="contained" type="primary" onClick={handleAddCategory}>
-                        Thêm danh mục
-                    </Button>,
-                ]}
-            >
-                <Loading isLoading={isLoading}>
-                    <div className={cx('add-category-input')}>
-                        <div className={cx('category-input-item')}>
-                            <span className={cx('category-input-label')}>Tên danh mục</span>
-                            <Input
-                                placeholder="Nhập tên danh mục"
-                                onChange={(e) => {
-                                    setCategoryName(e.target.value);
-                                }}
-                            />
-                        </div>
+                <Modal
+                    width={700}
+                    title="Thêm danh mục mới"
+                    open={isModalVisible}
+                    onCancel={handleCancel}
+                    footer={[
+                        <Button key="submit" variant="contained" type="primary" onClick={handleAddCategory}>
+                            Thêm danh mục
+                        </Button>,
+                    ]}
+                >
+                    <Loading isLoading={isLoading}>
+                        <div className={cx('add-category-input')}>
+                            <div className={cx('category-input-item')}>
+                                <span className={cx('category-input-label')}>Tên danh mục</span>
+                                <Input
+                                    placeholder="Nhập tên danh mục"
+                                    onChange={(e) => {
+                                        setCategoryName(e.target.value);
+                                    }}
+                                />
+                            </div>
 
-                        <div className={cx('category-input-item')}>
-                            <span className={cx('category-input-label')}>Ảnh đại diện</span>
-                            <div className={cx('input-thumbnail')}>
-                                <Upload onChange={handleOnChangeCategoryThumbnail} showUploadList={false}>
-                                    <button className={cx('add-image-btn')}>
-                                        <UploadOutlined />
-                                        Chọn ảnh
-                                    </button>
-                                </Upload>
+                            <div className={cx('category-input-item')}>
+                                <span className={cx('category-input-label')}>Ảnh đại diện</span>
+                                <div className={cx('input-thumbnail')}>
+                                    <Upload onChange={handleOnChangeCategoryThumbnail} showUploadList={false}>
+                                        <button className={cx('add-image-btn')}>
+                                            <UploadOutlined />
+                                            Chọn ảnh
+                                        </button>
+                                    </Upload>
 
-                                {categoryThumbnail && (
-                                    <Image className={cx('image-item')} alt="" src={categoryThumbnailPreview} />
-                                )}
+                                    {categoryThumbnail && (
+                                        <Image className={cx('image-item')} alt="" src={categoryThumbnailPreview} />
+                                    )}
 
-                                {categoryThumbnail && (
-                                    <Button
-                                        color="secondary"
-                                        variant="contained"
-                                        size="small"
-                                        onClick={handleRemoveCategoryThumbnail}
-                                    >
-                                        Xóa
-                                    </Button>
-                                )}
+                                    {categoryThumbnail && (
+                                        <Button
+                                            color="secondary"
+                                            variant="contained"
+                                            size="small"
+                                            onClick={handleRemoveCategoryThumbnail}
+                                        >
+                                            Xóa
+                                        </Button>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </Loading>
-            </Modal>
-        </div>
+                    </Loading>
+                </Modal>
+            </div>
+        </Loading>
     );
 }
 

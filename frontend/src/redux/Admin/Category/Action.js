@@ -56,29 +56,28 @@ export const createCategory = (category) => async (dispatch) => {
     }
 };
 
-// // export const updateProduct = (product) => async (dispatch) => {
-// //   try {
-// //     dispatch({ type: UPDATE_PRODUCT_REQUEST });
+export const updateCategory = (formData, id, jwt) => async (dispatch) => {
+    try {
+        dispatch({ type: UPDATE_CATEGORY_REQUEST });
 
-// //     const { data } = await api.put(
-// //       `${API_BASE_URL}/api/admin/products/${product.productId}`,
-// //       product
-// //     );
+        const { data } = await api.put(`${API_BASE_URL}/api/admin/categories/${id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
 
-// //     dispatch({
-// //       type: UPDATE_PRODUCT_SUCCESS,
-// //       payload: data,
-// //     });
-// //   } catch (error) {
-// //     dispatch({
-// //       type: UPDATE_PRODUCT_FAILURE,
-// //       payload:
-// //         error.response && error.response.data.message
-// //           ? error.response.data.message
-// //           : error.message,
-// //     });
-// //   }
-// // };
+        dispatch({
+            type: UPDATE_CATEGORY_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: UPDATE_CATEGORY_FAILURE,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+        });
+    }
+};
 
 export const deleteCategory = (data) => async (dispatch) => {
     try {
