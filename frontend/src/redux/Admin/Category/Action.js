@@ -80,21 +80,20 @@ export const createCategory = (category) => async (dispatch) => {
 // //   }
 // // };
 
-// export const deleteProduct = (data) => async (dispatch) => {
-//     try {
-//         dispatch({ type: DELETE_PRODUCT_REQUEST });
+export const deleteCategory = (data) => async (dispatch) => {
+    try {
+        dispatch({ type: DELETE_CATEGORY_REQUEST });
 
-//         await api.delete(`/api/admin/products/${data.productId}`);
+        await api.delete(`/api/admin/categories/${data.categoryId}`);
 
-//         dispatch({
-//             type: DELETE_PRODUCT_SUCCESS,
-//             payload: data.productId,
-//         });
-
-//     } catch (error) {
-//         dispatch({
-//             type: DELETE_PRODUCT_FAILURE,
-//             payload: error.response && error.response.data.message ? error.response.data.message : error.message,
-//         });
-//     }
-// };
+        dispatch({
+            type: DELETE_CATEGORY_SUCCESS,
+            payload: data.categoryId,
+        });
+    } catch (error) {
+        dispatch({
+            type: DELETE_CATEGORY_FAILURE,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+        });
+    }
+};

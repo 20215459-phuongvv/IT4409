@@ -27,6 +27,7 @@ function TableComponent({
     rowPerPage,
     type,
     attributes,
+    categoriesSelect,
     deleteButton,
     contactButton,
     updateButton,
@@ -52,7 +53,7 @@ function TableComponent({
         product: 'sản phẩm',
         order: 'đơn hàng',
         voucher: 'mã giảm giá',
-        categories: 'danh mục',
+        category: 'danh mục',
     };
 
     const handleChangePage = (event, newPage) => {
@@ -167,7 +168,12 @@ function TableComponent({
                                             <StyledTableCell align="left">{row?.index}</StyledTableCell>
                                             <StyledTableCell align="left">
                                                 <Image
-                                                    style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'contain' }}
+                                                    style={{
+                                                        width: '50px',
+                                                        height: '50px',
+                                                        borderRadius: '50%',
+                                                        objectFit: 'contain',
+                                                    }}
                                                     src={row?.thumbnail}
                                                     alt=""
                                                 />
@@ -182,6 +188,31 @@ function TableComponent({
                                             <StyledTableCell align="left">{row?.price}</StyledTableCell>
 
                                             <StyledTableCell align="left">{row?.quantityInStock}</StyledTableCell>
+                                            <StyledTableCell align="left">
+                                                {row?.state === 0 ? 'Hết hàng' : 'Còn hàng'}
+                                            </StyledTableCell>
+                                        </>
+                                    )}
+
+                                    {type === 'category' && (
+                                        <>
+                                            <StyledTableCell align="left">{row?.index}</StyledTableCell>
+                                            <StyledTableCell align="left">
+                                                <Image
+                                                    style={{
+                                                        width: '50px',
+                                                        height: '50px',
+                                                        borderRadius: '50%',
+                                                        objectFit: 'contain',
+                                                    }}
+                                                    src={row?.thumbnail}
+                                                    alt=""
+                                                />
+                                            </StyledTableCell>
+
+                                            <StyledTableCell align="left">{row?.categoryName}</StyledTableCell>
+
+                                            <StyledTableCell align="left">{row.quantity}</StyledTableCell>
                                         </>
                                     )}
 
@@ -354,7 +385,6 @@ function TableComponent({
                                     )}
 
                                     {updateButton && type === 'product' && (
-                                        // Cập nhật voucher
                                         <TableCell align="left">
                                             <Button
                                                 onClick={() => handleOpenProductUpdateBox(row.index - 1)}
@@ -374,6 +404,49 @@ function TableComponent({
                                                     <p className={cx('update-modal-title')}>Cập nhật sản phẩm</p>
 
                                                     <div className={cx('update-input-wrapper')}>
+                                                        <div className={cx('update-input-row')}>
+                                                            <p>Tên sản phẩm</p>
+                                                            <input
+                                                                id={`product-name-${row.index - 1}`}
+                                                                type="text"
+                                                                defaultValue={row.productName}
+                                                                onChange={null}
+                                                            />
+                                                        </div>
+
+                                                        <div className={cx('update-input-row')}>
+                                                            <p>Phân loại</p>
+                                                            <Select
+                                                                defaultValue="Chọn loại sản phẩm"
+                                                                style={{
+                                                                    minWidth: 500,
+                                                                    maxWidth: 1000,
+                                                                }}
+                                                                // onChange={handleChangeProductType}
+                                                                options={categoriesSelect}
+                                                            />
+                                                        </div>
+
+                                                        <div className={cx('update-input-row')}>
+                                                            <p>Tên sản phẩm</p>
+                                                            <input
+                                                                id={`product-name-${row.index - 1}`}
+                                                                type="text"
+                                                                defaultValue={row.name}
+                                                                onChange={null}
+                                                            />
+                                                        </div>
+
+                                                        <div className={cx('update-input-row')}>
+                                                            <p>Tên sản phẩm</p>
+                                                            <input
+                                                                id={`product-name-${row.index - 1}`}
+                                                                type="text"
+                                                                defaultValue={row.name}
+                                                                onChange={null}
+                                                            />
+                                                        </div>
+
                                                         <div className={cx('update-input-row')}>
                                                             <p>Tên sản phẩm</p>
                                                             <input

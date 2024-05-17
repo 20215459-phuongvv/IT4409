@@ -5,63 +5,40 @@ import { useEffect, useState } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
-import { createCategory } from '~/redux/Admin/Category/Action';
+import { createCategory, deleteCategory, getAllCategories } from '~/redux/Admin/Category/Action';
 import * as message from '~/components/Message/Message';
 import { useDispatch, useSelector } from 'react-redux';
 import TableComponent from '../../components/TableComponent';
 import Loading from '~/components/LoadingComponent/Loading';
+import CategoryTable from '../../components/CategoryTable';
 
 const cx = classNames.bind(styles);
 const jwt =
-    'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU3NjI3NzksImV4cCI6MTcxNTg0OTE3OSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.8NnaPwJu6-Ehj039gMBxnW9Z1pWdoGXslxCQo1F-gACNrTMlMBeF_pAZGXGUEyYXmZlfBznMUVSu1yqixIxqdA';
+    'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU4NjMwNDksImV4cCI6MTcxNTk0OTQ0OSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.NmdUzduLgqKMdOeQpHxEbi4IH2NBVD3R2OdmZL24C6Vk0pAXgmYCY701pneDnSUYGL7m_nYhjTSxZ9Y0M0m-YQ';
 
-// const columns = [
-//     { id: 'index', label: 'STT', minWidth: 20 },
-//     { id: 'name', label: 'Tên Voucher', minWidth: 100 },
-//     { id: 'code', label: 'Mã giảm giá', minWidth: 100, align: 'left' },
-//     {
-//         id: 'value',
-//         label: 'Giá trị',
-//         minWidth: 50,
-//         align: 'left',
-//     },
-//     {
-//         id: 'condition',
-//         label: 'Điều kiện đơn hàng',
-//         minWidth: 60,
-//         align: 'left',
-//     },
-//     {
-//         id: 'maximum_value',
-//         label: 'Giá trị tối đa',
-//         minWidth: 30,
-//         align: 'left',
-//     },
-//     {
-//         id: 'delete',
-//         label: 'Xóa',
-//         minWidth: 30,
-//         align: 'left',
-//     },
-//     {
-//         id: 'update',
-//         label: 'Cập nhật',
-//         minWidth: 100,
-//         align: 'left',
-//     },
-// ];
-
-// function createData(name, code, value, condition, maximum_value) {
-//     return { name, code, value, condition, maximum_value };
-// }
-
-// let data = [
-//     createData('voucher_name_1', 'VC001', '10%', '≥ 100000', 50000),
-//     createData('voucher_name_2', 'VC002', '15%', '≥ 100000', 30000),
-//     createData('voucher_name_3', 'VC003', '20%', '≥ 200000', 60000),
-// ];
-
-// const rows = data.map((element, index) => ({ ...element, index: index + 1 }));
+const columns = [
+    { id: 'index', label: 'STT', minWidth: 20 },
+    { id: 'avatar', label: 'Ảnh', minWidth: 60 },
+    { id: 'name', label: 'Tên danh mục', minWidth: 200 },
+    {
+        id: 'quantity',
+        label: 'Số sản phẩm',
+        minWidth: 50,
+        align: 'left',
+    },
+    {
+        id: 'delete',
+        label: 'Xóa',
+        minWidth: 30,
+        align: 'left',
+    },
+    {
+        id: 'update',
+        label: 'Cập nhật',
+        minWidth: 50,
+        align: 'left',
+    },
+];
 
 function CategoriesManagement() {
     const [categoryName, setCategoryName] = useState('');
@@ -72,6 +49,26 @@ function CategoriesManagement() {
 
     const dispatch = useDispatch();
     const categoriesState = useSelector((state) => state.categories);
+
+    const isLoading = categoriesState.loading;
+    const isError = categoriesState.error;
+
+    useEffect(() => {
+        dispatch(getAllCategories());
+    }, [dispatch]);
+
+    console.log('categoriesState', categoriesState);
+
+
+    const rows = categoriesState.categories.map((element, index) => {
+        const totalQuantity = element.productList?.reduce((acc, product) => acc + product.quantityInStock, 0);
+        return {
+            ...element,
+            quantity: !totalQuantity ? 0 : totalQuantity,
+            index: index + 1,
+        };
+    });
+    console.log('rows', rows);
 
     const handleOnChangeCategoryThumbnail = (fileInfo) => {
         if (fileInfo.file.status === 'error') {
@@ -93,8 +90,8 @@ function CategoriesManagement() {
             newCategory.append('thumbnail', categoryThumbnail);
         }
 
-        setIsSubmittingAddCategory(true);
         dispatch(createCategory({ data: newCategory, jwt }));
+        setIsSubmittingAddCategory(true);
     };
 
     useEffect(() => {
@@ -117,6 +114,21 @@ function CategoriesManagement() {
         setIsModalVisible(false);
     };
 
+    const handleDelete = (category) => {
+        dispatch(deleteCategory(category)).then(() => {
+            dispatch(getAllCategories());
+        });
+        if (!isError) {
+            message.success();
+        } else {
+            message.error();
+        }
+    };
+
+    const handleUpdate = (category) => {
+        console.log('update category', category);
+    };
+
     return (
         <div className={cx('wrapper')}>
             <h1 className={cx('title')}>Danh mục sản phẩm</h1>
@@ -125,14 +137,13 @@ function CategoriesManagement() {
                 <span>Thêm danh mục</span>
             </div>
 
-            {/* <TableComponent
+            <CategoryTable
                 columns={columns}
                 rows={rows}
                 rowPerPage={6}
-                type="categories"
-                attributes={['index', 'name', 'code', 'value', 'condition', 'maximum_value']}
-                deleteButton={true}
-            /> */}
+                handleDelete={handleDelete}
+                handleUpdate={handleUpdate}
+            />
 
             <Modal
                 width={700}
@@ -145,7 +156,7 @@ function CategoriesManagement() {
                     </Button>,
                 ]}
             >
-                <Loading isLoading={categoriesState.loading}>
+                <Loading isLoading={isLoading}>
                     <div className={cx('add-category-input')}>
                         <div className={cx('category-input-item')}>
                             <span className={cx('category-input-label')}>Tên danh mục</span>
@@ -156,7 +167,7 @@ function CategoriesManagement() {
                                 }}
                             />
                         </div>
-    
+
                         <div className={cx('category-input-item')}>
                             <span className={cx('category-input-label')}>Ảnh đại diện</span>
                             <div className={cx('input-thumbnail')}>
@@ -166,11 +177,11 @@ function CategoriesManagement() {
                                         Chọn ảnh
                                     </button>
                                 </Upload>
-    
+
                                 {categoryThumbnail && (
                                     <Image className={cx('image-item')} alt="" src={categoryThumbnailPreview} />
                                 )}
-    
+
                                 {categoryThumbnail && (
                                     <Button
                                         color="secondary"

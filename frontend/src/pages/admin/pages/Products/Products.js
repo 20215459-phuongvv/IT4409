@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './Products.module.scss';
-import TableComponent from '../../components/TableComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, getAllProducts } from '~/redux/Admin/Product/Action';
 import Loading from '~/components/LoadingComponent/Loading';
 import * as message from '~/components/Message/Message';
+import { getAllCategories } from '~/redux/Admin/Category/Action';
+import ProductTable from '../../components/ProductTable';
 
 const cx = classNames.bind(styles);
 
@@ -33,6 +34,12 @@ const columns = [
         align: 'left',
     },
     {
+        id: 'state',
+        label: 'Trạng thái',
+        minWidth: 30,
+        align: 'left',
+    },
+    {
         id: 'delete',
         label: 'Xóa',
         minWidth: 30,
@@ -48,17 +55,33 @@ const columns = [
 
 function ProductsManagement() {
     const dispatch = useDispatch();
+    
+    useEffect(() => {
+        dispatch(getAllCategories());
+        dispatch(getAllProducts());
+    }, [dispatch]);
+    
     const productsState = useSelector((state) => state.products);
+    const categoriesState = useSelector((state) => state.categories);
+
     const isLoading = productsState.loading;
     const isError = productsState.error;
 
-    useEffect(() => {
-        dispatch(getAllProducts());
-    }, [dispatch]);
+    const categoriesSelect = categoriesState.categories.map((category) => ({
+        value: category.categoryId,
+        label: category.categoryName,
+    }));
+
+    console.log('categoriesSelect', categoriesSelect);
+
 
     console.log('productsState', productsState);
 
-    const rows = productsState.products.map((element, index) => ({ ...element, index: index + 1 }));
+    const rows = productsState.products.map((element, index) => ({
+        ...element,
+        index: index + 1,
+        state: element.quantityInStock ? 1 : 0,
+    }));
 
     const handleDelete = (product) => {
         console.log('delete product', product);
@@ -80,14 +103,11 @@ function ProductsManagement() {
         <Loading isLoading={isLoading}>
             <div className={cx('wrapper')}>
                 <h1 className={cx('title')}>Danh sách sản phẩm</h1>
-                <TableComponent
+                <ProductTable 
                     columns={columns}
                     rows={rows}
                     rowPerPage={6}
-                    type="product"
-                    attributes={['index', 'thumbnail', 'productName', 'categoryId', 'price', 'quantityInStock']}
-                    deleteButton={true}
-                    updateButton={true}
+                    categoriesSelect={categoriesSelect}
                     handleDelete={handleDelete}
                     handleUpdate={handleUpdate}
                 />

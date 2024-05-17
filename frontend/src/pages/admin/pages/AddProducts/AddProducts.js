@@ -42,8 +42,8 @@ function AddProducts() {
     }, [dispatch]);
 
     // Đăng nhập lại thay đổi cái này
-    const jwt =
-        'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU3NjI3NzksImV4cCI6MTcxNTg0OTE3OSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.8NnaPwJu6-Ehj039gMBxnW9Z1pWdoGXslxCQo1F-gACNrTMlMBeF_pAZGXGUEyYXmZlfBznMUVSu1yqixIxqdA';
+    const jwt = "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU5MjkwNTUsImV4cCI6MTcxNjAxNTQ1NSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.4xwpm82dC9fz2n7SOo27fK17HBBjTvZzK9VCscuJW0JiyX-_pV5Kkpg-lqwkqdoBbqowiMqS_kIKCKhrgccvVg";
+        
 
     const handleChangeProductType = (value) => {
         setType(value);
