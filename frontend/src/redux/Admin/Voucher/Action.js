@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {
     GET_VOUCHER_REQUEST,
     GET_VOUCHER_SUCCESS,

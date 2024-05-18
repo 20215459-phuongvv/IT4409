@@ -143,7 +143,7 @@ function VoucherTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
                                         <Button
                                             onClick={() => handleOpenVoucherUpdateBox(row.index - 1)}
                                             variant="contained"
-                                            color="secondary"
+                                            color="primary"
                                         >
                                             CẬP NHẬT
                                         </Button>
@@ -252,6 +252,7 @@ function VoucherTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
                                                 </div>
                                             </div>
                                         </Modal>
+
                                     </TableCell>
                                 </TableRow>
                             );
