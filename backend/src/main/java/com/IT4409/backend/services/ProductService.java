@@ -99,9 +99,6 @@ public class ProductService implements IProductService {
                     .orElseThrow(() -> new NotFoundException(messages.getString("category.validate.not-found")));
             product.setCategory(category);
         }
-        if(!productRequestDTO.getSizeList().isEmpty()) {
-            product.setSizeList(productRequestDTO.getSizeList());
-        }
         if(productRequestDTO.getPrice() != null) {
             product.setPrice(productRequestDTO.getPrice());
         }
@@ -110,12 +107,12 @@ public class ProductService implements IProductService {
         }
         if(productRequestDTO.getQuantityInStock() != null) {
             product.setQuantityInStock(productRequestDTO.getQuantityInStock());
-        }
-        if (productRequestDTO.getStatus() != null) {
-            product.setStatus(productRequestDTO.getStatus());
+            if (productRequestDTO.getQuantityInStock() == 0) {
+                product.setStatus(Constants.PRODUCT_STATUS.OUT_OF_STOCK);
+                notificationService.sendProductOutOfStockNotification();
+            }
         }
         product = productRepository.save(product);
-        notificationService.sendProductOutOfStockNotification();
         return product;
     }
 

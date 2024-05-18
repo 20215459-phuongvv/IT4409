@@ -1,7 +1,7 @@
 package com.IT4409.backend.controllers;
 
 import com.IT4409.backend.dtos.OrderDTO.OrderRequestDTO;
-import com.IT4409.backend.entities.Order;
+import com.IT4409.backend.dtos.OrderDTO.OrderResponseDTO;
 import com.IT4409.backend.entities.User;
 import com.IT4409.backend.services.OrderService;
 import com.IT4409.backend.services.UserService;
@@ -25,14 +25,14 @@ public class OrderController {
     @Transactional
     public ResponseEntity<?> createOrder(@RequestBody OrderRequestDTO orderRequestDTO,
                                          @RequestHeader("Authorization")String jwt) throws Exception {
-            Order order = orderService.createOrder(jwt, orderRequestDTO);
+            OrderResponseDTO order = orderService.createOrder(jwt, orderRequestDTO);
             return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
     @GetMapping("/qr/{orderId}")
     public ResponseEntity<?> getQrCode(@PathVariable Long orderId,
                                        @RequestHeader("Authorization") String jwt) throws Exception {
-        Order order = orderService.getOrderByOrderIdAndUserId(jwt, orderId);
+        OrderResponseDTO order = orderService.getOrderByOrderIdAndUserId(jwt, orderId);
         String qrLink = order.getQrLink();
         return new ResponseEntity<>(qrLink, HttpStatus.ACCEPTED);
     }
@@ -41,8 +41,8 @@ public class OrderController {
     public ResponseEntity<?> usersOrderHistory(@RequestHeader("Authorization") String jwt){
         try{
             User user = userService.findUserByJwt(jwt);
-            List<Order> orders = orderService.getOrderHistory(user.getUserId());
-            return new ResponseEntity<>(orders, HttpStatus.OK);
+            List<OrderResponseDTO> orderList = orderService.getOrderHistory(user.getUserId());
+            return new ResponseEntity<>(orderList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
@@ -52,7 +52,7 @@ public class OrderController {
     public ResponseEntity<?> findOrder(@PathVariable Long orderId,
                                        @RequestHeader("Authorization") String jwt){
         try {
-            Order order = orderService.getOrderByOrderIdAndUserId(jwt, orderId);
+            OrderResponseDTO order = orderService.getOrderByOrderIdAndUserId(jwt, orderId);
             return new ResponseEntity<>(order,HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

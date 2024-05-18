@@ -5,11 +5,15 @@ import com.IT4409.backend.Utils.OrderStatus;
 import com.IT4409.backend.Utils.PaymentMethod;
 import com.IT4409.backend.Utils.PaymentStatus;
 import com.IT4409.backend.dtos.OrderDTO.OrderRequestDTO;
+import com.IT4409.backend.dtos.OrderDTO.OrderResponseDTO;
+import com.IT4409.backend.dtos.OrderItemDTO.OrderItemResponseDTO;
+import com.IT4409.backend.dtos.UserDetailDTO.UserDetailResponseDTO;
 import com.IT4409.backend.entities.*;
 import com.IT4409.backend.exceptions.BadRequestException;
 import com.IT4409.backend.exceptions.NotFoundException;
 import com.IT4409.backend.repositories.*;
 import com.IT4409.backend.services.interfaces.IOrderService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -17,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.IT4409.backend.Utils.Constants.messages;
 
@@ -39,41 +44,46 @@ public class OrderService implements IOrderService {
     private OrderItemRepository orderItemRepository;
     @Autowired
     private DiscountRepository discountRepository;
+    @Autowired
+    private ModelMapper modelMapper;
     @Override
-    public List<Order> getAllOrders() throws NotFoundException {
+    public List<OrderResponseDTO> getAllOrders() throws NotFoundException {
         List<Order> orderList = orderRepository.findAllByOrderByCreatedAtDesc();
         if(orderList.isEmpty()) {
             throw new NotFoundException(messages.getString("order.validate.not-found"));
         }
-        return orderList;
+        return orderList
+                .stream()
+                .map(this::convertToOrderResponseDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Order confirmOrder(Long orderId) throws NotFoundException {
+    public OrderResponseDTO confirmOrder(Long orderId) throws NotFoundException {
         Order order = orderRepository.findById(orderId).
                 orElseThrow(() -> new NotFoundException(messages.getString("order.validate.not-found")));
         order.setOrderStatus(OrderStatus.CONFIRMED.toString());
-        return orderRepository.save(order);
+        return convertToOrderResponseDTO(orderRepository.save(order));
     }
 
     @Override
-    public Order shipOrder(Long orderId) throws NotFoundException {
+    public OrderResponseDTO shipOrder(Long orderId) throws NotFoundException {
         Order order = orderRepository.findById(orderId).
                 orElseThrow(() -> new NotFoundException(messages.getString("order.validate.not-found")));
         order.setOrderStatus(OrderStatus.SHIPPED.toString());
-        return orderRepository.save(order);
+        return convertToOrderResponseDTO(orderRepository.save(order));
     }
 
     @Override
-    public Order deliverOrder(Long orderId) throws NotFoundException {
+    public OrderResponseDTO deliverOrder(Long orderId) throws NotFoundException {
         Order order = orderRepository.findById(orderId).
                 orElseThrow(() -> new NotFoundException(messages.getString("order.validate.not-found")));
         order.setOrderStatus(OrderStatus.DELIVERED.toString());
-        return orderRepository.save(order);
+        return convertToOrderResponseDTO(orderRepository.save(order));
     }
 
     @Override
-    public Order cancelOrder(Long orderId) throws NotFoundException {
+    public OrderResponseDTO cancelOrder(Long orderId) throws NotFoundException {
         Order order = orderRepository.findById(orderId).
                 orElseThrow(() -> new NotFoundException(messages.getString("order.validate.not-found")));
         for(OrderItem orderItem : order.getOrderItemList()) {
@@ -82,21 +92,21 @@ public class OrderService implements IOrderService {
             productRepository.save(product);
         }
         order.setOrderStatus(OrderStatus.CANCELLED.toString());
-        return orderRepository.save(order);
+        return convertToOrderResponseDTO(orderRepository.save(order));
     }
 
     @Override
-    public Order deleteOrder(Long orderId) throws NotFoundException {
+    public OrderResponseDTO deleteOrder(Long orderId) throws NotFoundException {
         Order order = orderRepository.findById(orderId).
                 orElseThrow(() -> new NotFoundException(messages.getString("order.validate.not-found")));
         order.setOrderItemList(null);
         orderRepository.save(order);
         orderRepository.deleteById(orderId);
-        return order;
+        return convertToOrderResponseDTO(orderRepository.save(order));
     }
 
     @Override
-    public Order createOrder(String jwt, OrderRequestDTO orderRequestDTO) throws Exception {
+    public OrderResponseDTO createOrder(String jwt, OrderRequestDTO orderRequestDTO) throws Exception {
         Long totalAmount = 0L;
         Long discountedAmount = 0L;
         User user = userService.findUserByJwt(jwt);
@@ -203,22 +213,27 @@ public class OrderService implements IOrderService {
         user.getOrderList().add(order);
         userRepository.save(user);
 
-        return orderRepository.save(order);
+        return convertToOrderResponseDTO(orderRepository.save(order));
     }
 
     @Override
-    public List<Order> getOrderHistory(long userId) {
-        return orderRepository.findAllByUserIdOrderByCreatedAtDesc(userId);
-    }
-
-    @Override
-    public Order getOrderByOrderIdAndUserId(String jwt, Long orderId) throws Exception {
-        User user = userService.findUserByJwt(jwt);
-        return user.getOrderList()
+    public List<OrderResponseDTO> getOrderHistory(long userId) {
+        return orderRepository
+                .findAllByUserIdOrderByCreatedAtDesc(userId)
                 .stream()
-                .filter(order -> Objects.equals(order.getOrderId(), orderId))
+                .map(this::convertToOrderResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public OrderResponseDTO getOrderByOrderIdAndUserId(String jwt, Long orderId) throws Exception {
+        User user = userService.findUserByJwt(jwt);
+        Order order = user.getOrderList()
+                .stream()
+                .filter(order1 -> Objects.equals(order1.getOrderId(), orderId))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException(messages.getString("order.validate.not-found")));
+        return convertToOrderResponseDTO(order);
     }
 
     private boolean isDiscountValid(Order order, String discountCode) throws BadRequestException {
@@ -231,5 +246,51 @@ public class OrderService implements IOrderService {
             return false;
         }
         return true;
+    }
+
+    private OrderResponseDTO convertToOrderResponseDTO(Order order) {
+        List<OrderItemResponseDTO> orderItemList = order.getOrderItemList()
+                .stream()
+                .map(this::convertToOrderItemResponseDTO)
+                .collect(Collectors.toList());
+
+        UserDetailResponseDTO userDetail = convertToUserDetailResponseDTO(order.getUserDetail());
+
+        return new OrderResponseDTO(
+                order.getOrderId(),
+                order.getUserId(),
+                order.getOrderStatus(),
+                order.getPaymentStatus(),
+                order.getPaymentMethod(),
+                order.getCreatedAt(),
+                order.getTotalAmount(),
+                order.getDiscountedAmount(),
+                order.getDiscountFromVoucher(),
+                order.getFinalPrice(),
+                order.getQrLink(),
+                orderItemList,
+                userDetail
+        );
+    }
+
+    private OrderItemResponseDTO convertToOrderItemResponseDTO(OrderItem orderItem) {
+        return new OrderItemResponseDTO(
+                orderItem.getOrderItemId(),
+                orderItem.getOrder().getOrderId(),
+                orderItem.getProduct().getProductName(),
+                orderItem.getQuantity(),
+                orderItem.getSize(),
+                orderItem.getColor(),
+                orderItem.getPrice()
+        );
+    }
+
+    private UserDetailResponseDTO convertToUserDetailResponseDTO(UserDetail userDetail) {
+        return new UserDetailResponseDTO(
+                userDetail.getUserDetailId(),
+                userDetail.getName(),
+                userDetail.getAddress(),
+                userDetail.getPhoneNumber()
+        );
     }
 }

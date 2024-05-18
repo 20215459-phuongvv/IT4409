@@ -4,6 +4,7 @@ import com.IT4409.backend.Utils.Constants;
 import com.IT4409.backend.Utils.Role;
 import com.IT4409.backend.dtos.AuthDTO.AuthRequestDTO;
 import com.IT4409.backend.dtos.AuthDTO.AuthResponseDTO;
+import com.IT4409.backend.dtos.UserDTO.UserRequestDTO;
 import com.IT4409.backend.entities.User;
 import com.IT4409.backend.entities.UserDetail;
 import com.IT4409.backend.exceptions.BadRequestException;
@@ -64,7 +65,7 @@ public class UserService implements UserDetailsService {
                 .roles(user.getRole())
                 .build();
     }
-    public AuthResponseDTO createUser(User user) throws BadRequestException, MessagingException {
+    public AuthResponseDTO createUser(UserRequestDTO user) throws BadRequestException, MessagingException {
         String email = user.getEmail();
         String password = user.getPassword();
         String role = Role.CUSTOMER.toString();
@@ -81,7 +82,12 @@ public class UserService implements UserDetailsService {
         newUser.setStatus(Constants.ENTITY_STATUS.INACTIVE);
         newUser = userRepository.save(newUser);
         // Tạo user detail mới
-        UserDetail userDetail = UserDetail.builder().name(user.getEmail().substring(0, user.getEmail().indexOf('@'))).build();
+        UserDetail userDetail = UserDetail
+                .builder()
+                .name(user.getName())
+                .address(user.getAddress())
+                .phoneNumber(user.getPhoneNumber())
+                .build();
         userDetail.setUser(newUser);
         newUser.setUserDetailList(new ArrayList<>());
         newUser.getUserDetailList().add(userDetail);
