@@ -16,8 +16,15 @@
 .right {
     display: flex;
     flex-direction: column;
-
 }
+
+.row1,
+.row2 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .row1 {
     font-size: 1.3rem;
     font-weight: 600;

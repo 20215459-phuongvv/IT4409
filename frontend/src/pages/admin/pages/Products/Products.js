@@ -1,14 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './Products.module.scss';
-import TableComponent from '../../components/TableComponent';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteProduct, getAllProducts } from '~/redux/Admin/Product/Action';
+import Loading from '~/components/LoadingComponent/Loading';
+import * as message from '~/components/Message/Message';
+import { getAllCategories } from '~/redux/Admin/Category/Action';
+import ProductTable from '../../components/ProductTable';
 
 const cx = classNames.bind(styles);
 
 const columns = [
-    { id: 'index', label: 'STT', minWidth: 20 },
-    { id: 'image', label: 'Hình ảnh', minWidth: 20 },
+    { id: 'index', label: 'STT', minWidth: 10 },
+    { id: 'image', label: 'Hình ảnh', minWidth: 30 },
     { id: 'name', label: 'Tên sản phẩm', minWidth: 200, align: 'left' },
     {
         id: 'category',
@@ -29,6 +34,12 @@ const columns = [
         align: 'left',
     },
     {
+        id: 'state',
+        label: 'Trạng thái',
+        minWidth: 30,
+        align: 'left',
+    },
+    {
         id: 'delete',
         label: 'Xóa',
         minWidth: 30,
@@ -42,126 +53,64 @@ const columns = [
     },
 ];
 
-function createData(index, image, name, category, price, quantity) {
-    return { index, image, name, category, price, quantity };
-}
-
-let data = [
-    createData(
-        1,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        2,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        3,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        4,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        5,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        6,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        7,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        8,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        9,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        10,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-    createData(
-        11,
-        'https://product.hstatic.net/200000037048/product/fuji_o_vuong_xanh_a35812226dfc4f16937ae174c432a82c_master.jpg',
-        'Váy Fuji Ô Vuông Xanh',
-        'Chân váy',
-        750000,
-        20,
-    ),
-];
-
-const rows = data.map((element, index) => ({ ...element, index: index + 1 }));
-
 function ProductsManagement() {
-    const handleDelete = (index) => {
-        alert(`delete product ${index}`);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getAllCategories());
+        dispatch(getAllProducts());
+    }, [dispatch]);
+
+    const productsState = useSelector((state) => state.products);
+    const categoriesState = useSelector((state) => state.categories);
+
+    const isLoading = productsState.loading;
+    const isError = productsState.error;
+
+    const categoriesSelect = categoriesState.categories.map((category) => ({
+        value: category.categoryId,
+        label: category.categoryName,
+    }));
+
+    console.log('categoriesSelect', categoriesSelect);
+
+    console.log('productsState', productsState);
+
+    const rows = productsState.products.map((element, index) => ({
+        ...element,
+        index: index + 1,
+        state: element.quantityInStock ? 1 : 0,
+    }));
+
+    const handleDelete = (product) => {
+        console.log('delete product', product);
+        dispatch(deleteProduct(product)).then(() => {
+            dispatch(getAllProducts());
+        });
+        if (!isError) {
+            message.success();
+        } else {
+            message.error();
+        }
     };
 
-    const handleUpdate = (index) => {
-        console.log(index);
-    }
+    const handleUpdate = (product) => {
+        console.log('update product', product);
+    };
 
     return (
-        <div className={cx('wrapper')}>
-            <h1 className={cx('title')}>Danh sách sản phẩm</h1>
-            <TableComponent
-                columns={columns}
-                rows={rows}
-                type="product"
-                attributes={['index', 'image', 'name', 'category', 'price', 'quantity']}
-                deleteButton={true}
-                updateButton={true}
-                handleDelete={handleDelete}
-                handleUpdate={handleUpdate}
-            />
-        </div>
+        <Loading isLoading={isLoading}>
+            <div className={cx('wrapper')}>
+                <h1 className={cx('title')}>Danh sách sản phẩm</h1>
+                <ProductTable
+                    columns={columns}
+                    rows={rows}
+                    rowPerPage={6}
+                    handleDelete={handleDelete}
+                    handleUpdate={handleUpdate}
+                />
+            </div>
+        </Loading>
     );
 }
 

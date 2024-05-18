@@ -6,10 +6,10 @@ const cx = classNames.bind(styles);
 
 function SideBar({ data }) {
     const location = useLocation();
-    console.log('location', location);
+    
     return (
         <div className={cx('wrapper')}>
-            <ul>
+            <ul className={cx('container')}>
                 {data.map((item, key) => {
                     const isActive = location.pathname === item.link;
                     return (

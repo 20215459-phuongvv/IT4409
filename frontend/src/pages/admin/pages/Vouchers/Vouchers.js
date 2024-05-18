@@ -1,16 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './Vouchers.module.scss';
 import TableComponent from '../../components/TableComponent';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button, Modal } from '@mui/material';
+import VoucherTable from '../../components/VoucherTable';
+import { useDispatch, useSelector } from 'react-redux';
+import { createVoucher, deleteVoucher, getAllVouchers, updateVoucher } from '~/redux/Admin/Voucher/Action';
+import Loading from '~/components/LoadingComponent/Loading';
+import * as message from '~/components/Message/Message';
 
 const cx = classNames.bind(styles);
+const jwt =
+    'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU5MjkwNTUsImV4cCI6MTcxNjAxNTQ1NSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.4xwpm82dC9fz2n7SOo27fK17HBBjTvZzK9VCscuJW0JiyX-_pV5Kkpg-lqwkqdoBbqowiMqS_kIKCKhrgccvVg';
 
 const columns = [
     { id: 'index', label: 'STT', minWidth: 20 },
-    { id: 'name', label: 'Tên Voucher', minWidth: 100 },
     { id: 'code', label: 'Mã giảm giá', minWidth: 100, align: 'left' },
     {
         id: 'value',
@@ -31,6 +37,12 @@ const columns = [
         align: 'left',
     },
     {
+        id: 'date',
+        label: 'Ngày hết hạn',
+        minWidth: 30,
+        align: 'left',
+    },
+    {
         id: 'delete',
         label: 'Xóa',
         minWidth: 30,
@@ -44,28 +56,21 @@ const columns = [
     },
 ];
 
-function createData(name, code, value, condition, maximum_value) {
-    return { name, code, value, condition, maximum_value };
-}
-
-let data = [
-    createData('voucher_name_1', 'VC001', '10%', '≥ 100000', 50000),
-    createData('voucher_name_2', 'VC002', '15%', '≥ 100000', 30000),
-    createData('voucher_name_3', 'VC003', '20%', '≥ 200000', 60000),
-];
-
-const rows = data.map((element, index) => ({ ...element, index: index + 1 }));
-
+// const rows = data.map((element, index) => ({ ...element, index: index + 1 }));
 
 function Vouchers() {
     const [openAddVoucher, setOpenAddVoucher] = useState(false);
-    // const [newVoucher, setNewVoucher] = useState({
-    //     name: '',
-    //     code: '',
-    //     value: '',
-    //     condition: '',
-    //     maximum_value: '',
-    // });
+
+    const dispatch = useDispatch();
+    const vouchersState = useSelector((state) => state.vouchers);
+    const isLoading = vouchersState.loading;
+    const isError = vouchersState.error;
+
+    useEffect(() => {
+        dispatch(getAllVouchers());
+    }, [dispatch]);
+
+    const rows = vouchersState.vouchers.map((voucher, index) => ({ ...voucher, index: index + 1 }));
 
     const handleOpenAddVoucher = () => {
         setOpenAddVoucher(true);
@@ -76,19 +81,44 @@ function Vouchers() {
     };
 
     // Gọi API ở đây
-    const handleDelete = (index) => {
-        alert(`delete voucher ${index}`);
+    const handleDelete = (voucher) => {
+        dispatch(deleteVoucher(voucher)).then(() => {
+            dispatch(getAllVouchers());
+        });
+        if (!isError) {
+            message.success();
+        } else {
+            message.error();
+        }
     };
 
-    const handleUpdateVoucher = (voucher) => {
-        console.log('Updated voucher:', voucher);
+    const handleUpdateVoucher = (voucher, id) => {
+        console.log(voucher, id);
+        dispatch(updateVoucher(voucher, id)).then(() => {
+            dispatch(getAllVouchers());
+        });
+        if (!isError) {
+            message.success();
+        } else {
+            message.error();
+        }
     };
 
     const handleAddVoucher = (newVoucher) => {
-        console.log('Added voucher:', newVoucher);
+        const endDate = newVoucher.endDate.split('-');
+        newVoucher.endDate = `${endDate[2]}/${endDate[1]}/${endDate[0]}`;
+
+        dispatch(createVoucher({ data: newVoucher, jwt })).then(() => {
+            dispatch(getAllVouchers());
+        });
+        handleCloseAddVoucher();
+        if (!isError) {
+            message.success();
+        } else {
+            message.error();
+        }
     };
 
-    console.log(openAddVoucher);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('top')}>
@@ -97,28 +127,30 @@ function Vouchers() {
                     <AddCircleIcon sx={{ color: 'green', fontSize: '1.8rem' }} />
                     <p>Thêm Voucher mới</p>
                 </div>
+
                 <Modal
                     open={openAddVoucher}
                     onClose={handleCloseAddVoucher}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
+                    {/* <Loading isLoading={isLoading}> */}
                     <div className={cx('add-voucher-box')}>
                         <p className={cx('add-voucher-title')}>Thêm Voucher mới</p>
                         <div className={cx('add-voucher-wrapper')}>
                             <div className={cx('add-voucher-row')}>
-                                <p>Tên voucher</p>
-                                <input id="new-voucher-name" type="text" placeholder="Nhập tên Voucher" />
+                                <p>Mã voucher</p>
+                                <input id="new-voucher-code" type="text" placeholder="Nhập tên Voucher" />
                             </div>
 
                             <div className={cx('add-voucher-row')}>
-                                <p>Mã giảm giá</p>
-                                <input id="new-voucher-code" type="text" placeholder="Nhập mã giảm giá" />
+                                <p>Giá trị giảm (%)</p>
+                                <input id="new-voucher-value" type="text" placeholder="Nhập mã giảm giá" />
                             </div>
 
                             <div className={cx('add-voucher-row')}>
-                                <p>Giá trị</p>
-                                <input id="new-voucher-value" type="text" placeholder="Giá trị giảm (%)" />
+                                <p>Giá trị tối đa</p>
+                                <input id="new-voucher-maximum-value" type="text" placeholder="Giá trị giảm (%)" />
                             </div>
 
                             <div className={cx('add-voucher-row')}>
@@ -131,8 +163,8 @@ function Vouchers() {
                             </div>
 
                             <div className={cx('add-voucher-row')}>
-                                <p>Giá trị tối đa</p>
-                                <input id="new-voucher-maximum-value" type="text" placeholder="Giá trị tối đa" />
+                                <p>Ngày hết hạn</p>
+                                <input id="new-voucher-endDate" type="date" placeholder="Giá trị tối đa" />
                             </div>
 
                             <div className={cx('add-voucher-buttons')}>
@@ -141,31 +173,31 @@ function Vouchers() {
                                     variant="contained"
                                     onClick={() => {
                                         let data = {
-                                            name: document.getElementById('new-voucher-name')?.value,
-                                            code: document.getElementById('new-voucher-code')?.value,
-                                            value: document.getElementById('new-voucher-value')?.value,
-                                            condition: document.getElementById('new-voucher-condition')?.value,
-                                            maximum_value: document.getElementById('new-voucher-maximum-value')?.value,
+                                            discountCode: document.getElementById('new-voucher-code')?.value,
+                                            discountValue:
+                                                Number(document.getElementById('new-voucher-value')?.value) / 100,
+                                            maxPossibleValue:
+                                                document.getElementById('new-voucher-maximum-value')?.value,
+                                            minCondition: document.getElementById('new-voucher-condition')?.value,
+                                            endDate: document.getElementById('new-voucher-endDate')?.value,
                                         };
                                         handleAddVoucher(data);
                                     }}
                                 >
-                                    Cập nhật
+                                    Thêm Voucher
                                 </Button>
                                 <Button onClick={handleCloseAddVoucher}>Đóng</Button>
                             </div>
                         </div>
                     </div>
+                    {/* </Loading> */}
                 </Modal>
             </div>
-            
-            <TableComponent
+
+            <VoucherTable
                 columns={columns}
                 rows={rows}
-                type="voucher"
-                attributes={['index', 'name', 'code', 'value', 'condition', 'maximum_value']}
-                deleteButton={true}
-                updateButton={true}
+                rowPerPage={6}
                 handleDelete={handleDelete}
                 handleUpdate={handleUpdateVoucher}
             />

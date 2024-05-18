@@ -6,12 +6,18 @@ const cx = classNames.bind(styles);
 
 function ProductItem({ data }) {
     return (
-        <Link to={`/products/${data.id}`} className={cx('wrapper')}>
-            <img className={cx('img')} src={data.img} alt="" />
-            <p className={cx('name')}>{data.name}</p>
+        <Link to={`/products/${data.productId}`} className={cx('wrapper')}>
+            <img className={cx('img')} src={data.thumbnail} alt="" />
+            <p className={cx('name')}>{data.productName}</p>
             <div className={cx('price')}>
-                <p className={cx('new-price')}>{data.newPrice}</p>
-                {data.oldPrice && <p className={cx('old-price')}>{data.oldPrice}</p>}
+                {data.discountPrice ? (
+                    <>
+                        <p className={cx('new-price')}>{data.discountPrice}đ</p>
+                        <p className={cx('old-price')}>{data.price}đ</p>
+                    </>
+                ) : (
+                    <p className={cx('new-price')}>{data.price}đ</p>
+                )}
             </div>
         </Link>
     );

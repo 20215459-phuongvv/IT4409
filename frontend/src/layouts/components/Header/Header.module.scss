@@ -55,7 +55,7 @@
 .nav-login-cart {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 40px;
 }
 
 .cart-icon-wrapper {
@@ -66,10 +66,10 @@
 
 .nav-cart-count {
     position: absolute;
-    top: -5px;
-    right: -6px;
-    width: 16px;
-    height: 16px;
+    top: -10px;
+    right: -9px;
+    width: 2rem;
+    height: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;

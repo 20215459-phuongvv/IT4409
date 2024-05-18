@@ -6,26 +6,28 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Avatar, Button, MenuItem, Modal, Popover, Select } from '@mui/material';
+import { Avatar, Button, MenuItem, Modal, Select } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import classNames from 'classnames/bind';
 import styles from './TableComponent.module.scss';
+import { Image } from 'antd';
 
 const cx = classNames.bind(styles);
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 16,
+        fontSize: 14,
     },
 }));
 
 function TableComponent({
     columns,
     rows,
+    rowPerPage,
     type,
     attributes,
+    categoriesSelect,
     deleteButton,
     contactButton,
     updateButton,
@@ -34,7 +36,7 @@ function TableComponent({
     handleUpdate,
 }) {
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(6);
+    const [rowsPerPage, setRowsPerPage] = useState(rowPerPage);
     const [openDeleteBox, setOpenDeleteBox] = useState([]);
     const [openVoucherUpdateBox, setOpenVoucherUpdateBox] = useState([]);
     const [openProductUpdateBox, setOpenProductUpdateBox] = useState([]);
@@ -51,6 +53,7 @@ function TableComponent({
         product: 'sản phẩm',
         order: 'đơn hàng',
         voucher: 'mã giảm giá',
+        category: 'danh mục',
     };
 
     const handleChangePage = (event, newPage) => {
@@ -123,12 +126,10 @@ function TableComponent({
 
     const handleUpdateStatus = (newStatus, index) => {
         console.log(`Đơn hàng thứ ${index + 1} đã được cập nhật thành ${newStatus}`);
-    }
-
-    console.log('orderStatusArray', orderStatusArray);
+    };
 
     return (
-        <div>
+        <div className={cx('wrapper')}>
             <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -149,9 +150,9 @@ function TableComponent({
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row.index}>
-                                    {attributes.map((attribute, attrIndex) => (
+                                    {/* {attributes.map((attribute, attrIndex) => (
                                         <StyledTableCell key={attrIndex} align="left">
-                                            {attribute === 'image' ? (
+                                            {attribute === 'thumbnail' ? (
                                                 <Avatar src={row[attribute]} alt="" />
                                             ) : attribute === 'status' ? (
                                                 orderStatusArray[row.index - 1]
@@ -159,8 +160,63 @@ function TableComponent({
                                                 row[attribute]
                                             )}
                                         </StyledTableCell>
-                                    ))}
+                                    ))} */}
 
+                                    {/* Bảng sản phẩm */}
+                                    {type === 'product' && (
+                                        <>
+                                            <StyledTableCell align="left">{row?.index}</StyledTableCell>
+                                            <StyledTableCell align="left">
+                                                <Image
+                                                    style={{
+                                                        width: '50px',
+                                                        height: '50px',
+                                                        borderRadius: '50%',
+                                                        objectFit: 'contain',
+                                                    }}
+                                                    src={row?.thumbnail}
+                                                    alt=""
+                                                />
+                                            </StyledTableCell>
+
+                                            <StyledTableCell align="left">{row?.productName}</StyledTableCell>
+
+                                            <StyledTableCell align="left">
+                                                {row?.category?.categoryName}
+                                            </StyledTableCell>
+
+                                            <StyledTableCell align="left">{row?.price}</StyledTableCell>
+
+                                            <StyledTableCell align="left">{row?.quantityInStock}</StyledTableCell>
+                                            <StyledTableCell align="left">
+                                                {row?.state === 0 ? 'Hết hàng' : 'Còn hàng'}
+                                            </StyledTableCell>
+                                        </>
+                                    )}
+
+                                    {type === 'category' && (
+                                        <>
+                                            <StyledTableCell align="left">{row?.index}</StyledTableCell>
+                                            <StyledTableCell align="left">
+                                                <Image
+                                                    style={{
+                                                        width: '50px',
+                                                        height: '50px',
+                                                        borderRadius: '50%',
+                                                        objectFit: 'contain',
+                                                    }}
+                                                    src={row?.thumbnail}
+                                                    alt=""
+                                                />
+                                            </StyledTableCell>
+
+                                            <StyledTableCell align="left">{row?.categoryName}</StyledTableCell>
+
+                                            <StyledTableCell align="left">{row.quantity}</StyledTableCell>
+                                        </>
+                                    )}
+
+                                    {/* Các nút hành động */}
                                     {deleteButton && (
                                         <TableCell align="left">
                                             <Button
@@ -178,14 +234,17 @@ function TableComponent({
                                             >
                                                 <div className={cx('delete-confirm-box')}>
                                                     <p>
-                                                        Xóa {typeName[type]} {row.name} ?
+                                                        Xóa {typeName[type]} {row.productName} ?
                                                     </p>
                                                     <div className={cx('delete-box-row')}>
                                                         <Button
                                                             size="large"
                                                             variant="contained"
                                                             color="error"
-                                                            onClick={() => handleDelete(row.index)}
+                                                            onClick={() => {
+                                                                handleDelete(row);
+                                                                handleCloseDeleteBox(row.index - 1);
+                                                            }}
                                                         >
                                                             Xóa
                                                         </Button>
@@ -326,7 +385,6 @@ function TableComponent({
                                     )}
 
                                     {updateButton && type === 'product' && (
-                                        // Cập nhật voucher
                                         <TableCell align="left">
                                             <Button
                                                 onClick={() => handleOpenProductUpdateBox(row.index - 1)}
@@ -346,6 +404,49 @@ function TableComponent({
                                                     <p className={cx('update-modal-title')}>Cập nhật sản phẩm</p>
 
                                                     <div className={cx('update-input-wrapper')}>
+                                                        <div className={cx('update-input-row')}>
+                                                            <p>Tên sản phẩm</p>
+                                                            <input
+                                                                id={`product-name-${row.index - 1}`}
+                                                                type="text"
+                                                                defaultValue={row.productName}
+                                                                onChange={null}
+                                                            />
+                                                        </div>
+
+                                                        <div className={cx('update-input-row')}>
+                                                            <p>Phân loại</p>
+                                                            <Select
+                                                                defaultValue="Chọn loại sản phẩm"
+                                                                style={{
+                                                                    minWidth: 500,
+                                                                    maxWidth: 1000,
+                                                                }}
+                                                                // onChange={handleChangeProductType}
+                                                                options={categoriesSelect}
+                                                            />
+                                                        </div>
+
+                                                        <div className={cx('update-input-row')}>
+                                                            <p>Tên sản phẩm</p>
+                                                            <input
+                                                                id={`product-name-${row.index - 1}`}
+                                                                type="text"
+                                                                defaultValue={row.name}
+                                                                onChange={null}
+                                                            />
+                                                        </div>
+
+                                                        <div className={cx('update-input-row')}>
+                                                            <p>Tên sản phẩm</p>
+                                                            <input
+                                                                id={`product-name-${row.index - 1}`}
+                                                                type="text"
+                                                                defaultValue={row.name}
+                                                                onChange={null}
+                                                            />
+                                                        </div>
+
                                                         <div className={cx('update-input-row')}>
                                                             <p>Tên sản phẩm</p>
                                                             <input
@@ -402,7 +503,11 @@ function TableComponent({
 
                                     {actionButton && type === 'order' && (
                                         <TableCell align="left">
-                                            <Select style={{height: '36px'}} value={orderStatusArray[row.index - 1]} onChange={(event) => handleStatusChange(row.index - 1, event)}>
+                                            <Select
+                                                style={{ height: '36px' }}
+                                                value={orderStatusArray[row.index - 1]}
+                                                onChange={(event) => handleStatusChange(row.index - 1, event)}
+                                            >
                                                 <MenuItem value="Đang giao">Đang giao</MenuItem>
                                                 <MenuItem value="Đã giao">Đã giao</MenuItem>
                                                 <MenuItem value="Hủy">Hủy</MenuItem>
@@ -428,6 +533,7 @@ function TableComponent({
                     },
                     '.MuiTablePagination-displayedRows': {
                         fontSize: '1.4rem',
+                        marginBottom: 0,
                     },
                 }}
                 rowsPerPageOptions={[6]}

@@ -2,24 +2,31 @@ import { useEffect, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './Customers.module.scss';
-import customerApi from '~/api/customerApi';
-import TableComponent from '../../components/TableComponent';
+import UserTable from '../../components/UserTable';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllUsers } from '~/redux/Admin/User/Action';
+import Loading from '~/components/LoadingComponent/Loading';
 
 const cx = classNames.bind(styles);
 
 const columns = [
     { id: 'index', label: 'STT', minWidth: 20 },
-    { id: 'username', label: 'Tên đăng nhập', minWidth: 60 },
-    { id: 'name', label: 'Họ và tên', minWidth: 100, align: 'left' },
     {
         id: 'email',
         label: 'Email',
         minWidth: 100,
         align: 'left',
     },
+    { id: 'name', label: 'Họ và tên', minWidth: 100, align: 'left' },
     {
-        id: 'phone-number',
+        id: 'phone',
         label: 'Số điện thoại',
+        minWidth: 60,
+        align: 'left',
+    },
+    {
+        id: 'role',
+        label: 'Vai trò',
         minWidth: 60,
         align: 'left',
     },
@@ -33,28 +40,34 @@ const columns = [
 
 function UsersManagement() {
     const [customerList, setCustomerList] = useState([]);
-    const attributes = ['index', 'username', 'name', 'email', 'phone'];
+
+    const dispatch = useDispatch();
+    const usersState = useSelector((state) => state.users);
+    const isLoading = usersState.loading;
+    const isError = usersState.error;
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            const users = await customerApi.getAll();
-            const customersWithIndex = users.map((user, index) => ({ ...user, index: index + 1 }));
-            setCustomerList(customersWithIndex);
-        };
+        dispatch(getAllUsers());
+    }, [dispatch]);
 
-        fetchUsers();
-    }, []);
+    const rows = usersState.users.map((user, index) => ({ ...user, index: index + 1 }));
+
+    console.log('usersState', usersState);
+
+    // useEffect(() => {
+    //     const fetchUsers = async () => {
+    //         const users = await customerApi.getAll();
+    //         const customersWithIndex = users.map((user, index) => ({ ...user, index: index + 1 }));
+    //         setCustomerList(customersWithIndex);
+    //     };
+
+    //     fetchUsers();
+    // }, []);
 
     return (
         <div className={cx('wrapper')}>
             <h1 className={cx('title')}>Khách hàng</h1>
-            <TableComponent
-                columns={columns}
-                rows={customerList}
-                type="customer"
-                attributes={attributes}
-                deleteButton={true}
-            />
+            <UserTable columns={columns} rows={rows} rowPerPage={6} deleteButton={true} />
         </div>
     );
 }

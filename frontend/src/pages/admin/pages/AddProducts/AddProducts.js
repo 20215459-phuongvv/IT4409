@@ -1,101 +1,134 @@
 import classNames from 'classnames/bind';
 import styles from './AddProducts.module.scss';
-import { Avatar, Checkbox, ColorPicker, Image, Input, Select, Upload } from 'antd';
+import { Checkbox, ColorPicker, Image, Input, Select, Upload } from 'antd';
 import { Button } from '@mui/material';
 import { UploadOutlined } from '@ant-design/icons';
-import { getBase64 } from '~/utils';
-import { useState } from 'react';
-import admin_images from '~/assets/images/admin';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { createProduct } from '~/redux/Admin/Product/Action';
+import { getAllCategories } from '~/redux/Admin/Category/Action';
+import Loading from '~/components/LoadingComponent/Loading';
+import * as message from '~/components/Message/Message';
 
 const cx = classNames.bind(styles);
 const { TextArea } = Input;
 
 function AddProducts() {
     const [name, setName] = useState('');
-    const [thumbnail, setThumbnail] = useState('');
+    const [thumbnail, setThumbnail] = useState(null);
+    const [thumbnailPreview, setThumbnailPreview] = useState('');
     const [type, setType] = useState('');
     const [size, setSize] = useState([]);
     const [price, setPrice] = useState('');
-    const [colorInputs, setColorInputs] = useState([{ id: 1, color: '#1677ff', imageList: [] }]);
+    const [discountPrice, setDiscountPrice] = useState('');
+    const [colorInputs, setColorInputs] = useState([{ colorName: '#1677ff', imageList: [], imagePreviewList: [] }]);
     const [quantity, setQuantity] = useState('');
     const [description, setDescription] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const dispatch = useDispatch();
+
+    const categoriesState = useSelector((state) => state.categories);
+    const productsState = useSelector((state) => state.products);
+
+    const isLoading = categoriesState.loading;
+    const categoriesSelect = categoriesState.categories.map((category) => ({
+        value: category.categoryId,
+        label: category.categoryName,
+    }));
+
+    useEffect(() => {
+        dispatch(getAllCategories());
+    }, [dispatch]);
+
+    // Đăng nhập lại thay đổi cái này
+    const jwt = "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU5MjkwNTUsImV4cCI6MTcxNjAxNTQ1NSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.4xwpm82dC9fz2n7SOo27fK17HBBjTvZzK9VCscuJW0JiyX-_pV5Kkpg-lqwkqdoBbqowiMqS_kIKCKhrgccvVg";
+        
 
     const handleChangeProductType = (value) => {
         setType(value);
     };
 
-    const handleOnChangeProductThumbnail = async (fileInfo) => {
-        const file = fileInfo.file;
-        if (file.status === 'error') {
-            if (!file.url && !file.preview) {
-                file.preview = await getBase64(file.originFileObj);
-            }
+    const handleOnChangeProductThumbnail = (fileInfo) => {
+        if (fileInfo.file.status === 'error') {
+            setThumbnail(fileInfo.file.originFileObj);
+            setThumbnailPreview(URL.createObjectURL(fileInfo.file.originFileObj));
         }
-        setThumbnail(file.preview);
     };
 
     const handleRemoveThumbnail = () => {
-        setThumbnail('');
+        setThumbnail(null);
+        setThumbnailPreview('');
     };
 
     const handleChangeSize = (checkedValues) => {
         setSize(checkedValues);
     };
 
-    const handleOnChangeProductImage = async (fileInfo, colorIndex) => {
-        const file = fileInfo.file;
-        if (file.status === 'error') {
-            if (!file.url && !file.preview) {
-                file.preview = await getBase64(file.originFileObj);
-            }
+    const handleOnChangeProductImage = (fileInfo, colorIndex) => {
+        if (fileInfo.file.status === 'error') {
             const updatedColorInputs = [...colorInputs];
-            updatedColorInputs[colorIndex].imageList.push(file.preview);
+            updatedColorInputs[colorIndex].imageList.push(fileInfo.file.originFileObj);
+            updatedColorInputs[colorIndex].imagePreviewList.push(URL.createObjectURL(fileInfo.file.originFileObj));
             setColorInputs(updatedColorInputs);
         }
     };
 
     const handleAddColorInput = () => {
-        const newId = colorInputs[colorInputs.length - 1]?.id + 1;
-        setColorInputs([...colorInputs, { id: newId, color: '#1677ff', imageList: [] }]);
-        updateColorIds();
+        setColorInputs([...colorInputs, { colorName: '#1677ff', imageList: [], imagePreviewList: [] }]);
     };
 
     const handleRemoveColor = (colorIndex) => {
         const updatedColorInputs = [...colorInputs];
         updatedColorInputs.splice(colorIndex, 1);
         setColorInputs(updatedColorInputs);
-        updateColorIds();
     };
 
     const handleRemoveImage = (colorIndex, imageIndex) => {
         const updatedColorInputs = [...colorInputs];
         updatedColorInputs[colorIndex].imageList.splice(imageIndex, 1);
+        updatedColorInputs[colorIndex].imagePreviewList.splice(imageIndex, 1);
         setColorInputs(updatedColorInputs);
     };
 
-    const updateColorIds = () => {
-        setColorInputs((prevColorInputs) =>
-            prevColorInputs.map((colorInput, index) => ({
-                ...colorInput,
-                id: index + 1,
-            })),
-        );
+    const handleAddProduct = () => {
+        const newProduct = new FormData();
+
+        newProduct.append('productName', name);
+        newProduct.append('categoryId', type);
+
+        if (thumbnail) {
+            newProduct.append('thumbnail', thumbnail);
+        }
+
+        newProduct.append('sizeList', size);
+        newProduct.append('price', price);
+        newProduct.append('discountPrice', discountPrice);
+        newProduct.append('quantityInStock', quantity);
+        newProduct.append('description', description);
+
+        colorInputs.forEach((colorInput, index) => {
+            newProduct.append(`colorRequestDTOList[${index}].colorName`, colorInput.colorName);
+            colorInput.imageList.forEach((file, fileIndex) => {
+                newProduct.append(`colorRequestDTOList[${index}].imageList[${fileIndex}]`, file);
+            });
+        });
+
+        setIsSubmitting(true);
+        // Call api
+        dispatch(createProduct({ data: newProduct, jwt }));
     };
 
-    const handleAddProduct = () => {
-        const data = {
-            name: name,
-            thumbnail: thumbnail,
-            type: type,
-            size: size,
-            price: price,
-            color: colorInputs,
-            quantity: quantity,
-            description: description,
-        };
-        // Call api
-        console.log('product sent', data);
-    };
+    useEffect(() => {
+        if (isSubmitting && !productsState.loading) {
+            if (productsState.error) {
+                message.error('Thêm sản phẩm thất bại, chưa nhập đúng các trường thông tin hoặc lỗi đường truyền');
+            } else {
+                message.success('Thêm sản phẩm mới thành công!');
+            }
+            setIsSubmitting(false); // Reset submission state
+        }
+    }, [isSubmitting, productsState.loading, productsState.error]);
 
     return (
         <div className={cx('wrapper')}>
@@ -126,7 +159,7 @@ function AddProducts() {
                                     </button>
                                 </Upload>
 
-                                {thumbnail && <Image className={cx('image-item')} alt="" src={thumbnail} />}
+                                {thumbnail && <Image className={cx('image-item')} alt="" src={thumbnailPreview} />}
 
                                 {thumbnail && (
                                     <Button
@@ -143,31 +176,17 @@ function AddProducts() {
 
                         <div className={cx('input-row')}>
                             <span className={cx('input-label')}>Phân loại</span>
-                            <Select
-                                defaultValue="Áo"
-                                style={{
-                                    width: 120,
-                                }}
-                                onChange={handleChangeProductType}
-                                options={[
-                                    {
-                                        value: '1',
-                                        label: 'Áo',
-                                    },
-                                    {
-                                        value: '2',
-                                        label: 'Quần',
-                                    },
-                                    {
-                                        value: '3',
-                                        label: 'Váy',
-                                    },
-                                    {
-                                        value: '4',
-                                        label: 'Phụ kiện',
-                                    },
-                                ]}
-                            />
+                            <Loading isLoading={isLoading}>
+                                <Select
+                                    defaultValue="Chọn loại sản phẩm"
+                                    style={{
+                                        minWidth: 500,
+                                        maxWidth: 1000,
+                                    }}
+                                    onChange={handleChangeProductType}
+                                    options={categoriesSelect}
+                                />
+                            </Loading>
                         </div>
 
                         <div className={cx('input-row')}>
@@ -188,6 +207,16 @@ function AddProducts() {
                                 placeholder="Nhập giá sản phẩm"
                                 onChange={(e) => {
                                     setPrice(e.target.value);
+                                }}
+                            />
+                        </div>
+
+                        <div className={cx('input-row')}>
+                            <span className={cx('input-label')}>Giá sau giảm</span>
+                            <Input
+                                placeholder="Nhập giá sản phẩm sau giảm"
+                                onChange={(e) => {
+                                    setDiscountPrice(e.target.value);
                                 }}
                             />
                         </div>
@@ -225,7 +254,7 @@ function AddProducts() {
                                             defaultValue="#1677ff"
                                             onChange={(value, hex) => {
                                                 const updatedColorInputs = [...colorInputs];
-                                                updatedColorInputs[colorIndex].color = hex;
+                                                updatedColorInputs[colorIndex].colorName = hex;
                                                 setColorInputs(updatedColorInputs);
                                             }}
                                         />
@@ -243,9 +272,9 @@ function AddProducts() {
                                                 </button>
                                             </Upload>
 
-                                            {input.imageList && (
+                                            {input.imagePreviewList && (
                                                 <div className={cx('input-image-display')}>
-                                                    {input.imageList.map((image, imageIndex) => (
+                                                    {input.imagePreviewList.map((image, imageIndex) => (
                                                         <div key={imageIndex} className={cx('image-item-wrapper')}>
                                                             <Image className={cx('image-item')} alt="" src={image} />
                                                             <Button
@@ -285,7 +314,7 @@ function AddProducts() {
                         </Button>
                     </div>
 
-                    <img alt="" src={admin_images.add_product_image} />
+                    {/* <img alt="" src={admin_images.add_product_image} /> */}
                 </div>
 
                 <div className={cx('add-product-btn')}>

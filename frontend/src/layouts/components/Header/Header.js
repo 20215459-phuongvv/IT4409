@@ -6,7 +6,7 @@ import Button from '~/components/Button';
 import { ShopContext } from '~/context/ShopContext';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import Search from '~/components/Search';
 import { useContext, useEffect, useState } from 'react';
@@ -17,6 +17,7 @@ import { Avatar, Menu, MenuItem } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import ChatModal from '~/components/ChatModal';
 import { adminDetail } from '~/util/adminDetail';
+import Notification from '~/components/Notification/Notification';
 
 const cx = classNames.bind(styles);
 
@@ -81,8 +82,19 @@ function Header() {
                     </nav>
                     {modalOpen && <ChatModal selectedUser={adminDetail} closeChatBox={closeModal} />}
                     <div className={cx('actions')}>
-                        {auth.user ? (
+                        {!auth.user ? (
                             <div>
+                            <div className={cx('nav-login-cart')}>
+                                <div className={cx('noti')}>
+                                <Notification />
+
+                                </div>
+                                <div className={cx('cart-icon-wrapper')}>
+                                    <Link to={config.routes.cart}>
+                                        <FontAwesomeIcon icon={faShoppingCart} size='2x' />
+                                    </Link>
+                                    <span className={cx('nav-cart-count')}>{getTotalCartItem()}</span>
+                                </div>
                                 <Avatar
                                     className="text-white"
                                     onClick={handleUserClick}
@@ -112,15 +124,10 @@ function Header() {
                                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                                 </Menu>
                             </div>
+                               
+                            </div>
                         ) : (
                             <div className={cx('nav-login-cart')}>
-                                <FontAwesomeIcon icon={faHeart} />
-                                <div className={cx('cart-icon-wrapper')}>
-                                    <Link to={config.routes.cart}>
-                                        <FontAwesomeIcon icon={faShoppingCart} />
-                                    </Link>
-                                    <span className={cx('nav-cart-count')}>{getTotalCartItem()}</span>
-                                </div>
                                 <Link to={config.routes.login}>
                                     <Button primary>Đăng nhập</Button>
                                 </Link>

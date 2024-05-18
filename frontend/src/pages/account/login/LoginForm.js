@@ -4,9 +4,10 @@ import classNames from 'classnames/bind';
 import styles from './LoginForm.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import config from '~/config';
-import { login } from '~/redux/Auth/Action';
+import { login, resetError } from '~/redux/Auth/Action';
+import { SET_ERROR } from '~/redux/Auth/ActionTypes';
 
-const cx = classNames.bind(styles)
+const cx = classNames.bind(styles);
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -32,16 +33,21 @@ const LoginForm = () => {
     }, [isLoading, error]);
 
     useEffect(() => {
+        dispatch(resetError());
+    }, []);
+
+    useEffect(() => {
         if (isLogged && user) {
             if (user.user.role === 'ADMIN') navigate('/admin');
             else navigate('/');
         }
     }, [isLogged, user]);
+
     return (
-        <div className={cx("login-form")}>
+        <div className={cx('login-form')}>
             <h2>Đăng nhập</h2>
             <form onSubmit={handleSubmit}>
-                <div className={cx("form-group")}>
+                <div className={cx('form-group')}>
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
@@ -53,7 +59,7 @@ const LoginForm = () => {
                         onChange={(event) => setEmail(event.target.value)}
                     />
                 </div>
-                <div className={cx("form-group")}>
+                <div className={cx('form-group')}>
                     <label htmlFor="password">Mật khẩu</label>
                     <input
                         type="password"
@@ -65,25 +71,25 @@ const LoginForm = () => {
                         onChange={(event) => setPassword(event.target.value)}
                     />
                 </div>
-                {error && <p className={cx("error-message")}>{error}</p>}
-                <div className={cx("remember-forgot")}>
+                {error && <p className={cx('error-message')}>{error}</p>}
+                <div className={cx('remember-forgot')}>
                     <label>
                         <input type="checkbox" /> Nhớ tài khoản
                     </label>
                     <a href="#">Quên mật khẩu?</a>
                 </div>
-                <div className={cx("form-group")}>
-                    <button type="submit" className={cx("btn", "btn-primary")}>
+                <div className={cx('form-group')}>
+                    <button type="submit" className={cx('btn', 'btn-primary')}>
                         Đăng nhập
                     </button>
                 </div>
             </form>
-            <div className={cx("register-link")}>
+            <div className={cx('register-link')}>
                 <p>
                     Bạn chưa có tài khoản? <Link to={config.routes.register}>Đăng ký</Link>{' '}
                 </p>
             </div>
-            <div className={cx("login-terms")}>
+            <div className={cx('login-terms')}>
                 <p>Việc tiếp tục sử dụng trang web này đồng nghĩa bạn đồng ý với điều khoản sử dụng của chúng tôi.</p>
             </div>
         </div>
