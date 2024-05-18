@@ -181,7 +181,7 @@ function ProductTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
                                         <Button
                                             onClick={() => handleOpenProductUpdateBox(row.index - 1, row)}
                                             variant="contained"
-                                            color="secondary"
+                                            color="primary"
                                         >
                                             CẬP NHẬT
                                         </Button>
