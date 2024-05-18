@@ -10,10 +10,11 @@ import styles from './Checkout.module.scss'
 import { useLocation, useNavigate } from 'react-router-dom';
 import DeliveryAddressForm from './DeliveryAddressForm';
 import OrderSummary from './OrderSummary';
+import Thankyou from './Thankyou';
 
 const cx = classNames.bind(styles);
 
-const steps = ['Đăng nhập', 'Địa chỉ giao hàng', 'Tóm tắt đơn hàng', 'Thanh toán'];
+const steps = ['Đăng nhập', 'Địa chỉ giao hàng', 'Tóm tắt đơn hàng', 'Cảm ơn'];
 
 export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -87,7 +88,9 @@ export default function Checkout() {
             </Button>
           </Box>
         <div>
-        {step == 2? <DeliveryAddressForm handleNext={handleNext} />:<OrderSummary/>}
+        {step == 2 && <DeliveryAddressForm handleNext={handleNext} />}
+        {step == 3 && <OrderSummary/>}
+        {step == 4 && <Thankyou />}
         </div>
 
         </React.Fragment>
