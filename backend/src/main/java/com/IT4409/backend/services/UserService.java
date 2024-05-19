@@ -156,4 +156,13 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
         return messages.getString("email.verify.success");
     }
+
+    public User deleteUser(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        for(UserDetail userDetail : user.getUserDetailList()) {
+            user.getUserDetailList().remove(userDetail);
+        }
+        userRepository.deleteById(userId);
+        return user;
+    }
 }

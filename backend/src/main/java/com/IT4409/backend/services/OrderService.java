@@ -196,10 +196,20 @@ public class OrderService implements IOrderService {
                     .address(orderRequestDTO.getUserDetailRequestDTO().getAddress())
                     .name(orderRequestDTO.getUserDetailRequestDTO().getName())
                     .phoneNumber(orderRequestDTO.getUserDetailRequestDTO().getPhoneNumber())
+                    .user(user)
                     .build();
             user.getUserDetailList().add(newUserDetail);
             userRepository.save(user);
-            order.setUserDetail(newUserDetail);
+
+            UserDetail savedUserDetail = user.getUserDetailList()
+                    .stream()
+                    .filter(detail -> detail.getAddress().equals(newUserDetail.getAddress())
+                            && detail.getName().equals(newUserDetail.getName())
+                            && detail.getPhoneNumber().equals(newUserDetail.getPhoneNumber()))
+                    .findFirst()
+                    .orElseThrow(() -> new NotFoundException(messages.getString("user-detail.validate.not-found")));
+
+            order.setUserDetail(savedUserDetail);
         } else {
             throw new BadRequestException(messages.getString("user-detail.validate.more-than-one"));
         }

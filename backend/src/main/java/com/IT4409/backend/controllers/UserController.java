@@ -29,7 +29,14 @@ public class UserController {
         }
     }
     @DeleteMapping("api/admin/users/{userId}")
-
+    public ResponseEntity<?> deleteUser(@PathVariable("userId") Long userId){
+        try{
+            User user = userService.deleteUser(userId);
+            return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
     @GetMapping("users/1")
     public ResponseEntity<?> getAdmin(){
         try{
