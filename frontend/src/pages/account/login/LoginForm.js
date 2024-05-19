@@ -71,7 +71,7 @@ const LoginForm = () => {
                         onChange={(event) => setPassword(event.target.value)}
                     />
                 </div>
-                {error && <p className={cx('error-message')}>{error}</p>}
+                {error && <p className={cx('error-message')}>{error.message}</p>}
                 <div className={cx('remember-forgot')}>
                     <label>
                         <input type="checkbox" /> Nhớ tài khoản

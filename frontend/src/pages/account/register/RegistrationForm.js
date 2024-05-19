@@ -12,6 +12,12 @@ const cx = classNames.bind(styles);
 const RegistrationForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [province, setProvince] = useState('');
+    const [city, setCity] = useState('');
+    const [ward, setWard] = useState('');
+    const [phone, setPhone] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -20,7 +26,9 @@ const RegistrationForm = () => {
         event.preventDefault();
 
         // Xử lý đăng ký
-        dispatch(register({ email, password }));
+        dispatch(
+            register({ email, password, name, address: province + ', ' + city + ', ' + ward, phoneNumber: phone }),
+        );
 
         console.log('Email:', email);
         console.log('Mật khẩu:', password);
@@ -34,7 +42,7 @@ const RegistrationForm = () => {
             <h2>Đăng ký</h2>
             <form onSubmit={handleSubmit}>
                 <div className={cx('form-group')}>
-                    <label htmlFor="email">Email  *</label>
+                    <label htmlFor="email">Email *</label>
                     <input
                         type="email"
                         id="email"
@@ -46,7 +54,7 @@ const RegistrationForm = () => {
                     />
                 </div>
                 <div className={cx('form-group')}>
-                    <label htmlFor="password">Mật khẩu  *</label>
+                    <label htmlFor="password">Mật khẩu *</label>
                     <input
                         type="password"
                         id="password"
@@ -58,7 +66,7 @@ const RegistrationForm = () => {
                     />
                 </div>
                 <div className={cx('form-group')}>
-                    <label htmlFor="confirmPassword">Xác nhận mật khẩu  *</label>
+                    <label htmlFor="confirmPassword">Xác nhận mật khẩu *</label>
                     <input
                         type="password"
                         id="confirmPassword"
@@ -72,76 +80,87 @@ const RegistrationForm = () => {
                 <Grid container spacing={3} className={cx('user-info')}>
                     <Grid item xs={12} sm={6}>
                         <div className={cx('form-group')}>
-                            <label htmlFor="firstName">Họ  *</label>
+                            <label htmlFor="firstName">Họ *</label>
                             <input
                                 type="text"
                                 id="firstName"
                                 name="firstName"
                                 placeholder=""
                                 required
+                                value={lastName}
+                                onChange={(event) => setLastName(event.target.value)}
                             />
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <div className={cx('form-group')}>
-                            <label htmlFor="lastName">Tên  *</label>
+                            <label htmlFor="lastName">Tên *</label>
                             <input
                                 type="text"
                                 id="lastName"
                                 name="lastName"
                                 placeholder=""
                                 required
+                                value={name}
+                                onChange={(event) => setName(event.target.value)}
                             />
                         </div>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
                         <div className={cx('form-group')}>
-                            <label htmlFor="city">Tỉnh/Thành phố  *</label>
+                            <label htmlFor="city">Tỉnh/Thành phố *</label>
                             <input
                                 type="text"
                                 id="city"
                                 name="city"
                                 placeholder=""
                                 required
+                                value={province}
+                                onChange={(event) => setProvince(event.target.value)}
                             />
                         </div>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
                         <div className={cx('form-group')}>
-                            <label htmlFor="district">Quận/Huyện  *</label>
+                            <label htmlFor="district">Quận/Huyện *</label>
                             <input
                                 type="text"
                                 id="district"
                                 name="district"
                                 placeholder=""
                                 required
+                                value={city}
+                                onChange={(event) => setCity(event.target.value)}
                             />
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <div className={cx('form-group')}>
-                            <label htmlFor="ward">Phường/Xã  *</label>
+                            <label htmlFor="ward">Phường/Xã *</label>
                             <input
                                 type="text"
                                 id="ward"
                                 name="ward"
                                 placeholder=""
                                 required
+                                value={ward}
+                                onChange={(event) => setWard(event.target.value)}
                             />
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <div className={cx('form-group')}>
-                            <label htmlFor="phoneNumber">Số điện thoại  *</label>
+                            <label htmlFor="phoneNumber">Số điện thoại *</label>
                             <input
                                 type="number"
                                 id="phoneNumber"
                                 name="phoneNumber"
                                 placeholder=""
                                 required
-
+                                value={phone}
+                                onChange={(event) => setPhone(event.target.value)}
                             />
                         </div>
                     </Grid>

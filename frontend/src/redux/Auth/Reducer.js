@@ -14,12 +14,14 @@ import {
     GET_ADMIN_SUCCESS,
     GET_ADMIN_FAILURE,
     SET_ERROR,
+    GET_USER_PROFILE_SUCCESS,
 } from './ActionTypes';
 
 const initialState = {
     user: null,
     isLoading: false,
     error: null,
+    userProfiles: null,
     customers: [],
     admin: null,
 };
@@ -44,6 +46,13 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 user: action.payload,
+                fetchingUser: false,
+            };
+        case GET_USER_PROFILE_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                userProfiles: action.payload,
                 fetchingUser: false,
             };
         case GET_ALL_CUSTOMERS_SUCCESS:

@@ -5,8 +5,8 @@ export const HomeMenuTab = {
 };
 
 export const sizeTab = {
-    S: 0,
-    M: 1,
-    L: 2,
-    XL: 3,
+    S: 'S',
+    M: 'M',
+    L: 'L',
+    XL: 'XL',
 };

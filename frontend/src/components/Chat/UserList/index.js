@@ -45,7 +45,7 @@ const UserList = (props) => {
             <ul id="user-list">
                 {userList
                     .filter((user) => user.userDetailList[0]?.name.toLowerCase().includes(searchTerm.toLowerCase()))
-                    .filter((user) => user.userId !== currentUser?.user.userId)
+                    .filter((user) => user.userId !== currentUser?.user?.userId)
                     .map((user) => {
                         return (
                             <li
