@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface IOrderService {
     List<OrderResponseDTO> getAllOrders() throws NotFoundException;
+    OrderResponseDTO confirmOrderPayment(Long orderId) throws NotFoundException;
 
     OrderResponseDTO confirmOrder(Long orderId) throws NotFoundException;
 

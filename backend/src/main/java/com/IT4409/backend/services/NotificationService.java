@@ -60,7 +60,7 @@ public class NotificationService implements INotificationService {
         if(user.getNotificationList() == null) user.setNotificationList(new ArrayList<>());
         user.getNotificationList().add(notification);
         userRepository.save(user);
-        return notificationRepository.save(notification);
+        return notification;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class NotificationService implements INotificationService {
         if(user.getNotificationList() == null) user.setNotificationList(new ArrayList<>());
         user.getNotificationList().add(notification);
         userRepository.save(user);
-        return notificationRepository.save(notification);
+        return notification;
     }
 
     @Override

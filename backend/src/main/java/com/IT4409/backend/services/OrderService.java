@@ -59,10 +59,20 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    public OrderResponseDTO confirmOrderPayment(Long orderId) throws NotFoundException {
+        Order order = orderRepository.findById(orderId).
+                orElseThrow(() -> new NotFoundException(messages.getString("order.validate.not-found")));
+        order.setOrderStatus(PaymentStatus.COMPLETED.toString());
+        notificationService.addNotification(order.getUserId(), orderId, "Đơn hàng #" + orderId + " của bạn đã được thanh toán thành công");
+        return convertToOrderResponseDTO(orderRepository.save(order));
+    }
+
+    @Override
     public OrderResponseDTO confirmOrder(Long orderId) throws NotFoundException {
         Order order = orderRepository.findById(orderId).
                 orElseThrow(() -> new NotFoundException(messages.getString("order.validate.not-found")));
         order.setOrderStatus(OrderStatus.CONFIRMED.toString());
+        notificationService.addNotification(order.getUserId(), orderId, "Đơn hàng #" + orderId + " của bạn đã được xác nhận");
         return convertToOrderResponseDTO(orderRepository.save(order));
     }
 
@@ -71,6 +81,7 @@ public class OrderService implements IOrderService {
         Order order = orderRepository.findById(orderId).
                 orElseThrow(() -> new NotFoundException(messages.getString("order.validate.not-found")));
         order.setOrderStatus(OrderStatus.SHIPPED.toString());
+        notificationService.addNotification(order.getUserId(), orderId, "Đơn hàng #" + orderId + " của bạn đã được gửi đi");
         return convertToOrderResponseDTO(orderRepository.save(order));
     }
 
@@ -79,6 +90,7 @@ public class OrderService implements IOrderService {
         Order order = orderRepository.findById(orderId).
                 orElseThrow(() -> new NotFoundException(messages.getString("order.validate.not-found")));
         order.setOrderStatus(OrderStatus.DELIVERED.toString());
+        notificationService.addNotification(order.getUserId(), orderId, "Đơn hàng #" + orderId + " của bạn đã được giao thành công");
         return convertToOrderResponseDTO(orderRepository.save(order));
     }
 
@@ -92,6 +104,7 @@ public class OrderService implements IOrderService {
             productRepository.save(product);
         }
         order.setOrderStatus(OrderStatus.CANCELLED.toString());
+        notificationService.addNotification(order.getUserId(), orderId, "Đơn hàng #" + orderId + " của bạn đã bị hủy");
         return convertToOrderResponseDTO(orderRepository.save(order));
     }
 
@@ -225,6 +238,7 @@ public class OrderService implements IOrderService {
         user.getOrderList().add(order);
         userRepository.save(user);
 
+        notificationService.addNotification(1L, order.getOrderId(), "Đơn hàng #" + order.getOrderId() + " đã được tạo");
         return convertToOrderResponseDTO(orderRepository.save(order));
     }
 

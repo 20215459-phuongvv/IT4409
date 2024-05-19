@@ -153,7 +153,8 @@ public class CartItemService implements ICartItemService {
                 cartItem.getSize(),
                 cartItem.getPrice(),
                 cartItem.getDiscountPrice(),
-                cartItem.getCreateAt()
+                cartItem.getCreateAt(),
+                cartItem.getProduct().getThumbnail()
         );
     }
 }

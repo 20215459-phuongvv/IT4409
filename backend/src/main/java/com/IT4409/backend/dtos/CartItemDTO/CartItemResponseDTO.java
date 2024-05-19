@@ -18,4 +18,5 @@ public class CartItemResponseDTO {
     private Long price;
     private Long discountPrice;
     private LocalDateTime createAt;
+    private String thumbnail;
 }

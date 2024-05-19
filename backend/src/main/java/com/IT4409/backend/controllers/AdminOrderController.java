@@ -24,6 +24,16 @@ public class AdminOrderController {
         }
     }
 
+    @PutMapping("/{orderId}/payment")
+    public ResponseEntity<?> confirmOrderPayment(@PathVariable Long orderId){
+        try{
+            OrderResponseDTO order=orderService.confirmOrderPayment(orderId);
+            return new ResponseEntity<>(order,HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PutMapping("/{orderId}/confirm")
     public ResponseEntity<?> confirmOrder(@PathVariable Long orderId){
         try{

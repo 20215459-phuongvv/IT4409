@@ -60,7 +60,8 @@ public class CartService implements ICartService {
                         cartItem.getSize(),
                         cartItem.getPrice(),
                         cartItem.getDiscountPrice(),
-                        cartItem.getCreateAt()
+                        cartItem.getCreateAt(),
+                        cartItem.getProduct().getThumbnail()
                 ))
                 .collect(Collectors.toList());
 
