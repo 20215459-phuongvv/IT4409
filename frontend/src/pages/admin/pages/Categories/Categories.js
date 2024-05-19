@@ -13,8 +13,7 @@ import Loading from '~/components/LoadingComponent/Loading';
 import CategoryTable from '../../components/CategoryTable';
 
 const cx = classNames.bind(styles);
-const jwt =
-    'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTU4NjMwNDksImV4cCI6MTcxNTk0OTQ0OSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.NmdUzduLgqKMdOeQpHxEbi4IH2NBVD3R2OdmZL24C6Vk0pAXgmYCY701pneDnSUYGL7m_nYhjTSxZ9Y0M0m-YQ';
+const jwt = localStorage.getItem('jwt');
 
 const columns = [
     { id: 'index', label: 'STT', minWidth: 20 },
@@ -56,7 +55,6 @@ function CategoriesManagement() {
     useEffect(() => {
         dispatch(getAllCategories());
     }, [dispatch]);
-
 
     const rows = categoriesState.categories.map((element, index) => {
         const totalQuantity = element.productList?.reduce((acc, product) => acc + product.quantityInStock, 0);

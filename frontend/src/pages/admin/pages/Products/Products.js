@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Products.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteProduct, getAllProducts } from '~/redux/Admin/Product/Action';
+import { deleteProduct, getAllProducts, updateProduct } from '~/redux/Admin/Product/Action';
 import Loading from '~/components/LoadingComponent/Loading';
 import * as message from '~/components/Message/Message';
 import { getAllCategories } from '~/redux/Admin/Category/Action';
@@ -72,10 +72,6 @@ function ProductsManagement() {
         label: category.categoryName,
     }));
 
-    console.log('categoriesSelect', categoriesSelect);
-
-    console.log('productsState', productsState);
-
     const rows = productsState.products.map((element, index) => ({
         ...element,
         index: index + 1,
@@ -94,8 +90,16 @@ function ProductsManagement() {
         }
     };
 
-    const handleUpdate = (product) => {
-        console.log('update product', product);
+    const handleUpdate = (product, id) => {
+        console.log('product', product, id);
+        dispatch(updateProduct({ productId: id, product: product })).then(() => {
+            dispatch(getAllProducts());
+        });
+        if (!isError) {
+            message.success();
+        } else {
+            message.error();
+        }
     };
 
     return (

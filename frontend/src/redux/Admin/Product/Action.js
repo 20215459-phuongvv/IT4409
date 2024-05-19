@@ -40,7 +40,7 @@ export const createProduct = (product) => async (dispatch) => {
         const { data } = await api.post(`${API_BASE_URL}/api/admin/products`, product.data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${product.jwt}`,
+                Authorization: `Bearer ${product.jwt}`,
             },
         });
 
@@ -48,7 +48,6 @@ export const createProduct = (product) => async (dispatch) => {
             type: CREATE_PRODUCT_SUCCESS,
             payload: data,
         });
-
     } catch (error) {
         dispatch({
             type: CREATE_PRODUCT_FAILURE,
@@ -57,29 +56,23 @@ export const createProduct = (product) => async (dispatch) => {
     }
 };
 
-// export const updateProduct = (product) => async (dispatch) => {
-//   try {
-//     dispatch({ type: UPDATE_PRODUCT_REQUEST });
+export const updateProduct = (product) => async (dispatch) => {
+    try {
+        dispatch({ type: UPDATE_PRODUCT_REQUEST });
 
-//     const { data } = await api.put(
-//       `${API_BASE_URL}/api/admin/products/${product.productId}`,
-//       product
-//     );
+        const { data } = await api.put(`${API_BASE_URL}/api/admin/products/${product.productId}`, product.product);
 
-//     dispatch({
-//       type: UPDATE_PRODUCT_SUCCESS,
-//       payload: data,
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: UPDATE_PRODUCT_FAILURE,
-//       payload:
-//         error.response && error.response.data.message
-//           ? error.response.data.message
-//           : error.message,
-//     });
-//   }
-// };
+        dispatch({
+            type: UPDATE_PRODUCT_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PRODUCT_FAILURE,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+        });
+    }
+};
 
 export const deleteProduct = (data) => async (dispatch) => {
     try {
@@ -91,7 +84,6 @@ export const deleteProduct = (data) => async (dispatch) => {
             type: DELETE_PRODUCT_SUCCESS,
             payload: data.productId,
         });
-        
     } catch (error) {
         dispatch({
             type: DELETE_PRODUCT_FAILURE,
