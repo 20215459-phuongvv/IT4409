@@ -20,7 +20,7 @@ public class Cart {
     @JsonIgnoreProperties("cart")
     private User user;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("cart")
     private List<CartItem> cartItemList;
 

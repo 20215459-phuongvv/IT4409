@@ -1,6 +1,6 @@
 package com.IT4409.backend.controllers;
 
-import com.IT4409.backend.entities.Cart;
+import com.IT4409.backend.dtos.CartDTO.CartResponseDTO;
 import com.IT4409.backend.entities.User;
 import com.IT4409.backend.services.CartService;
 import com.IT4409.backend.services.UserService;
@@ -23,7 +23,7 @@ public class CartController {
     public ResponseEntity<?> findCartByUser(@RequestHeader("Authorization") String jwt) throws Exception {
         try{
             User user = userService.findUserByJwt(jwt);
-            Cart cart = cartService.findCartByUserId(user.getUserId());
+            CartResponseDTO cart = cartService.findCartByUserId(user.getUserId());
             return new ResponseEntity<>(cart, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

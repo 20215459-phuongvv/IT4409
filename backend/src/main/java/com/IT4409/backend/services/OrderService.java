@@ -114,9 +114,10 @@ public class OrderService implements IOrderService {
         List<OrderItem> orderItemList = new ArrayList<>();
 
         Order order = orderRepository.save(new Order());
+        List<CartItem> itemsToDelete = new ArrayList<>();
 
-        for(CartItem cartItem : cart.getCartItemList()) {
-            if(cartItem.getProduct().getStatus() == Constants.PRODUCT_STATUS.OUT_OF_STOCK) {
+        for (CartItem cartItem : new ArrayList<>(cart.getCartItemList())) {
+            if (cartItem.getProduct().getStatus() == Constants.PRODUCT_STATUS.OUT_OF_STOCK) {
                 throw new BadRequestException(messages.getString("product.validate.out-of-stock"));
             }
 
@@ -153,10 +154,21 @@ public class OrderService implements IOrderService {
             orderItemList.add(orderItem);
 
             // Xóa đồ trong giỏ hàng
-            cart.getCartItemList().remove(cartItem);
-            cartItemRepository.delete(cartItem);
+//            cart.getCartItemList().remove(cartItem);
+//            cartItemRepository.delete(cartItem);
+
+            // Xóa đồ trong giỏ hàng
+//            cart.setCartItemList(new ArrayList<>());
+            itemsToDelete.add(cartItem);
             cartRepository.save(cart);
         }
+
+        for (CartItem item : itemsToDelete) {
+            cart.getCartItemList().remove(item);
+            cartItemRepository.delete(item);
+        }
+
+        cartRepository.save(cart);
 
         if (orderRequestDTO.getUserDetailId() != null && orderRequestDTO.getUserDetailRequestDTO() == null) {
             UserDetail userDetail = user.getUserDetailList()

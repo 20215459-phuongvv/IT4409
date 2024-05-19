@@ -2,6 +2,7 @@ package com.IT4409.backend.services;
 
 import com.IT4409.backend.Utils.Constants;
 import com.IT4409.backend.dtos.CartItemDTO.CartItemRequestDTO;
+import com.IT4409.backend.dtos.CartItemDTO.CartItemResponseDTO;
 import com.IT4409.backend.entities.Cart;
 import com.IT4409.backend.entities.CartItem;
 import com.IT4409.backend.entities.Product;
@@ -29,17 +30,18 @@ public class CartItemService implements ICartItemService {
     @Autowired
     private CartItemRepository cartItemRepository;
     @Override
-    public CartItem getCartItemById(String jwt, Long cartItemId) throws Exception {
+    public CartItemResponseDTO getCartItemById(String jwt, Long cartItemId) throws Exception {
         User user = userService.findUserByJwt(jwt);
         Cart cart = cartRepository.findByUserUserId(user.getUserId())
                 .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
-        return cart.getCartItemList().stream()
+        CartItem cartItem = cart.getCartItemList().stream()
                 .filter(item -> Objects.equals(item.getCartItemId(), cartItemId))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException(messages.getString("cart-item.validate.not-found")));
+        return convertToCartItemResponseDTO(cartItem);
     }
     @Override
-    public CartItem addCartItem(String jwt, CartItemRequestDTO cartItemRequestDTO) throws Exception {
+    public CartItemResponseDTO addCartItem(String jwt, CartItemRequestDTO cartItemRequestDTO) throws Exception {
         User user = userService.findUserByJwt(jwt);
         Cart cart = cartRepository.findByUserUserId(user.getUserId())
                 .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
@@ -63,7 +65,7 @@ public class CartItemService implements ICartItemService {
                 cartItem.setCreateAt(LocalDateTime.now());
 
                 cartRepository.save(cart);
-                return cartItem;
+                return convertToCartItemResponseDTO(cartItem);
             }
         }
 
@@ -78,11 +80,11 @@ public class CartItemService implements ICartItemService {
                 .createAt(LocalDateTime.now())
                 .cart(cart)
                 .build();
-        return cartItemRepository.save(newCartItem);
+        return convertToCartItemResponseDTO(cartItemRepository.save(newCartItem));
     }
 
     @Override
-    public CartItem updateCartItem(String jwt, Long cartItemId, CartItemRequestDTO cartItemRequestDTO) throws Exception {
+    public CartItemResponseDTO updateCartItem(String jwt, Long cartItemId, CartItemRequestDTO cartItemRequestDTO) throws Exception {
         User user = userService.findUserByJwt(jwt);
         Cart cart = cartRepository.findByUserUserId(user.getUserId())
                 .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
@@ -118,17 +120,17 @@ public class CartItemService implements ICartItemService {
                 cart.getCartItemList().remove(cartItem);
                 cartItemRepository.delete(cartItem);
                 cartRepository.save(cart);
-                return cartItem1;
+                return convertToCartItemResponseDTO(cartItem);
             }
         }
 
         cartItem.setDiscountPrice(product.getDiscountPrice() * cartItemRequestDTO.getQuantity());
         cartItem.setPrice(product.getPrice() * cartItemRequestDTO.getQuantity());
-        return cartItemRepository.save(cartItem);
+        return convertToCartItemResponseDTO(cartItemRepository.save(cartItem));
     }
 
     @Override
-    public CartItem removeCartItem(String jwt, Long cartItemId) throws Exception {
+    public CartItemResponseDTO removeCartItem(String jwt, Long cartItemId) throws Exception {
         User user = userService.findUserByJwt(jwt);
         Cart cart = cartRepository.findByUserUserId(user.getUserId())
                 .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
@@ -138,6 +140,20 @@ public class CartItemService implements ICartItemService {
                 .orElseThrow(() -> new NotFoundException(messages.getString("cart-item.validate.not-found")));
         Product product = cartItem.getProduct();
         cartItemRepository.deleteById(cartItemId);
-        return cartItem;
+        return convertToCartItemResponseDTO(cartItem);
+    }
+
+    private CartItemResponseDTO convertToCartItemResponseDTO(CartItem cartItem) {
+        return new CartItemResponseDTO(
+                cartItem.getCartItemId(),
+                cartItem.getCart().getCartId(),
+                cartItem.getProduct().getProductName(),
+                cartItem.getQuantity(),
+                cartItem.getColor(),
+                cartItem.getSize(),
+                cartItem.getPrice(),
+                cartItem.getDiscountPrice(),
+                cartItem.getCreateAt()
+        );
     }
 }
