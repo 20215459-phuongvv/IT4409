@@ -13,4 +13,9 @@ public interface IProductService {
     public Product createProduct(ProductRequestDTO productRequestDTO) throws Exception;
     Product updateProduct(Long productId, ProductRequestDTO productRequestDTO) throws Exception;
     Product deleteProduct(Long productId) throws Exception;
+    List<Product> getSaleProducts();
+
+    List<Product> getNewestProducts();
+
+    List<Product> getBestProducts();
 }

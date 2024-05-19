@@ -12,4 +12,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "SELECT p FROM Product p WHERE p.productName LIKE %:#{#productName}% AND p.status = 1"
     )
     List<Product> searchProduct(@Param("productName") String productName);
+
+    List<Product> findTop8ByOrderByCreatedAtDesc();
+
+    List<Product> findTop8ByOrderByRatingDesc();
 }

@@ -39,6 +39,33 @@ public class ProductController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/products/best")
+    public ResponseEntity<?> getBestProducts() {
+        try {
+            List<Product> product = productService.getBestProducts();
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/products/sale")
+    public ResponseEntity<?> getSaleProducts() {
+        try{
+            List<Product> product = productService.getSaleProducts();
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/products/newest")
+    public ResponseEntity<?> getNewestProducts() {
+        try {
+            List<Product> product = productService.getNewestProducts();
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
     @GetMapping("products/search")
     public ResponseEntity<?> searchProduct(@RequestParam String productName) {
         try{

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -49,4 +50,6 @@ public class Product {
     @JoinColumn(name = "category_id")
     @JsonIgnoreProperties("product_list")
     private Category category;
+
+    private LocalDateTime createdAt;
 }

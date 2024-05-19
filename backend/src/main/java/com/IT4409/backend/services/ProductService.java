@@ -15,8 +15,11 @@ import com.IT4409.backend.services.interfaces.IProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.IT4409.backend.Utils.Constants.messages;
 
@@ -84,6 +87,7 @@ public class ProductService implements IProductService {
         product.setColorList(colorList);
         product.setCategory(category);
         product.setRating(0.0);
+        product.setCreatedAt(LocalDateTime.now());
         return productRepository.save(product);
     }
 
@@ -128,5 +132,29 @@ public class ProductService implements IProductService {
         }
         productRepository.deleteById(productId);
         return product;
+    }
+
+    @Override
+    public List<Product> getSaleProducts() {
+        List<Product> allProducts = productRepository.findAll();
+        return allProducts.stream()
+                .filter(product -> product.getPrice() > 0 && product.getDiscountPrice() != null && product.getDiscountPrice() > 0)
+                .sorted(Comparator.comparingDouble(this::calculateDiscountRate).reversed())
+                .limit(8) // Giới hạn số lượng sản phẩm trả về là 8
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Product> getNewestProducts() {
+        return productRepository.findTop8ByOrderByCreatedAtDesc();
+    }
+
+    @Override
+    public List<Product> getBestProducts() {
+        return productRepository.findTop8ByOrderByRatingDesc();
+    }
+
+    private double calculateDiscountRate(Product product) {
+        return (product.getPrice() - product.getDiscountPrice()) * 1.0 / product.getPrice();
     }
 }
