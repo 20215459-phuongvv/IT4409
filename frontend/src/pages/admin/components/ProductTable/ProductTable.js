@@ -25,6 +25,7 @@ function ProductTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
     const [rowsPerPage, setRowsPerPage] = useState(rowPerPage);
     const [openDeleteBox, setOpenDeleteBox] = useState([]);
     const [openProductUpdateBox, setOpenProductUpdateBox] = useState([]);
+    const [productId, setProductId] = useState('');
     const [updatedProduct, setUpdatedProduct] = useState({
         productName: '',
         price: '',
@@ -53,6 +54,7 @@ function ProductTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
     };
 
     const handleOpenProductUpdateBox = (index, row) => {
+        setProductId(row.productId);
         setUpdatedProduct({
             productName: row.productName,
             category: row.category?.categoryName,
@@ -83,7 +85,7 @@ function ProductTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
     };
 
     const handleUpdateClick = (index) => {
-        handleUpdate(updatedProduct);
+        handleUpdate(updatedProduct, productId);
         handleCloseProductUpdateBox(index);
     };
 
@@ -206,20 +208,6 @@ function ProductTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
                                                             }
                                                         />
                                                     </div>
-
-                                                    {/* <div className={cx('update-input-row')}>
-                                                        <p>Phân loại</p>
-
-                                                        <Select
-                                                            defaultValue="Chọn loại sản phẩm"
-                                                            style={{
-                                                                minWidth: 500,
-                                                                maxWidth: 1000,
-                                                            }}
-                                                            // onChange={handleChangeProductType}
-                                                            options={categoriesSelect}
-                                                        />
-                                                    </div> */}
 
                                                     <div className={cx('update-input-row')}>
                                                         <p>Giá</p>

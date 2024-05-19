@@ -14,6 +14,8 @@ export const getAllUsers = () => async (dispatch) => {
 
         const { data } = await api.get(`${API_BASE_URL}/api/admin/users`);
 
+        console.log('all users', data);
+
         dispatch({
             type: GET_USERS_SUCCESS,
             payload: data,

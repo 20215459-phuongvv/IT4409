@@ -39,8 +39,6 @@ const columns = [
 ];
 
 function UsersManagement() {
-    const [customerList, setCustomerList] = useState([]);
-
     const dispatch = useDispatch();
     const usersState = useSelector((state) => state.users);
     const isLoading = usersState.loading;
@@ -52,17 +50,6 @@ function UsersManagement() {
 
     const rows = usersState.users.map((user, index) => ({ ...user, index: index + 1 }));
 
-    console.log('usersState', usersState);
-
-    // useEffect(() => {
-    //     const fetchUsers = async () => {
-    //         const users = await customerApi.getAll();
-    //         const customersWithIndex = users.map((user, index) => ({ ...user, index: index + 1 }));
-    //         setCustomerList(customersWithIndex);
-    //     };
-
-    //     fetchUsers();
-    // }, []);
 
     return (
         <div className={cx('wrapper')}>
