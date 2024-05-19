@@ -7,7 +7,7 @@ import ChatBox from './ChatBox';
 
 const Chat = () => {
     const { user } = useSelector((state) => state.auth);
-    const sendMessage = useSocket(user?.user.userId);
+    const sendMessage = useSocket(user?.user?.userId);
     const [selectedUser, setSelectedUser] = useState(null);
     return (
         <div className="chat">
