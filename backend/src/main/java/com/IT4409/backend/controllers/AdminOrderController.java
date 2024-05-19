@@ -1,5 +1,6 @@
 package com.IT4409.backend.controllers;
 
+import com.IT4409.backend.dtos.OrderDTO.DailyRevenueDTO;
 import com.IT4409.backend.dtos.OrderDTO.OrderResponseDTO;
 import com.IT4409.backend.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,12 @@ public class AdminOrderController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/daily")
+    public ResponseEntity<List<DailyRevenueDTO>> getWeeklyRevenue() {
+        List<DailyRevenueDTO> weeklyRevenue = orderService.getWeeklyRevenue();
+        return new ResponseEntity<>(weeklyRevenue, HttpStatus.OK);
     }
 
     @PutMapping("/{orderId}/payment")

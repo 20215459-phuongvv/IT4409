@@ -36,6 +36,7 @@ public class GptController {
     public String summarizeProductReview(@PathVariable("productId") Long productId) throws Exception {
         String prompt = "Hãy tóm tắt các bình luận được cung cấp, biết các bình luận ngăn cách với nhau bằng dấu '|', " +
                 "dưới dạng: \"Phần lớn khách hàng ..., tuy nhiên một số chưa hài lòng về ..., một số khác cho rằng ...\"";
+//        String prompt = "Hãy cho tôi các bình luận cho sản phẩm áo, bao gồm cả tích cực lẫn tiêu cực";
         List<Review> reviewList = reviewService.getProductReviews(productId);
         for(Review review : reviewList) {
             prompt += review.getComment() + " | ";
@@ -47,6 +48,6 @@ public class GptController {
             return "No response";
         }
         // return the first response
-        return response.getChoices().get(0).getGptMessage().getContent();
+        return response.getChoices().get(0).getMessage().getContent();
     }
 }

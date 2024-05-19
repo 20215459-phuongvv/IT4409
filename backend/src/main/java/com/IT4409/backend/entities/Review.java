@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
-
 @Entity
 @Table(name = "reviews")
 @Data
@@ -28,13 +26,4 @@ public class Review {
     @JoinColumn(name = "order_item_id")
     @JsonIgnoreProperties("orderItem")
     private OrderItem orderItem;
-
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "user_id")
-//    @JsonIgnoreProperties("reviewList")
-//    private User user;
-
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("review")
-    private List<ReviewImage> reviewImageList;
 }

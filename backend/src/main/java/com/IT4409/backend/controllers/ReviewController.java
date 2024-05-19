@@ -37,11 +37,11 @@ public class ReviewController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-    @RequestMapping(value = "api/order/{orderId}/order-items/{orderItemId}/review", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @RequestMapping(value = "api/order/{orderId}/order-items/{orderItemId}/review", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> addReview (@RequestHeader("Authorization") String jwt,
                                         @PathVariable("orderId") Long orderId,
                                         @PathVariable("orderItemId") Long orderItemId,
-                                        @ModelAttribute ReviewRequestDTO reviewRequestDTO) {
+                                        @RequestBody ReviewRequestDTO reviewRequestDTO) {
         try{
             Review review = reviewService.addReview(jwt, orderId, orderItemId, reviewRequestDTO);
             return new ResponseEntity<>(review, HttpStatus.CREATED);
@@ -49,10 +49,10 @@ public class ReviewController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-    @RequestMapping(value = "api/reviews/{reviewId}", method = RequestMethod.PUT, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @RequestMapping(value = "api/reviews/{reviewId}", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> editReview (@RequestHeader("Authorization") String jwt,
                                          @PathVariable("reviewId") Long reviewId,
-                                         @ModelAttribute ReviewRequestDTO reviewRequestDTO) {
+                                         @RequestBody ReviewRequestDTO reviewRequestDTO) {
         try{
             Review review = reviewService.editReview(jwt, reviewId, reviewRequestDTO);
             return new ResponseEntity<>(review, HttpStatus.CREATED);

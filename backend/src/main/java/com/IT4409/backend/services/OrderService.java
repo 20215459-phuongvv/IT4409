@@ -4,6 +4,7 @@ import com.IT4409.backend.Utils.Constants;
 import com.IT4409.backend.Utils.OrderStatus;
 import com.IT4409.backend.Utils.PaymentMethod;
 import com.IT4409.backend.Utils.PaymentStatus;
+import com.IT4409.backend.dtos.OrderDTO.DailyRevenueDTO;
 import com.IT4409.backend.dtos.OrderDTO.OrderRequestDTO;
 import com.IT4409.backend.dtos.OrderDTO.OrderResponseDTO;
 import com.IT4409.backend.dtos.OrderItemDTO.OrderItemResponseDTO;
@@ -16,11 +17,10 @@ import com.IT4409.backend.services.interfaces.IOrderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.IT4409.backend.Utils.Constants.messages;
@@ -273,6 +273,35 @@ public class OrderService implements IOrderService {
         return convertToOrderResponseDTO(order);
     }
 
+    @Override
+    public List<DailyRevenueDTO> getWeeklyRevenue() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDate today = now.toLocalDate();
+        LocalDate startOfWeek = today.with(DayOfWeek.MONDAY);
+        LocalDate endOfWeek = today.with(DayOfWeek.SUNDAY).plusDays(1);
+
+        List<Order> orders = orderRepository.findOrdersForCurrentWeek(startOfWeek.atStartOfDay(), endOfWeek.atStartOfDay());
+
+        Map<DayOfWeek, Double> revenueMap = new HashMap<>();
+        for (DayOfWeek day : DayOfWeek.values()) {
+            revenueMap.put(day, 0.0);
+        }
+
+        for (Order order : orders) {
+            DayOfWeek day = order.getCreatedAt().getDayOfWeek();
+            double currentRevenue = revenueMap.get(day);
+            revenueMap.put(day, currentRevenue + order.getFinalPrice());
+        }
+
+        List<DailyRevenueDTO> dailyRevenueList = new ArrayList<>();
+        for (DayOfWeek day : DayOfWeek.values()) {
+            double revenue = revenueMap.get(day) / 1_000_000; // Chia tổng doanh thu cho 1 triệu
+            String dayInVietnamese = convertDayToVietnamese(day);
+            dailyRevenueList.add(new DailyRevenueDTO(revenue, dayInVietnamese));
+        }
+        return dailyRevenueList;
+    }
+
     private boolean isDiscountValid(Order order, String discountCode) throws BadRequestException {
         Optional<Discount> discountOptional = discountRepository.findByDiscountCodeAndStatus(discountCode, Constants.DISCOUNT_STATUS.AVAILABLE);
         if(discountOptional.isEmpty()){
@@ -330,5 +359,26 @@ public class OrderService implements IOrderService {
                 userDetail.getAddress(),
                 userDetail.getPhoneNumber()
         );
+    }
+
+    private String convertDayToVietnamese(DayOfWeek day) {
+        switch (day) {
+            case MONDAY:
+                return "Thứ hai";
+            case TUESDAY:
+                return "Thứ ba";
+            case WEDNESDAY:
+                return "Thứ tư";
+            case THURSDAY:
+                return "Thứ năm";
+            case FRIDAY:
+                return "Thứ sáu";
+            case SATURDAY:
+                return "Thứ bảy";
+            case SUNDAY:
+                return "Chủ nhật";
+            default:
+                return "";
+        }
     }
 }

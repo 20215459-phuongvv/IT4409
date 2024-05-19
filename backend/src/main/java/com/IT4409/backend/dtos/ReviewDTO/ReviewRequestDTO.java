@@ -5,9 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,5 +14,4 @@ public class ReviewRequestDTO {
     private Short ratingValue;
     @NotBlank
     private String comment;
-    private List<MultipartFile> images;
 }

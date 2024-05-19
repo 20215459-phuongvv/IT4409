@@ -14,15 +14,14 @@ import java.util.List;
 @Builder
 public class GptRequestDTO {
     private String model;
-    private List<GptMessage> gptMessageList;
-    private int n;
+    private List<Message> messages;
     private double temperature;
 
     public GptRequestDTO(String model, String prompt) {
         this.model = model;
 
-        this.gptMessageList = new ArrayList<>();
-        this.gptMessageList.add(new GptMessage("user", prompt));
+        this.messages = new ArrayList<>();
+        this.messages.add(new Message("user", prompt));
     }
 
 }

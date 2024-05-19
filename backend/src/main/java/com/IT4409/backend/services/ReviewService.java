@@ -8,7 +8,6 @@ import com.IT4409.backend.exceptions.NotFoundException;
 import com.IT4409.backend.repositories.*;
 import com.IT4409.backend.services.interfaces.IReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +28,6 @@ public class ReviewService implements IReviewService {
     private ProductRepository productRepository;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private ReviewImageRepository reviewImageRepository;
     @Autowired
     private CloudinaryService cloudinaryService;
     @Override
@@ -86,17 +83,9 @@ public class ReviewService implements IReviewService {
         user.getReviewList().add(review);
 
         review = reviewRepository.save(review);
-        if(!reviewRequestDTO.getImages().isEmpty()) {
-            for(MultipartFile image : reviewRequestDTO.getImages()) {
-                ReviewImage reviewImage = new ReviewImage();
-                String url = cloudinaryService.upload(image.getBytes(), image.getOriginalFilename(), "review_images");
-                reviewImage.setImageUrl(url);
-                reviewImage.setReview(review);
-                reviewImageRepository.save(reviewImage);
-            }
-        }
         List<Review> reviewList = getProductReviews(review.getOrderItem().getProduct().getProductId());
-        double averageRating = reviewList.stream()
+        double averageRating = reviewList
+                .stream()
                 .mapToDouble(Review::getRatingValue)
                 .average()
                 .orElse(0.0);
@@ -118,15 +107,6 @@ public class ReviewService implements IReviewService {
         review.setRatingValue(reviewRequestDTO.getRatingValue());
         review.setComment(reviewRequestDTO.getComment());
         review = reviewRepository.save(review);
-        if(!reviewRequestDTO.getImages().isEmpty()) {
-            for(MultipartFile image : reviewRequestDTO.getImages()) {
-                ReviewImage reviewImage = new ReviewImage();
-                String url = cloudinaryService.upload(image.getBytes(), image.getOriginalFilename(), "review_images");
-                reviewImage.setImageUrl(url);
-                reviewImage.setReview(review);
-                reviewImageRepository.save(reviewImage);
-            }
-        }
         List<Review> reviewList = getProductReviews(review.getOrderItem().getProduct().getProductId());
         double averageRating = reviewList.stream()
                 .mapToDouble(Review::getRatingValue)

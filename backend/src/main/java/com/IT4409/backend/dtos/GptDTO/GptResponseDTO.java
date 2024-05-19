@@ -16,6 +16,6 @@ public class GptResponseDTO {
     @Data
     public static class Choice {
         private int index;
-        private GptMessage gptMessage;
+        private Message message;
     }
 }

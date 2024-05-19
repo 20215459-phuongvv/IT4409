@@ -1,5 +1,6 @@
 package com.IT4409.backend.services.interfaces;
 
+import com.IT4409.backend.dtos.OrderDTO.DailyRevenueDTO;
 import com.IT4409.backend.dtos.OrderDTO.OrderRequestDTO;
 import com.IT4409.backend.dtos.OrderDTO.OrderResponseDTO;
 import com.IT4409.backend.exceptions.NotFoundException;
@@ -25,4 +26,6 @@ public interface IOrderService {
     List<OrderResponseDTO> getOrderHistory(long userId);
 
     OrderResponseDTO getOrderByOrderIdAndUserId(String jwt, Long orderId) throws Exception;
+
+    List<DailyRevenueDTO> getWeeklyRevenue();
 }
