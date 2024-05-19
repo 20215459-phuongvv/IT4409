@@ -139,7 +139,8 @@ public class CartItemService implements ICartItemService {
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException(messages.getString("cart-item.validate.not-found")));
         Product product = cartItem.getProduct();
-        cartItemRepository.deleteById(cartItemId);
+        cart.getCartItemList().remove(cartItem);
+        cartRepository.save(cart);
         return convertToCartItemResponseDTO(cartItem);
     }
 
