@@ -16,10 +16,9 @@ root.render(
             <GlobalStyles>
                 <ShopContextProvider>
                     <App />
-                </ShopContextProvider>    
-         </GlobalStyles>
-         </Provider>
-        
+                </ShopContextProvider>
+            </GlobalStyles>
+        </Provider>
     </React.StrictMode>,
 );
 

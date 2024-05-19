@@ -7,23 +7,26 @@ import star_icon from '~/assets/images/star_icon.png';
 import star_dull_icon from '~/assets/images/star_dull_icon.png';
 import Button from '~/components/Button';
 import { ShopContext } from '~/context/ShopContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ProductReviewCard from '~/pages/user/pages/Products/ProductDetail/ProductReviewCard';
 import { Grid, Rating, Box, LinearProgress } from '@mui/material';
 import ChatModal from '../ChatModal';
 import { adminDetail } from '~/util/adminDetail';
 import { sizeTab } from '~/util/constant';
+import { useDispatch } from 'react-redux';
+import { addItemToCart } from '~/redux/Customers/Cart/Action';
 const cx = classNames.bind(styles);
 
 function ProductDisplay(props) {
     const { product } = props;
-    const { addToCart } = useContext(ShopContext);
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedColor, setSelectedColor] = useState(product?.colorList[0]); //chọn màu
     const [amount, setAmount] = useState(1); //chọn số lượng
-    const [chosenSize, setChosenSize] = useState(0); //chọn size
+    const [chosenSize, setChosenSize] = useState(sizeTab[product?.sizeList[0]]); //chọn size
     const [activeColorImage, setActiveColorImage] = useState(selectedColor?.colorImageList[0].imageUrl); //main img
     const [colorChecked, setColorChecked] = useState(0);
+    const dispatch = useDispatch();
+    const jwt = localStorage.getItem('jwt');
 
     const handleChooseImg = (imageItem) => {
         setActiveColorImage(imageItem);
@@ -48,7 +51,7 @@ function ProductDisplay(props) {
     };
 
     useEffect(() => {
-        setActiveColorImage(selectedColor.colorImageList[0].imageUrl);
+        setActiveColorImage(selectedColor?.colorImageList[0].imageUrl);
     }, [selectedColor]);
 
     return (
@@ -141,7 +144,17 @@ function ProductDisplay(props) {
                     <div className={cx('button-block')}>
                         <button
                             onClick={() => {
-                                addToCart(product?.id, amount, chosenSize, selectedColor.colorName);
+                                dispatch(
+                                    addItemToCart({
+                                        data: {
+                                            productId: product?.productId,
+                                            size: chosenSize,
+                                            quantity: amount,
+                                            color: selectedColor?.colorName,
+                                        },
+                                        jwt: jwt,
+                                    }),
+                                );
                             }}
                             className={cx('addToCart')}
                         >

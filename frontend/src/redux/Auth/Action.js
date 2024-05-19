@@ -17,6 +17,7 @@ import {
     GET_ADMIN_SUCCESS,
     GET_ADMIN_FAILURE,
     SET_ERROR,
+    GET_USER_PROFILE_SUCCESS,
 } from './ActionTypes';
 import axiosClient, { API_BASE_URL } from '../../config/api';
 
@@ -88,9 +89,28 @@ export const getUser = (token) => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            const [user] = response.data;
-            dispatch({ type: GET_USER_SUCCESS, payload: user });
-            console.log('req User ', user);
+            const user = response.data;
+            dispatch({ type: GET_USER_SUCCESS, payload: user[0] });
+            console.log('req User ', user[0]);
+        } catch (error) {
+            const errorMessage = error.message;
+            dispatch({ type: GET_USER_FAILURE, payload: errorMessage });
+        }
+    };
+};
+
+export const getUserProfiles = (token) => {
+    return async (dispatch) => {
+        dispatch({ type: GET_USER_REQUEST });
+        try {
+            const response = await axios.get(`${API_BASE_URL}/api/user/account/user-details`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            const users = response.data;
+            dispatch({ type: GET_USER_PROFILE_SUCCESS, payload: users });
+            console.log('req UserProfiles ', users);
         } catch (error) {
             const errorMessage = error.message;
             dispatch({ type: GET_USER_FAILURE, payload: errorMessage });
