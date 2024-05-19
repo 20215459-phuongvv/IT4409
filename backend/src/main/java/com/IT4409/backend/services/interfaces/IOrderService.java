@@ -28,4 +28,6 @@ public interface IOrderService {
     OrderResponseDTO getOrderByOrderIdAndUserId(String jwt, Long orderId) throws Exception;
 
     List<DailyRevenueDTO> getWeeklyRevenue();
+
+    Long getAllRevenue();
 }

@@ -288,9 +288,11 @@ public class OrderService implements IOrderService {
         }
 
         for (Order order : orders) {
-            DayOfWeek day = order.getCreatedAt().getDayOfWeek();
-            double currentRevenue = revenueMap.get(day);
-            revenueMap.put(day, currentRevenue + order.getFinalPrice());
+            if(Objects.equals(order.getOrderStatus(), OrderStatus.DELIVERED.toString())) {
+                DayOfWeek day = order.getCreatedAt().getDayOfWeek();
+                double currentRevenue = revenueMap.get(day);
+                revenueMap.put(day, currentRevenue + order.getFinalPrice());
+            }
         }
 
         List<DailyRevenueDTO> dailyRevenueList = new ArrayList<>();
@@ -300,6 +302,16 @@ public class OrderService implements IOrderService {
             dailyRevenueList.add(new DailyRevenueDTO(revenue, dayInVietnamese));
         }
         return dailyRevenueList;
+    }
+
+    @Override
+    public Long getAllRevenue() {
+        Long totalRevenue = 0L;
+        List<Order> orderList = orderRepository.findByOrderStatus(OrderStatus.DELIVERED.toString());
+        for (Order order : orderList) {
+            totalRevenue += order.getFinalPrice();
+        }
+        return totalRevenue;
     }
 
     private boolean isDiscountValid(Order order, String discountCode) throws BadRequestException {

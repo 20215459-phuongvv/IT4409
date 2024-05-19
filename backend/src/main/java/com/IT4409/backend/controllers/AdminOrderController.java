@@ -31,6 +31,12 @@ public class AdminOrderController {
         return new ResponseEntity<>(weeklyRevenue, HttpStatus.OK);
     }
 
+    @GetMapping("/all-revenue")
+    public ResponseEntity<?> getAllRevenue() {
+        long allRevenue = orderService.getAllRevenue();
+        return new ResponseEntity<>(allRevenue, HttpStatus.OK);
+    }
+
     @PutMapping("/{orderId}/payment")
     public ResponseEntity<?> confirmOrderPayment(@PathVariable Long orderId){
         try{

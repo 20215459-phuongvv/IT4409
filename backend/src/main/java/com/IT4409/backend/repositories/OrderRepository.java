@@ -14,4 +14,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findAllByUserIdOrderByCreatedAtDesc(long userId);
     @Query("SELECT o FROM Order o WHERE o.createdAt >= :startOfWeek AND o.createdAt < :endOfWeek")
     List<Order> findOrdersForCurrentWeek(@Param("startOfWeek") LocalDateTime startOfWeek, @Param("endOfWeek") LocalDateTime endOfWeek);
+
+    List<Order> findByOrderStatus(String toString);
 }
