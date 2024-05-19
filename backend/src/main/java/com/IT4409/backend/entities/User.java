@@ -1,6 +1,9 @@
 package com.IT4409.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +17,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "userId")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +43,7 @@ public class User {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("user")
+//    @JsonIgnoreProperties("user")
     private List<UserDetail> userDetailList;
 
     @OneToMany(/*mappedBy = "user",*/ cascade = CascadeType.ALL, orphanRemoval = true)
@@ -51,7 +55,7 @@ public class User {
     private Cart cart;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("user")
+    @JsonIgnore
     private List<Order> orderList;
 
     @OneToMany(/*mappedBy = "user",*/ cascade = CascadeType.ALL)
