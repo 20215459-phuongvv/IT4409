@@ -139,17 +139,17 @@ function Vouchers() {
                             <div className={cx('add-voucher-wrapper')}>
                                 <div className={cx('add-voucher-row')}>
                                     <p>Mã voucher</p>
-                                    <input id="new-voucher-code" type="text" placeholder="Nhập tên Voucher" />
+                                    <input id="new-voucher-code" type="text" placeholder="Nhập mã Voucher" />
                                 </div>
     
                                 <div className={cx('add-voucher-row')}>
                                     <p>Giá trị giảm (%)</p>
-                                    <input id="new-voucher-value" type="text" placeholder="Nhập mã giảm giá" />
+                                    <input id="new-voucher-value" type="text" placeholder="Giá trị giảm (%)" />
                                 </div>
     
                                 <div className={cx('add-voucher-row')}>
                                     <p>Giá trị tối đa</p>
-                                    <input id="new-voucher-maximum-value" type="text" placeholder="Giá trị giảm (%)" />
+                                    <input id="new-voucher-maximum-value" type="text" placeholder="Giá trị tối đa (VND)" />
                                 </div>
     
                                 <div className={cx('add-voucher-row')}>

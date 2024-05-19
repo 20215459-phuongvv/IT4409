@@ -44,18 +44,28 @@ function UsersManagement() {
     const isLoading = usersState.loading;
     const isError = usersState.error;
 
+    const [rows, setRows] = useState([]);
+
     useEffect(() => {
         dispatch(getAllUsers());
     }, [dispatch]);
 
-    const rows = usersState.users.map((user, index) => ({ ...user, index: index + 1 }));
+    useEffect(() => {
+        if (Array.isArray(usersState.users)) {
+            setRows(usersState.users.map((user, index) => ({ ...user, index: index + 1 })));
+        }
+    }, [usersState]);
 
+    console.log('usersState', usersState);
+    // const rows = usersState.users.map((user, index) => ({ ...user, index: index + 1 }));
 
     return (
-        <div className={cx('wrapper')}>
-            <h1 className={cx('title')}>Khách hàng</h1>
-            <UserTable columns={columns} rows={rows} rowPerPage={6} deleteButton={true} />
-        </div>
+        <Loading isLoading={isLoading}>
+            <div className={cx('wrapper')}>
+                <h1 className={cx('title')}>Khách hàng</h1>
+                <UserTable columns={columns} rows={rows} rowPerPage={6} deleteButton={true} />
+            </div>
+        </Loading>
     );
 }
 
