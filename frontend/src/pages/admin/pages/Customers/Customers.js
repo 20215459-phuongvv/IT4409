@@ -4,7 +4,8 @@ import classNames from 'classnames/bind';
 import styles from './Customers.module.scss';
 import UserTable from '../../components/UserTable';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllUsers } from '~/redux/Admin/User/Action';
+import { deleteUser, getAllUsers } from '~/redux/Admin/User/Action';
+import * as message from '~/components/Message/Message';
 import Loading from '~/components/LoadingComponent/Loading';
 
 const cx = classNames.bind(styles);
@@ -59,11 +60,23 @@ function UsersManagement() {
     console.log('usersState', usersState);
     // const rows = usersState.users.map((user, index) => ({ ...user, index: index + 1 }));
 
+    const handleDelete = (user) => {
+        console.log('user deleted', user);
+        dispatch(deleteUser(user)).then(() => {
+            dispatch(getAllUsers());
+        });
+        if (!isError) {
+            message.success();
+        } else {
+            message.error();
+        }
+    };
+
     return (
         <Loading isLoading={isLoading}>
             <div className={cx('wrapper')}>
                 <h1 className={cx('title')}>Khách hàng</h1>
-                <UserTable columns={columns} rows={rows} rowPerPage={6} deleteButton={true} />
+                <UserTable columns={columns} rows={rows} rowPerPage={6} handleDelete={handleDelete} />
             </div>
         </Loading>
     );

@@ -82,6 +82,7 @@ function VoucherTable({ columns, rows, rowPerPage, handleDelete, handleUpdate })
                     <TableBody>
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             const date = new Date(row?.endDate);
+                            console.log(row.endDate, date);
                             const endDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1)
                                 .toString()
                                 .padStart(2, '0')}/${date.getFullYear()}`;

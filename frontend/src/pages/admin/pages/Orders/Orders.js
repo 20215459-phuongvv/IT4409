@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Orders.module.scss';
 import TableComponent from '../../components/TableComponent';
+import OrderTable from '../../components/OrderTable';
 
 const cx = classNames.bind(styles);
 
@@ -26,8 +27,8 @@ const columns = [
         align: 'left',
     },
     {
-        id: 'contact',
-        label: 'Liên hệ',
+        id: 'payment-method',
+        label: 'Phương thức thanh toán',
         minWidth: 30,
         align: 'left',
     },
@@ -41,18 +42,47 @@ const columns = [
 
 const data = [
     {
-        orderID: 'HD001',
-        customerName: 'Đào Anh Quân',
-        date: '17/04/2024',
-        total: '1.000.000đ',
-        status: 'Đã giao',
-    },
-    {
-        orderID: 'HD002',
-        customerName: 'Đào Anh Quân',
-        date: '17/04/2024',
-        total: '3.000.000đ',
-        status: 'Đang giao',
+        orderId: 9,
+        userId: 2,
+        orderStatus: 'PENDING',
+        PaymentStatus: 'PENDING',
+        PaymentMethod: 'NET_BANKING',
+        createdAt: '2024-05-19T10:06:59.600588',
+        totalAmount: 15370550,
+        discountedAmount: 59846700,
+        discountFromVoucher: null,
+        finalPrice: 15370550,
+        qrLink: 'https://img.vietqr.io/image/mb-0963861815-compact2. jpg?amount=15370550&addInfo=Order%209&accountName=VU%20VIỆT%20PHƯƠNG',
+        orderItemList: [
+            {
+                orderItemId: 9,
+                orderId: 9,
+                productName: 'áo',
+                quantity: 5,
+                ' size': 'L',
+                color: 'Đen',
+                price: 50000000,
+                thumbnail:
+                    'http://res.cloudinary.com/dj2lvmrop/image/upload/v1715485535/hustore/thumbnails/thumbnail. jpeg.jpg',
+            },
+            {
+                orderItemId: 10,
+                orderId: 9,
+                productName: 'áo',
+                quantity: 1,
+                size: 'M',
+                color: 'Đen',
+                ' giá': 10000000,
+                'hình thu nhỏ':
+                    'http://res.cloudinary.com/dj2lvmrop/image/upload/v1715485535/hustore/thumbnails/thumbnail.jpeg.jpg',
+            },
+        ],
+        userDetail: {
+            userDetailId: 2,
+            name: 'deadlinerunnerr',
+            address: 'Hoàng Mai, Hà Nội',
+            phoneNumber: '0963861815',
+        },
     },
 ];
 
@@ -61,30 +91,10 @@ const rows = data.map((element, index) => ({ ...element, index: index + 1 }));
 console.log(rows);
 
 function OrdersManagement() {
-    const attributes = ['orderID', 'customerName', 'date', 'total', 'status'];
-
-    // useEffect(() => {
-    //     const fetchUsers = async () => {
-    //         const users = await customerApi.getAll();
-    //         const customersWithIndex = users.map((user, index) => ({ ...user, index: index + 1 }));
-    //         setCustomerList(customersWithIndex);
-    //     };
-
-    //     fetchUsers();
-    // }, []);
-
     return (
         <div className={cx('wrapper')}>
             <h1 className={cx('title')}>Đơn hàng</h1>
-            <TableComponent
-                columns={columns}
-                rows={rows}
-                rowPerPage={6}
-                type="order"
-                attributes={attributes}
-                contactButton={true}
-                actionButton={true}
-            />
+            <OrderTable columns={columns} rows={rows} rowPerPage={6} />
         </div>
     );
 }

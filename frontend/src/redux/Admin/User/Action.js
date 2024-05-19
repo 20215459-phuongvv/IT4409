@@ -29,21 +29,21 @@ export const getAllUsers = () => async (dispatch) => {
     }
 };
 
-// export const deleteUser = (data) => async (dispatch) => {
-//     try {
-//         dispatch({ type: DELETE_USER_REQUEST });
+export const deleteUser = (data) => async (dispatch) => {
+    try {
+        dispatch({ type: DELETE_USER_REQUEST });
 
-//         await api.delete(`/api/admin/users/${data.productId}`);
+        await api.delete(`/api/admin/users/${data.userId}`);
 
-//         dispatch({
-//             type: DELETE_USER_SUCCESS,
-//             payload: data.userId,
-//         });
+        dispatch({
+            type: DELETE_USER_SUCCESS,
+            payload: data.userId,
+        });
 
-//     } catch (error) {
-//         dispatch({
-//             type: DELETE_USER_FAILURE,
-//             payload: error.response && error.response.data.message ? error.response.data.message : error.message,
-//         });
-//     }
-// };
+    } catch (error) {
+        dispatch({
+            type: DELETE_USER_FAILURE,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+        });
+    }
+};
