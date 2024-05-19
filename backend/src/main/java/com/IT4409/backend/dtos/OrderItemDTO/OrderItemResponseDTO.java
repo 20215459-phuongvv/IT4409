@@ -15,5 +15,5 @@ public class OrderItemResponseDTO {
     private String size;
     private String color;
     private Long price;
-
+    private String thumbnail;
 }

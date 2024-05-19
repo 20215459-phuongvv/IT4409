@@ -293,7 +293,8 @@ public class OrderService implements IOrderService {
                 orderItem.getQuantity(),
                 orderItem.getSize(),
                 orderItem.getColor(),
-                orderItem.getPrice()
+                orderItem.getPrice(),
+                orderItem.getProduct().getThumbnail()
         );
     }
 

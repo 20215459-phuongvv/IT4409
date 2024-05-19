@@ -110,15 +110,15 @@ public class NotificationService implements INotificationService {
         for (Cart cart : cartList) {
             List<CartItem> cartItemList = cart.getCartItemList();
             if (cartItemList != null) {
-                Iterator<CartItem> iterator = cartItemList.iterator();
-                while (iterator.hasNext()) {
-                    CartItem cartItem = iterator.next();
+                List<CartItem> itemsToRemove = new ArrayList<>();
+                for (CartItem cartItem : cartItemList) {
                     Product product = cartItem.getProduct();
                     if (cartItem.getQuantity() > product.getQuantityInStock() || product.getStatus() == Constants.PRODUCT_STATUS.OUT_OF_STOCK) {
                         addNotification(cart.getUser().getUserId(), null, String.format(messages.getString("cart-item.notification.out-of-stock"), product.getProductName()));
-                        iterator.remove();
+                        itemsToRemove.add(cartItem);
                     }
                 }
+                cartItemList.removeAll(itemsToRemove);
                 cartRepository.save(cart);
             }
         }

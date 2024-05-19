@@ -110,6 +110,8 @@ public class ProductService implements IProductService {
             if (productRequestDTO.getQuantityInStock() == 0) {
                 product.setStatus(Constants.PRODUCT_STATUS.OUT_OF_STOCK);
                 notificationService.sendProductOutOfStockNotification();
+            } else {
+                product.setStatus(Constants.PRODUCT_STATUS.IN_STOCK);
             }
         }
         product = productRepository.save(product);
