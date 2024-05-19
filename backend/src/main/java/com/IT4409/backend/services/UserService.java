@@ -157,11 +157,8 @@ public class UserService implements UserDetailsService {
         return messages.getString("email.verify.success");
     }
 
-    public User deleteUser(Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
-        for(UserDetail userDetail : user.getUserDetailList()) {
-            user.getUserDetailList().remove(userDetail);
-        }
+    public User deleteUser(Long userId) throws NotFoundException {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
         userRepository.deleteById(userId);
         return user;
     }

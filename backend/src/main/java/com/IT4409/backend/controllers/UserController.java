@@ -28,8 +28,8 @@ public class UserController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-    @DeleteMapping("api/admin/users/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable("userId") Long userId){
+    @DeleteMapping("/api/admin/users/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long userId){
         try{
             User user = userService.deleteUser(userId);
             return new ResponseEntity<>(user,HttpStatus.ACCEPTED);

@@ -53,15 +53,15 @@ public class CartItemService implements ICartItemService {
         if(cartItemRequestDTO.getQuantity() > product.getQuantityInStock()) {
             throw new BadRequestException(messages.getString("product.validate.insufficient"));
         }
+        cartItemRequestDTO.setQuantity((cartItemRequestDTO.getQuantity() != null) ? cartItemRequestDTO.getQuantity() : 1);
         for (CartItem cartItem : cart.getCartItemList()) {
             if (cartItem.getProduct().getProductId().equals(cartItemRequestDTO.getProductId())
                     && cartItem.getColor().equals(cartItemRequestDTO.getColor())
                     && cartItem.getSize().equals(cartItemRequestDTO.getSize())) {
                 int newQuantity = cartItem.getQuantity() + cartItemRequestDTO.getQuantity();
-                Long totalPrice = product.getPrice() * newQuantity;
                 cartItem.setQuantity(newQuantity);
-                cartItem.setPrice(totalPrice);
-                cartItem.setDiscountPrice(cartItem.getDiscountPrice() * newQuantity);
+                cartItem.setPrice(product.getPrice() * newQuantity);
+                cartItem.setDiscountPrice(product.getDiscountPrice() * newQuantity);
                 cartItem.setCreateAt(LocalDateTime.now());
 
                 cartRepository.save(cart);
@@ -74,13 +74,15 @@ public class CartItemService implements ICartItemService {
                 .product(product)
                 .color(cartItemRequestDTO.getColor())
                 .size(cartItemRequestDTO.getSize())
-                .quantity((cartItemRequestDTO.getQuantity() != null) ? cartItemRequestDTO.getQuantity() : 1)
-                .price(product.getPrice())
-                .discountPrice(product.getDiscountPrice())
+                .quantity(cartItemRequestDTO.getQuantity())
+                .price(product.getPrice() * cartItemRequestDTO.getQuantity())
+                .discountPrice(product.getDiscountPrice() * cartItemRequestDTO.getQuantity())
                 .createAt(LocalDateTime.now())
                 .cart(cart)
                 .build();
-        return convertToCartItemResponseDTO(cartItemRepository.save(newCartItem));
+        cart.getCartItemList().add(newCartItem);
+        cartRepository.save(cart);
+        return convertToCartItemResponseDTO(newCartItem);
     }
 
     @Override
@@ -149,6 +151,7 @@ public class CartItemService implements ICartItemService {
                 cartItem.getCartItemId(),
                 cartItem.getCart().getCartId(),
                 cartItem.getProduct().getProductName(),
+                cartItem.getProduct().getDiscountPrice(),
                 cartItem.getQuantity(),
                 cartItem.getColor(),
                 cartItem.getSize(),

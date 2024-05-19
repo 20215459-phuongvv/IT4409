@@ -36,6 +36,8 @@ public class CartService implements ICartService {
             totalPrice += cartItem.getPrice();
             if(cartItem.getDiscountPrice() != null) {
                 totalDiscountPrice += cartItem.getDiscountPrice();
+            } else {
+                totalPrice += cartItem.getPrice();
             }
             totalItem += cartItem.getQuantity();
         }
@@ -55,6 +57,7 @@ public class CartService implements ICartService {
                         cartItem.getCartItemId(),
                         cartItem.getCart().getCartId(),
                         cartItem.getProduct().getProductName(),
+                        cartItem.getProduct().getDiscountPrice(),
                         cartItem.getQuantity(),
                         cartItem.getColor(),
                         cartItem.getSize(),

@@ -249,6 +249,7 @@ public class OrderService implements IOrderService {
         userRepository.save(user);
 
         notificationService.addNotification(1L, order.getOrderId(), "Đơn hàng #" + order.getOrderId() + " đã được tạo");
+        notificationService.addNotification(order.getUserId(), order.getOrderId(), "Đơn hàng #" + order.getOrderId() + " của bạn đã được tạo");
         return convertToOrderResponseDTO(orderRepository.save(order));
     }
 
@@ -317,7 +318,7 @@ public class OrderService implements IOrderService {
                 orderItem.getQuantity(),
                 orderItem.getSize(),
                 orderItem.getColor(),
-                orderItem.getPrice(),
+                orderItem.getDiscountPrice(),
                 orderItem.getProduct().getThumbnail()
         );
     }
