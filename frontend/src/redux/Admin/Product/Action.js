@@ -12,6 +12,9 @@ import {
     DELETE_PRODUCT_REQUEST,
     DELETE_PRODUCT_SUCCESS,
     DELETE_PRODUCT_FAILURE,
+    GET_BEST_PRODUCTS_REQUEST,
+    GET_BEST_PRODUCTS_SUCCESS,
+    GET_BEST_PRODUCTS_FAILURE,
 } from './ActionType';
 import api, { API_BASE_URL } from '../../../config/api';
 
@@ -32,6 +35,25 @@ export const getAllProducts = () => async (dispatch) => {
         });
     }
 };
+
+export const getBestProducts = () => async (dispatch) => {
+    try {
+        dispatch({ type: GET_BEST_PRODUCTS_REQUEST });
+
+        const { data } = await api.get(`${API_BASE_URL}/products/newest`);
+
+        dispatch({
+            type: GET_BEST_PRODUCTS_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: GET_BEST_PRODUCTS_FAILURE,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+        });
+    }
+};
+
 
 export const createProduct = (product) => async (dispatch) => {
     try {

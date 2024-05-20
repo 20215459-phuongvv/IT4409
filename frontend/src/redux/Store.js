@@ -19,7 +19,7 @@ const rootReducers = combineReducers({
     vouchers: voucherReducer,
     users: userReducer,
     carts: cartReducer,
-    orders: adminOrderReducer,
+    adminOrders: adminOrderReducer,
 });
 
 export const store = legacy_createStore(rootReducers, applyMiddleware(thunk));

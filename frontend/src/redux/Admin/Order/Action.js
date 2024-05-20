@@ -15,12 +15,15 @@ import {
     getOrdersFailure,
     getOrdersRequest,
     getOrdersSuccess,
-    placedOrderFailure,
     placedOrderRequest,
     placedOrderSuccess,
-    shipOrderFailure,
+    placedOrderFailure,
     shipOrderRequest,
     shipOrderSuccess,
+    shipOrderFailure,
+    getAllRevenueRequest,
+    getAllRevenueSuccess,
+    getAllRevenueFailure,
 } from './ActionCreator';
 
 export const getOrders = (reqData) => {
@@ -115,3 +118,17 @@ export const deleteOrder = (orderId) => {
 //     dispatch(placedOrderFailure(error.message));
 //   }
 // };
+
+
+export const getAllRevenue = () => {
+    return async (dispatch) => {
+        dispatch(getAllRevenueRequest());
+        try {
+            const response = await api.get(`/api/admin/orders/all-revenue`);
+            dispatch(getAllRevenueSuccess(response.data));
+        } catch (error) {
+            console.log('catch error ', error);
+            dispatch(getAllRevenueFailure(error.message));
+        }
+    };
+};

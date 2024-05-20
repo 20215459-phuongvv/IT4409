@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
 import styles from './Orders.module.scss';
-import TableComponent from '../../components/TableComponent';
 import OrderTable from '../../components/OrderTable';
 
 const cx = classNames.bind(styles);
@@ -28,7 +27,13 @@ const columns = [
     },
     {
         id: 'payment-method',
-        label: 'Phương thức thanh toán',
+        label: 'Phương thức TT',
+        minWidth: 30,
+        align: 'left',
+    },
+    {
+        id: 'payment-status',
+        label: 'Trạng thái TT',
         minWidth: 30,
         align: 'left',
     },

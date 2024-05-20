@@ -81,6 +81,7 @@ function OrderTable({ columns, rows, rowPerPage, handleUpdateStatus }) {
                                     </StyledTableCell>
                                     <StyledTableCell align="left">{row.orderStatus}</StyledTableCell>
                                     <StyledTableCell align="left">{row.PaymentMethod}</StyledTableCell>
+                                    <StyledTableCell align="left">{row.PaymentMethod === 'NET_BANKING' ? row.PaymentStatus : ''}</StyledTableCell>
 
                                     <TableCell align="left">
                                         <Select

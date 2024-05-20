@@ -28,8 +28,8 @@ function AdminPanel() {
         if (jwt) {
             dispatch(getUser(jwt));
         }
-    }, [jwt]);
-    console.log(state);
+    }, [jwt, dispatch]);
+
     return (
         <div className={cx('admin-wrapper')}>
             <TopBar />
