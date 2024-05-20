@@ -314,6 +314,13 @@ public class OrderService implements IOrderService {
         return totalRevenue;
     }
 
+    @Override
+    public OrderResponseDTO getOrderById(Long orderId) throws NotFoundException {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new NotFoundException(messages.getString("order.validate.not-found")));
+        return convertToOrderResponseDTO(order);
+    }
+
     private boolean isDiscountValid(Order order, String discountCode) throws BadRequestException {
         Optional<Discount> discountOptional = discountRepository.findByDiscountCodeAndStatus(discountCode, Constants.DISCOUNT_STATUS.AVAILABLE);
         if(discountOptional.isEmpty()){

@@ -25,6 +25,16 @@ public class AdminOrderController {
         }
     }
 
+    @GetMapping("/{orderId}")
+    public ResponseEntity<?> getOrderById(@PathVariable("orderId") Long orderId){
+        try{
+            OrderResponseDTO orderList = orderService.getOrderById(orderId);
+            return new ResponseEntity<>(orderList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/daily")
     public ResponseEntity<List<DailyRevenueDTO>> getWeeklyRevenue() {
         List<DailyRevenueDTO> weeklyRevenue = orderService.getWeeklyRevenue();

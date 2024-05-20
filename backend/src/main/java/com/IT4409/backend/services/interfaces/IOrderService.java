@@ -30,4 +30,6 @@ public interface IOrderService {
     List<DailyRevenueDTO> getWeeklyRevenue();
 
     Long getAllRevenue();
+
+    OrderResponseDTO getOrderById(Long orderId) throws NotFoundException;
 }
