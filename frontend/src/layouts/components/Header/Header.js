@@ -69,8 +69,8 @@ function Header() {
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <Link to={config.routes.home} className={cx('logo')}>
-                        <img src={images.logo} alt="logo" />
-                    </Link>
+                    <img className={cx('logo')} src={images.logo} alt="logo" />
+                </Link>
 
                 <Search placeholder="Tìm kiếm" />
 
