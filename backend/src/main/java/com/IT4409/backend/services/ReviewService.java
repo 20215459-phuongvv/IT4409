@@ -9,6 +9,7 @@ import com.IT4409.backend.repositories.*;
 import com.IT4409.backend.services.interfaces.IReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,9 +40,6 @@ public class ReviewService implements IReviewService {
             if(orderItem.getReview() != null){
                 reviewList.add(orderItem.getReview());
             }
-        }
-        if(reviewList.isEmpty()) {
-            throw new NotFoundException(messages.getString("review.validate.not-found"));
         }
         return reviewList;
     }
@@ -78,11 +76,13 @@ public class ReviewService implements IReviewService {
         review.setOrderItem(orderItem);
         review.setRatingValue(reviewRequestDTO.getRatingValue());
         review.setComment(reviewRequestDTO.getComment());
+        review.setCreatedAt(LocalDateTime.now());
 
         if(user.getReviewList() == null) user.setReviewList(new ArrayList<>());
         user.getReviewList().add(review);
 
-        review = reviewRepository.save(review);
+        orderItemRepository.save(orderItem);
+
         List<Review> reviewList = getProductReviews(review.getOrderItem().getProduct().getProductId());
         double averageRating = reviewList
                 .stream()
@@ -107,12 +107,13 @@ public class ReviewService implements IReviewService {
         review.setRatingValue(reviewRequestDTO.getRatingValue());
         review.setComment(reviewRequestDTO.getComment());
         review = reviewRepository.save(review);
+
         List<Review> reviewList = getProductReviews(review.getOrderItem().getProduct().getProductId());
-        double averageRating = reviewList.stream()
-                .mapToDouble(Review::getRatingValue)
-                .average()
-                .orElse(0.0);
-        averageRating = Math.round(averageRating * 10.0) / 10.0; // làm tròn
+        double averageRating = 0.0;
+        for (Review review1 : reviewList) {
+            averageRating += review1.getRatingValue();
+        }
+        averageRating = averageRating / reviewList.size(); // làm tròn
         product.setRating(averageRating);
         productRepository.save(product);
         return reviewRepository.save(review);

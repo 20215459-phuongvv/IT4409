@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "reviews")
 @Data
@@ -21,6 +23,9 @@ public class Review {
 
     @Column(name = "comment")
     private String comment;
+
+    @Column(name = "createdAt")
+    private LocalDateTime createdAt;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_item_id")

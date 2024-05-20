@@ -5,12 +5,10 @@ import com.IT4409.backend.dtos.ColorDTO.ColorRequestDTO;
 import com.IT4409.backend.dtos.ProductDTO.ProductRequestDTO;
 import com.IT4409.backend.entities.Category;
 import com.IT4409.backend.entities.Color;
+import com.IT4409.backend.entities.OrderItem;
 import com.IT4409.backend.entities.Product;
 import com.IT4409.backend.exceptions.NotFoundException;
-import com.IT4409.backend.repositories.CategoryRepository;
-import com.IT4409.backend.repositories.ColorRepository;
-import com.IT4409.backend.repositories.ProductRepository;
-import com.IT4409.backend.repositories.SizeRepository;
+import com.IT4409.backend.repositories.*;
 import com.IT4409.backend.services.interfaces.IProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.IT4409.backend.Utils.Constants.messages;
@@ -28,6 +27,8 @@ public class ProductService implements IProductService {
     private ProductRepository productRepository;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private OrderItemRepository orderItemRepository;
     @Autowired
     private ColorRepository colorRepository;
     @Autowired
@@ -129,6 +130,12 @@ public class ProductService implements IProductService {
         List<Color> colorList = product.getColorList();
         for(Color color : colorList) {
             colorRepository.delete(color);
+        }
+        Optional<List<OrderItem>> orderItemList = orderItemRepository.findByProductProductId(productId);
+        if(orderItemList.isPresent() && !orderItemList.get().isEmpty()) {
+            for (OrderItem orderItem : orderItemList.get()) {
+                orderItemRepository.delete(orderItem);
+            }
         }
         productRepository.deleteById(productId);
         return product;
