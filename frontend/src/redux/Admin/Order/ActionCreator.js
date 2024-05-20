@@ -23,6 +23,9 @@ import {
     GET_ALL_REVENUE_FAILURE,
     GET_ALL_REVENUE_REQUEST,
     GET_ALL_REVENUE_SUCCESS,
+    GET_ALL_ORDERS_REQUEST,
+    GET_ALL_ORDERS_SUCCESS,
+    GET_ALL_ORDERS_FAILURE,
 } from './ActionType';
 
 export const getOrdersRequest = () => {
@@ -145,5 +148,19 @@ export const getAllRevenueSuccess = (data) => ({
 
 export const getAllRevenueFailure = (error) => ({
     type: GET_ALL_REVENUE_FAILURE,
+    payload: error,
+});
+
+export const getAllOrdersRequest = () => ({
+    type: GET_ALL_ORDERS_REQUEST,
+});
+
+export const getAllOrdersSuccess = (data) => ({
+    type: GET_ALL_ORDERS_SUCCESS,
+    payload: data,
+});
+
+export const getAllOrdersFailure = (error) => ({
+    type: GET_ALL_ORDERS_FAILURE,
     payload: error,
 });

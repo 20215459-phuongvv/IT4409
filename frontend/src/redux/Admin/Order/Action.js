@@ -15,28 +15,41 @@ import {
     getOrdersFailure,
     getOrdersRequest,
     getOrdersSuccess,
-    placedOrderRequest,
-    placedOrderSuccess,
-    placedOrderFailure,
     shipOrderRequest,
     shipOrderSuccess,
     shipOrderFailure,
     getAllRevenueRequest,
     getAllRevenueSuccess,
     getAllRevenueFailure,
+    getAllOrdersSuccess,
+    getAllOrdersRequest,
+    getAllOrdersFailure,
 } from './ActionCreator';
 
-export const getOrders = (reqData) => {
+// export const getOrders = (reqData) => {
+//     console.log('get all orders ', reqData);
+//     return async (dispatch) => {
+//         dispatch(getOrdersRequest());
+//         try {
+//             const response = await api.get(`/api/admin/orders`);
+//             console.log('get all orders ', response.data);
+//             dispatch(getOrdersSuccess(response.data));
+//         } catch (error) {
+//             console.log('catch error ', error);
+//             dispatch(getOrdersFailure(error.message));
+//         }
+//     };
+// };
+
+export const getAllOrders = (reqData) => {
     console.log('get all orders ', reqData);
     return async (dispatch) => {
-        dispatch(getOrdersRequest());
+        dispatch(getAllOrdersRequest());
         try {
             const response = await api.get(`/api/admin/orders`);
-            console.log('get all orders ', response.data);
-            dispatch(getOrdersSuccess(response.data));
+            dispatch(getAllOrdersSuccess(response.data));
         } catch (error) {
-            console.log('catch error ', error);
-            dispatch(getOrdersFailure(error.message));
+            dispatch(getAllOrdersFailure(error.message));
         }
     };
 };
@@ -118,7 +131,6 @@ export const deleteOrder = (orderId) => {
 //     dispatch(placedOrderFailure(error.message));
 //   }
 // };
-
 
 export const getAllRevenue = () => {
     return async (dispatch) => {
