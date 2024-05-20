@@ -3,7 +3,7 @@ import styles from './Header.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import config from '~/config';
 import Button from '~/components/Button';
-import { ShopContext } from '~/context/ShopContext';
+import images from '~/assets/images';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
@@ -68,9 +68,9 @@ function Header() {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                {/* <Link to={config.routes.home} className={cx('logo')}>
-                        <img src="https://theme.hstatic.net/200000037048/1001083096/14/logo.png?v=723" alt="logo" />
-                    </Link> */}
+                <Link to={config.routes.home} className={cx('logo')}>
+                        <img src={images.logo} alt="logo" />
+                    </Link>
 
                 <Search placeholder="Tìm kiếm" />
 
