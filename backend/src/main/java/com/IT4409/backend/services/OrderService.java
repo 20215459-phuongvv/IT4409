@@ -62,7 +62,7 @@ public class OrderService implements IOrderService {
     public OrderResponseDTO confirmOrderPayment(Long orderId) throws NotFoundException {
         Order order = orderRepository.findById(orderId).
                 orElseThrow(() -> new NotFoundException(messages.getString("order.validate.not-found")));
-        order.setOrderStatus(PaymentStatus.COMPLETED.toString());
+        order.setPaymentStatus(PaymentStatus.COMPLETED.toString());
         notificationService.addNotification(order.getUserId(), orderId, "Đơn hàng #" + orderId + " của bạn đã được thanh toán thành công");
         return convertToOrderResponseDTO(orderRepository.save(order));
     }
@@ -158,9 +158,9 @@ public class OrderService implements IOrderService {
             orderItem.setOrder(order);
 
             // Tính tổng tiền
-            totalAmount += orderItem.getDiscountPrice() * cartItem.getQuantity();
+            totalAmount += orderItem.getDiscountPrice();
             // Tính số tiền đã giảm từ hàng hóa
-            discountedAmount = discountedAmount + (product.getPrice() - product.getDiscountPrice()) * cartItem.getQuantity();
+            discountedAmount = discountedAmount + (cartItem.getPrice() - cartItem.getDiscountPrice());
 
             // Lưu item
             orderItem = orderItemRepository.save(orderItem);
