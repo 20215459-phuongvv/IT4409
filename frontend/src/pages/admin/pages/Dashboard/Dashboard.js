@@ -28,7 +28,8 @@ function Dashboard() {
 
     // console.log('usersState?.users', usersState?.users);
     console.log('adminOrdersState', adminOrdersState);
-    const limitedUsers = usersState?.users.slice(0, 3);
+    const limitedUsers = usersState?.users.slice(0, 4);
+    const limitBestProducts = productsState?.bestProducts.slice(0, 4);
 
     return (
         <div className={cx('wrapper')}>
@@ -80,7 +81,7 @@ function Dashboard() {
                                 return (
                                     <DashboardListItem
                                         key={index}
-                                        img={user.thumbnail}
+                                        img={user.thumbnail ? user.thumbnail : admin_images.user}
                                         row1={user?.userDetailList[0].name}
                                         row2={`Ngày tham gia: ${joinDate}`}
                                     />
@@ -89,9 +90,9 @@ function Dashboard() {
                         </div>
                     </div>
                     <div className={cx('list-container')}>
-                        <h4>Sản phẩm bán chạy</h4>
+                        <h4>Sản phẩm đánh giá tốt</h4>
                         <div className={cx('list')}>
-                            {productsState?.bestProducts.map((product, index) => {
+                            {limitBestProducts.map((product, index) => {
                                 return (
                                     <DashboardListItem
                                         key={index}

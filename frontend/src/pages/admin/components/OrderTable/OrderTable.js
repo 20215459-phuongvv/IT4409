@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { MenuItem, Select } from '@mui/material';
+import { Button, MenuItem, Modal, Select } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import classNames from 'classnames/bind';
 import styles from './OrderTable.module.scss';
@@ -23,6 +23,23 @@ function OrderTable({ columns, rows, rowPerPage, handleUpdateStatus }) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(rowPerPage);
     const [orderStatusArray, setOrderStatusArray] = useState(rows.map((row) => row.orderStatus));
+    const [openDetailBox, setOpenDetailBox] = useState([]);
+
+    const handleOpenDetailBox = (index) => {
+        setOpenDetailBox((prev) => {
+            const newState = [...prev];
+            newState[index] = true;
+            return newState;
+        });
+    };
+
+    const handleCloseDetailBox = (index) => {
+        setOpenDetailBox((prev) => {
+            const newState = [...prev];
+            newState[index] = false;
+            return newState;
+        });
+    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -42,8 +59,8 @@ function OrderTable({ columns, rows, rowPerPage, handleUpdateStatus }) {
     const orderStatus = {
         CONFIRM_PAYMENT: 'Xác nhận thanh toán',
         CONFIRMED: 'Đã xác nhận',
-        DELIVERED: 'Đang giao',
-        SHIPPED: 'Đã giao',
+        DELIVERED: 'Đã giao',
+        SHIPPED: 'Đang giao',
         CANCELLED: 'Hủy',
     };
 
@@ -98,6 +115,66 @@ function OrderTable({ columns, rows, rowPerPage, handleUpdateStatus }) {
                                                 </MenuItem>
                                             ))}
                                         </Select>
+                                    </StyledTableCell>
+
+                                    <StyledTableCell align="left">
+                                        <Button
+                                            color="primary"
+                                            variant="contained"
+                                            size="large"
+                                            className={cx('order-detail-button')}
+                                            onClick={() => handleOpenDetailBox(row.index - 1)}
+                                        >
+                                            Chi tiết
+                                        </Button>
+                                        <Modal
+                                            open={openDetailBox[row.index - 1]}
+                                            onClose={() => handleCloseDetailBox(row.index - 1)}
+                                            aria-labelledby="modal-modal-title"
+                                            aria-describedby="modal-modal-description"
+                                        >
+                                            <div className={cx('detail-modal-wrapper')}>
+                                                <h1>Chi tiết đơn hàng</h1>
+                                                <div className={cx('detail-modal-content')}>
+                                                    <div className={cx('detail-user')}>
+                                                        <h2 className={cx('detail-content-title')}>Thông tin khách hàng</h2>
+                                                        <div>
+                                                            <div>Họ tên: {row.userDetail.name}</div>
+                                                            <div>Địa chỉ: {row.userDetail.address}</div>
+                                                            <div>Số điện thoại: {row.userDetail.phoneNumber}</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className={cx('detail-products')}>
+                                                        <h2 className={cx('detail-content-title')}>Danh sách sản phẩm</h2>
+                                                        <div className={cx('detail-product-list')}>
+                                                            {row?.orderItemList.map((product, index) => {
+                                                                return (
+                                                                    <div
+                                                                        className={cx('detail-product-item')}
+                                                                        key={index}
+                                                                    >
+                                                                        {index + 1 + '. '}
+                                                                        <img
+                                                                            className={cx('detail-product-image')}
+                                                                            src={product.thumbnail}
+                                                                            alt=""
+                                                                        />
+                                                                        <div>{product.productName}</div>
+                                                                        <div>Số lượng: {product.quantity}</div>
+                                                                        <div>
+                                                                            Giá:{' '}
+                                                                            {product.price.toLocaleString('vn-VN') +
+                                                                                ' đ'}
+                                                                        </div>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Modal>
                                     </StyledTableCell>
                                 </TableRow>
                             );

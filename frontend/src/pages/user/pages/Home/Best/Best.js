@@ -1,22 +1,20 @@
 import classNames from 'classnames/bind';
 import styles from '../Home.module.scss';
 import ProductItem from '~/components/ProductItem';
-import newProducts from '~/assets/new_products';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getNewProducts } from '~/redux/Customers/Product/Action';
+import { getBestProducts } from '~/redux/Customers/Product/Action';
 const cx = classNames.bind(styles);
 
-function NewProducts() {
+function Best() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getNewProducts());
+        dispatch(getBestProducts());
     }, [dispatch]);
 
     const productsState = useSelector((state) => state.customerProducts);
-
-
+    // tốt nhất
     return (
         <div className={cx('element-wrapper')}>
             {productsState.products.map((product) => (
@@ -26,4 +24,4 @@ function NewProducts() {
     );
 }
 
-export default NewProducts;
+export default Best;

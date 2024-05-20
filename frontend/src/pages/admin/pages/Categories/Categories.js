@@ -8,7 +8,6 @@ import { Button } from '@mui/material';
 import { createCategory, deleteCategory, getAllCategories, updateCategory } from '~/redux/Admin/Category/Action';
 import * as message from '~/components/Message/Message';
 import { useDispatch, useSelector } from 'react-redux';
-import TableComponent from '../../components/TableComponent';
 import Loading from '~/components/LoadingComponent/Loading';
 import CategoryTable from '../../components/CategoryTable';
 

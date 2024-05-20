@@ -6,11 +6,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import config from '~/config';
 import { Grid } from '@mui/material';
 import { register, resetError } from '~/redux/Auth/Action';
+import images from '~/assets/images';
 
 const cx = classNames.bind(styles);
 
 const RegistrationForm = () => {
     const [confirmPasswordError, setConfirmPasswordError] = useState(null);
+    const [timer, setTimer] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -26,13 +29,31 @@ const RegistrationForm = () => {
     const { error, user } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        if (confirmPassword && password !== confirmPassword) {
-            setConfirmPasswordError('Mật khẩu xác nhận không khớp.');
-        } else {
-            setConfirmPasswordError(null);
+        if (timer) {
+            clearTimeout(timer);
         }
+
+        setTimer(
+            setTimeout(() => {
+                if (confirmPassword && password !== confirmPassword) {
+                    setConfirmPasswordError('Mật khẩu xác nhận không khớp.');
+                } else {
+                    setConfirmPasswordError(null);
+                }
+            }, 800),
+        );
+
+        return () => clearTimeout(timer);
     }, [confirmPassword, password]);
-    
+    useEffect(() => {
+        if (showPopup) {
+            const timeout = setTimeout(() => {
+                navigate('/login');
+            }, 5000);
+
+            return () => clearTimeout(timeout);
+        }
+    }, [showPopup]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -40,15 +61,15 @@ const RegistrationForm = () => {
             setConfirmPasswordError('Mật khẩu xác nhận không khớp.');
             return;
         }
-    
+
         setConfirmPasswordError(null);
 
         // Xử lý đăng ký
         dispatch(
             register({ email, password, name, address: province + ', ' + city + ', ' + ward, phoneNumber: phone }),
         );
+        setShowPopup(true);
     };
-
     useEffect(() => {
         if (user) {
             navigate('/');
@@ -202,6 +223,17 @@ const RegistrationForm = () => {
             <div className={cx('registration-terms')}>
                 <p>Việc tiếp tục sử dụng trang web này đồng nghĩa bạn đồng ý với điều khoản sử dụng của chúng tôi.</p>
             </div>
+            {showPopup && (
+                <div className={cx('overlay')}>
+                    <div className={cx('popup')}>
+                        <div className={cx('wrapper')}>
+                            <img src={images.tick} alt="Success" />
+                            <h2>Cảm ơn bạn!</h2>
+                            <p>Bạn vừa yêu cầu đăng ký tài khoản. Vui lòng truy cập email để thực hiện xác minh</p>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
