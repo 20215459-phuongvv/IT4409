@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames/bind';
 import styles from './RegistrationForm.module.scss';
-import { Link, useNavigate, useRoutes } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import config from '~/config';
-import { Grid, TextField, Button, Box } from '@mui/material';
-import { register } from '~/redux/Auth/Action';
+import { Grid } from '@mui/material';
+import { register, resetError } from '~/redux/Auth/Action';
 
 const cx = classNames.bind(styles);
 
 const RegistrationForm = () => {
+    const [confirmPasswordError, setConfirmPasswordError] = useState(null);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
@@ -21,20 +23,41 @@ const RegistrationForm = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { error, user } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        if (confirmPassword && password !== confirmPassword) {
+            setConfirmPasswordError('Mật khẩu xác nhận không khớp.');
+        } else {
+            setConfirmPasswordError(null);
+        }
+    }, [confirmPassword, password]);
+    
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if (password !== confirmPassword) {
+            setConfirmPasswordError('Mật khẩu xác nhận không khớp.');
+            return;
+        }
+    
+        setConfirmPasswordError(null);
 
         // Xử lý đăng ký
         dispatch(
             register({ email, password, name, address: province + ', ' + city + ', ' + ward, phoneNumber: phone }),
         );
+    };
 
-        console.log('Email:', email);
-        console.log('Mật khẩu:', password);
-        console.log('Xác nhận mật khẩu:', confirmPassword);
+    useEffect(() => {
+        if (user) {
+            navigate('/');
+        }
+    }, [user, navigate]);
 
-        navigate('/');
+    const handleInputChange = (setter) => (event) => {
+        setter(event.target.value);
+        if (error) dispatch(resetError());
     };
 
     return (
@@ -50,7 +73,7 @@ const RegistrationForm = () => {
                         placeholder="Nhập email"
                         required
                         value={email}
-                        onChange={(event) => setEmail(event.target.value)}
+                        onChange={handleInputChange(setEmail)}
                     />
                 </div>
                 <div className={cx('form-group')}>
@@ -62,7 +85,7 @@ const RegistrationForm = () => {
                         placeholder="********"
                         required
                         value={password}
-                        onChange={(event) => setPassword(event.target.value)}
+                        onChange={handleInputChange(setPassword)}
                     />
                 </div>
                 <div className={cx('form-group')}>
@@ -74,9 +97,10 @@ const RegistrationForm = () => {
                         placeholder="********"
                         required
                         value={confirmPassword}
-                        onChange={(event) => setConfirmPassword(event.target.value)}
+                        onChange={handleInputChange(setConfirmPassword)}
                     />
                 </div>
+                {confirmPasswordError && <p className={cx('error-message')}>{confirmPasswordError}</p>}
                 <Grid container spacing={3} className={cx('user-info')}>
                     <Grid item xs={12} sm={6}>
                         <div className={cx('form-group')}>
@@ -88,7 +112,7 @@ const RegistrationForm = () => {
                                 placeholder=""
                                 required
                                 value={lastName}
-                                onChange={(event) => setLastName(event.target.value)}
+                                onChange={handleInputChange(setLastName)}
                             />
                         </div>
                     </Grid>
@@ -102,7 +126,7 @@ const RegistrationForm = () => {
                                 placeholder=""
                                 required
                                 value={name}
-                                onChange={(event) => setName(event.target.value)}
+                                onChange={handleInputChange(setName)}
                             />
                         </div>
                     </Grid>
@@ -117,7 +141,7 @@ const RegistrationForm = () => {
                                 placeholder=""
                                 required
                                 value={province}
-                                onChange={(event) => setProvince(event.target.value)}
+                                onChange={handleInputChange(setProvince)}
                             />
                         </div>
                     </Grid>
@@ -132,7 +156,7 @@ const RegistrationForm = () => {
                                 placeholder=""
                                 required
                                 value={city}
-                                onChange={(event) => setCity(event.target.value)}
+                                onChange={handleInputChange(setCity)}
                             />
                         </div>
                     </Grid>
@@ -146,7 +170,7 @@ const RegistrationForm = () => {
                                 placeholder=""
                                 required
                                 value={ward}
-                                onChange={(event) => setWard(event.target.value)}
+                                onChange={handleInputChange(setWard)}
                             />
                         </div>
                     </Grid>
@@ -160,11 +184,12 @@ const RegistrationForm = () => {
                                 placeholder=""
                                 required
                                 value={phone}
-                                onChange={(event) => setPhone(event.target.value)}
+                                onChange={handleInputChange(setPhone)}
                             />
                         </div>
                     </Grid>
                 </Grid>
+                {error && <p className={cx('error-message')}>{error.message}</p>}
                 <div className={cx('form-group')}>
                     <button type="submit" className={cx('btn', 'btn-primary')}>
                         Đăng ký
