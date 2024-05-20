@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { AiOutlineCloseSquare } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { createOrder } from '~/redux/Customers/Order/Action';
+import { API_BASE_URL } from '~/config/api';
+import { getNotifications } from '~/redux/Notification/Action';
 
 const cx = classNames.bind(styles);
 const numberWithCommas = (numberString) => {
@@ -22,52 +24,47 @@ const numberWithCommas = (numberString) => {
 
 const OrderSummary = ({ address }) => {
     const [isOpenPopup, setIsOpenPopup] = useState(false);
+    const [isOpenPopupConfirm, setIsOpenPopupConfirm] = useState(false);
     const [qrCode, setQrCode] = useState('');
     const { cart, error } = useSelector((store) => store.carts);
-    const { user } = useSelector((store) => store.auth);
+    const { order } = useSelector((store) => store.customersOrders);
     const dispatch = useDispatch();
     const isLoading = useRef(false);
-    const totalPrice = useRef(0);
+    const isLoadingQr = useRef(false);
     const jwt = localStorage.getItem('jwt');
     const navigate = useNavigate();
 
     const data = {};
-    if (address.userDetailId) {
+    if (address?.userDetailId) {
         data['userDetailId'] = address.userDetailId;
     } else {
         data['userDetailRequestDTO'] = address;
     }
 
-    const getTotalPrice = () => {
-        if (cart && totalPrice !== 0) {
-            console.log(cart);
-            let total = 0;
-            cart.cartItemList?.forEach((cartItem) => {
-                const price =
-                    parseFloat(cartItem.discountPrice ? cartItem.discountPrice : cartItem.price) * cartItem.quantity;
-                total += price;
-            });
-            totalPrice.current = total;
-        }
-        return totalPrice.current;
-    };
-
     const handleCreatePaymentCOD = async () => {
-        await dispatch(createOrder({ jwt, dto: { paymentMethod: 'CASH_ON_DELIVERY', ...data } }));
+        await dispatch(createOrder({ jwt, dto: { paymentMethod: 'CASH_ON_DELIVERY', ...data } })).then(() => {
+            dispatch(getNotifications(jwt));
+        });
         if (error) return <div>Error</div>;
         else navigate('/checkout?step=4');
     };
     const handleCreatePaymentOnline = async () => {
-        await dispatch(createOrder({ jwt, dto: { paymentMethod: 'NET_BANKING', ...data } }));
+        isLoadingQr.current = true;
+        await dispatch(createOrder({ jwt, dto: { paymentMethod: 'NET_BANKING', ...data } })).then(() => {
+            dispatch(getNotifications(jwt));
+        });
+        setIsOpenPopup(true);
+        setIsOpenPopupConfirm(false);
         //QR CODE
+    };
+
+    useEffect(() => {
+        setQrCode(order?.qrLink);
+        isLoadingQr.current = false;
+    }, [order]);
+
+    const navi = () => {
         navigate('/checkout?step=4');
-        try {
-            const totalAmount = getTotalPrice();
-            const response = await axios.post('/api/qr-code', { amount: totalAmount });
-            setQrCode(response.data.qrCodeUrl);
-        } catch (error) {
-            console.error('Error fetching QR code:', error);
-        }
     };
     return (
         <div className={cx('wrapper')}>
@@ -88,9 +85,6 @@ const OrderSummary = ({ address }) => {
                     <hr />
                     {!isLoading.current && cart?.cartItemList?.length ? (
                         cart.cartItemList.map((cartItem) => {
-                            const price =
-                                parseFloat(cartItem.discountPrice ? cartItem.discountPrice : cartItem.price) *
-                                cartItem.quantity;
                             return (
                                 <div key={cartItem.cartItemId}>
                                     <div key={`${cartItem.cartItemId}-${cartItem.size}`}>
@@ -101,14 +95,14 @@ const OrderSummary = ({ address }) => {
                                                 className={cx('product-icon')}
                                             />
                                             <p>{cartItem.productName}</p>
-                                            <p>{cartItem.discountPrice ? cartItem.discountPrice : cartItem.price}₫</p>
+                                            <p>{cartItem.productPrice}₫</p>
                                             <p> {cartItem.size}</p>
                                             <p className={cx('quantity')}> {cartItem.quantity}</p>
                                             <div
                                                 className={cx('color-item')}
                                                 style={{ backgroundColor: cartItem.color }}
                                             ></div>
-                                            <p>{numberWithCommas(price)}₫</p>
+                                            <p>{numberWithCommas(cartItem.discountPrice)}₫</p>
                                         </div>
                                     </div>
                                     <hr />
@@ -127,7 +121,7 @@ const OrderSummary = ({ address }) => {
                         <div>
                             <div className={cx('cartitems-total-item')}>
                                 <p>Giá trị sản phẩm</p>
-                                <p>{numberWithCommas(getTotalPrice())}₫</p>
+                                <p>{numberWithCommas(cart?.totalDiscountPrice)}₫</p>
                             </div>
                             <hr />
                             <div className={cx('cartitems-total-item')}>
@@ -137,7 +131,7 @@ const OrderSummary = ({ address }) => {
                             <hr />
                             <div className={cx('cartitems-total-item')}>
                                 <h3>Tổng</h3>
-                                <h3>{numberWithCommas(getTotalPrice())}₫</h3>
+                                <h3>{numberWithCommas(cart?.totalDiscountPrice)}₫</h3>
                             </div>
                         </div>
                     </div>
@@ -164,7 +158,7 @@ const OrderSummary = ({ address }) => {
 
                     <div className={cx('payment-methods')}>
                         <Button
-                            onClick={() => setIsOpenPopup(true)}
+                            onClick={() => setIsOpenPopupConfirm(true)}
                             variant="contained"
                             type="submit"
                             sx={{
@@ -181,7 +175,54 @@ const OrderSummary = ({ address }) => {
                 </div>
             </div>
             {console.log(isOpenPopup)}
-            {isOpenPopup && (
+            {isOpenPopupConfirm && (
+                <div onClick={() => setIsOpenPopupConfirm(false)} className={cx('popup-overlay')}>
+                    <div onClick={(e) => e.stopPropagation()} className={cx('popup-content')}>
+                        {/* Header */}
+                        <div className={cx('popup-header')}>
+                            <h1 className={cx('popup-title')}>Xác nhận đồng ý thanh toán online?</h1>
+                            <div onClick={() => setIsOpenPopupConfirm(false)} className={cx('popup-close')}>
+                                <AiOutlineCloseSquare />
+                            </div>
+                        </div>
+                        <div className={cx('popup-footer')}>
+                            <div className={cx('footer-button')}>
+                                <Button
+                                    onClick={() => setIsOpenPopupConfirm(false)}
+                                    variant="contained"
+                                    type="submit"
+                                    sx={{
+                                        padding: '.8rem 2rem',
+                                        marginTop: '2rem',
+                                        width: '100px',
+                                        height: '40px',
+                                        backgroundColor: '#c3957b',
+                                    }}
+                                >
+                                    Đóng
+                                </Button>
+                            </div>
+                            <div className={cx('footer-button')}>
+                                <Button
+                                    onClick={() => handleCreatePaymentOnline()}
+                                    variant="contained"
+                                    type="submit"
+                                    sx={{
+                                        padding: '.8rem 2rem',
+                                        marginTop: '2rem',
+                                        width: '100px',
+                                        height: '40px',
+                                        backgroundColor: '#c3957b',
+                                    }}
+                                >
+                                    Xác nhận thanh toán
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {isOpenPopup && !isLoadingQr.current && (
                 <div onClick={() => setIsOpenPopup(false)} className={cx('popup-overlay')}>
                     <div onClick={(e) => e.stopPropagation()} className={cx('popup-content')}>
                         {/* Header */}
@@ -219,7 +260,7 @@ const OrderSummary = ({ address }) => {
                             </div>
                             <div className={cx('footer-button')}>
                                 <Button
-                                    onClick={() => handleCreatePaymentOnline()}
+                                    onClick={() => navi()}
                                     variant="contained"
                                     type="submit"
                                     sx={{
@@ -230,7 +271,7 @@ const OrderSummary = ({ address }) => {
                                         backgroundColor: '#c3957b',
                                     }}
                                 >
-                                    Xác nhận thanh toán
+                                    Thanh toán
                                 </Button>
                             </div>
                         </div>

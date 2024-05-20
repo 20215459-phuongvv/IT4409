@@ -20,12 +20,16 @@ import {
     SHIP_ORDER_FAILURE,
     SHIP_ORDER_REQUEST,
     SHIP_ORDER_SUCCESS,
+    GET_ALL_REVENUE_FAILURE,
+    GET_ALL_REVENUE_REQUEST,
+    GET_ALL_REVENUE_SUCCESS,
 } from './ActionType';
 
 const initialState = {
     loading: false,
     orders: [],
     error: '',
+    allRevenue: '',
 };
 
 const adminOrderReducer = (state = initialState, action) => {
@@ -110,6 +114,26 @@ const adminOrderReducer = (state = initialState, action) => {
                 shipped: action.payload,
             };
         case SHIP_ORDER_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                error: action.payload,
+            };
+        case GET_ALL_REVENUE_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                error: null,
+            };
+
+        case GET_ALL_REVENUE_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                allRevenue: action.payload,
+            };
+
+        case GET_ALL_REVENUE_FAILURE:
             return {
                 ...state,
                 isLoading: false,

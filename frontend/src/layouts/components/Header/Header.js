@@ -24,7 +24,9 @@ const cx = classNames.bind(styles);
 function Header() {
     const [modalOpen, setModalOpen] = useState(false);
     const { auth } = useSelector((store) => store);
+    const { cart } = useSelector((store) => store.carts);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [cartCount, setCartCount] = useState(0);
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
     const openUserMenu = Boolean(anchorEl);
@@ -36,6 +38,10 @@ function Header() {
             dispatch(getUser(jwt));
         }
     }, [jwt]);
+
+    useEffect(() => {
+        setCartCount(cart?.cartItemList.length);
+    }, [cart]);
 
     const handleUserClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -91,7 +97,7 @@ function Header() {
                                     <Link to={config.routes.cart}>
                                         <FontAwesomeIcon icon={faShoppingCart} size="2x" />
                                     </Link>
-                                    <span className={cx('nav-cart-count')}>{}</span>
+                                    <span className={cx('nav-cart-count')}>{cartCount}</span>
                                 </div>
                                 <Avatar
                                     className="text-white"

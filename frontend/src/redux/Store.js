@@ -8,6 +8,8 @@ import categoryReducer from './Admin/Category/Reducer';
 import voucherReducer from './Admin/Voucher/Reducer';
 import userReducer from './Admin/User/Reducer';
 import cartReducer from './Customers/Cart/Reducer';
+import { orderReducer } from './Customers/Order/Reducer';
+import notificationReducer from './Notification/Reducer';
 import adminOrderReducer from './Admin/Order/Reducer';
 
 const rootReducers = combineReducers({
@@ -19,7 +21,9 @@ const rootReducers = combineReducers({
     vouchers: voucherReducer,
     users: userReducer,
     carts: cartReducer,
-    orders: adminOrderReducer,
+    customersOrders: orderReducer,
+    notifications: notificationReducer,
+    adminOrders: adminOrderReducer,
 });
 
 export const store = legacy_createStore(rootReducers, applyMiddleware(thunk));

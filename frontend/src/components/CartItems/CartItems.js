@@ -2,16 +2,10 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './CartItems.module.scss';
 import remove_icon from '~/assets/images/cart_cross_icon.png';
-import { ShopContext } from '~/context/ShopContext';
 import { Button } from '@mui/material';
-import config from '~/config';
-import { Link, useNavigate } from 'react-router-dom';
-import { store } from '~/redux/Store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCart, removeCartItem } from '~/redux/Customers/Cart/Action';
-import { useFetchData } from '~/hooks/useFetchData';
-import productApi from '~/api/productApi';
-import cartApi from '~/api/cartApi';
+import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 const numberWithCommas = (numberString) => {
@@ -20,22 +14,17 @@ const numberWithCommas = (numberString) => {
 };
 function CartItems() {
     const navigate = useNavigate();
-    // const { all_product, cartItems, removeFromCart, getTotalCartAmount } = useContext(ShopContext);
     const jwt = localStorage.getItem('jwt');
     const dispatch = useDispatch();
     const { cart } = useSelector((state) => state.carts);
     // const [cart, setCart] = useState(null);
     const isLoading = useRef(false);
     const [cartUpdated, setCartUpdated] = useState(false);
-    const totalPrice = useRef(0);
     useEffect(() => {
         async function getCartData() {
             try {
                 isLoading.current = true;
-                // const response = await cartApi.getAll(jwt);
-                // setCart(response);
                 dispatch(getCart(jwt));
-                //console.log('cart here', cart);
                 setCartUpdated(false);
             } catch (error) {
                 console.log(error);
@@ -48,13 +37,6 @@ function CartItems() {
         if (cart) {
             console.log(cart);
             isLoading.current = false;
-            let total = 0;
-            cart.cartItemList?.forEach((cartItem) => {
-                const price =
-                    parseFloat(cartItem.discountPrice ? cartItem.discountPrice : cartItem.price) * cartItem.quantity;
-                total += price;
-            });
-            totalPrice.current = total;
         }
     }, [cart]);
 
@@ -74,9 +56,6 @@ function CartItems() {
 
             {!isLoading.current && cart?.cartItemList?.length ? (
                 cart.cartItemList.map((cartItem) => {
-                    const price =
-                        parseFloat(cartItem.discountPrice ? cartItem.discountPrice : cartItem.price) *
-                        cartItem.quantity;
                     return (
                         <div key={cartItem.cartItemId}>
                             <div key={`${cartItem.cartItemId}-${cartItem.size}`}>
@@ -87,12 +66,12 @@ function CartItems() {
                                         className={cx('product-icon')}
                                     />
                                     <p>{cartItem.productName}</p>
-                                    <p>{cartItem.discountPrice ? cartItem.discountPrice : cartItem.price}₫</p>
+                                    {/* <p>{cartItem.discountPrice ? cartItem.discountPrice : cartItem.price}₫</p> */}
+                                    <p>{cartItem.productPrice}₫</p>
                                     <p> {cartItem.size}</p>
                                     <p className={cx('quantity')}> {cartItem.quantity}</p>
                                     <div className={cx('color-item')} style={{ backgroundColor: cartItem.color }}></div>
-                                    <p>{numberWithCommas(price)}₫</p>
-
+                                    <p>{numberWithCommas(cartItem.discountPrice)}₫</p>
                                     <img
                                         src={remove_icon}
                                         alt="Remove item"
@@ -117,7 +96,7 @@ function CartItems() {
                     <div>
                         <div className={cx('cartitems-total-item')}>
                             <p>Giá trị sản phẩm</p>
-                            <p>{numberWithCommas(totalPrice.current)}₫</p>
+                            <p>{numberWithCommas(cart?.totalDiscountPrice)}₫</p>
                         </div>
                         <hr />
                         <div className={cx('cartitems-total-item')}>
@@ -127,7 +106,7 @@ function CartItems() {
                         <hr />
                         <div className={cx('cartitems-total-item')}>
                             <h3>Tổng</h3>
-                            <h3>{numberWithCommas(totalPrice.current)}₫</h3>
+                            <h3>{numberWithCommas(cart?.totalDiscountPrice)}₫</h3>
                         </div>
                     </div>
                     <Button

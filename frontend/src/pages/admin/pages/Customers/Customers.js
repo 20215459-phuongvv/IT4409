@@ -57,8 +57,6 @@ function UsersManagement() {
         }
     }, [usersState]);
 
-    console.log('usersState', usersState);
-    // const rows = usersState.users.map((user, index) => ({ ...user, index: index + 1 }));
 
     const handleDelete = (user) => {
         console.log('user deleted', user);

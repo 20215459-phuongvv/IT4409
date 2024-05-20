@@ -31,7 +31,9 @@ function AddProducts() {
     const categoriesState = useSelector((state) => state.categories);
     const productsState = useSelector((state) => state.products);
 
-    const isLoading = categoriesState.loading;
+    const isCategoryLoading = categoriesState.loading;
+
+    const isAddProductLoading = productsState.loading;
     const categoriesSelect = categoriesState.categories.map((category) => ({
         value: category.categoryId,
         label: category.categoryName,
@@ -131,199 +133,201 @@ function AddProducts() {
     }, [isSubmitting, productsState.loading, productsState.error]);
 
     return (
-        <div className={cx('wrapper')}>
-            <h1 className={cx('title')}>Thêm sản phẩm</h1>
-            <div className={cx('container')}>
-                <div className={cx('input-wrapper')}>
-                    <div className={cx('input-section')}>
-                        <div className={cx('input-row')}>
-                            <span className={cx('input-label')}>Tên sản phẩm</span>
-                            <Input
-                                placeholder="Nhập tên sản phẩm"
-                                onChange={(e) => {
-                                    setName(e.target.value);
-                                }}
-                            />
-                        </div>
-
-                        <div className={cx('input-row')}>
-                            <span className={cx('input-label')}>Ảnh đại diện</span>
-                            <div className={cx('input-thumbnail')}>
-                                <Upload
-                                    onChange={(fileInfo) => handleOnChangeProductThumbnail(fileInfo)}
-                                    showUploadList={false}
-                                >
-                                    <button className={cx('add-image-btn')}>
-                                        <UploadOutlined />
-                                        Chọn ảnh
-                                    </button>
-                                </Upload>
-
-                                {thumbnail && <Image className={cx('image-item')} alt="" src={thumbnailPreview} />}
-
-                                {thumbnail && (
-                                    <Button
-                                        color="secondary"
-                                        variant="contained"
-                                        size="small"
-                                        onClick={handleRemoveThumbnail}
-                                    >
-                                        Xóa
-                                    </Button>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className={cx('input-row')}>
-                            <span className={cx('input-label')}>Phân loại</span>
-                            <Loading isLoading={isLoading}>
-                                <Select
-                                    defaultValue="Chọn loại sản phẩm"
-                                    style={{
-                                        minWidth: 500,
-                                        maxWidth: 1000,
+        <Loading isLoading={isAddProductLoading}>
+            <div className={cx('wrapper')}>
+                <h1 className={cx('title')}>Thêm sản phẩm</h1>
+                <div className={cx('container')}>
+                    <div className={cx('input-wrapper')}>
+                        <div className={cx('input-section')}>
+                            <div className={cx('input-row')}>
+                                <span className={cx('input-label')}>Tên sản phẩm</span>
+                                <Input
+                                    placeholder="Nhập tên sản phẩm"
+                                    onChange={(e) => {
+                                        setName(e.target.value);
                                     }}
-                                    onChange={handleChangeProductType}
-                                    options={categoriesSelect}
                                 />
-                            </Loading>
-                        </div>
-
-                        <div className={cx('input-row')}>
-                            <span className={cx('input-label')}>Kích thước</span>
-                            <div className={cx('input-size-checkbox-group')}>
-                                <Checkbox.Group onChange={handleChangeSize} value={size}>
-                                    <Checkbox value="S">S</Checkbox>
-                                    <Checkbox value="M">M</Checkbox>
-                                    <Checkbox value="L">L</Checkbox>
-                                    <Checkbox value="XL">XL</Checkbox>
-                                </Checkbox.Group>
                             </div>
-                        </div>
-
-                        <div className={cx('input-row')}>
-                            <span className={cx('input-label')}>Giá</span>
-                            <Input
-                                placeholder="Nhập giá sản phẩm"
-                                onChange={(e) => {
-                                    setPrice(e.target.value);
-                                }}
-                            />
-                        </div>
-
-                        <div className={cx('input-row')}>
-                            <span className={cx('input-label')}>Giá sau giảm</span>
-                            <Input
-                                placeholder="Nhập giá sản phẩm sau giảm"
-                                onChange={(e) => {
-                                    setDiscountPrice(e.target.value);
-                                }}
-                            />
-                        </div>
-
-                        <div className={cx('input-row')}>
-                            <span className={cx('input-label')}>Số lượng</span>
-                            <Input
-                                placeholder="Nhập số lượng sản phẩm"
-                                onChange={(e) => {
-                                    setQuantity(e.target.value);
-                                }}
-                            />
-                        </div>
-
-                        <div className={cx('input-row')}>
-                            <span className={cx('input-label')}>Mô tả</span>
-                            <TextArea
-                                style={{ height: '60px' }}
-                                row={10}
-                                placeholder="Nhập mô tả sản phẩm"
-                                onChange={(e) => {
-                                    setDescription(e.target.value);
-                                }}
-                            />
-                        </div>
-
-                        <div className={cx('color-image-input-wrapper')}>
-                            <span className={cx('input-label')}>Màu sắc</span>
-
-                            <div className={cx('main-input-wrapper')}>
-                                {colorInputs.map((input, colorIndex) => (
-                                    <div key={input.id} className={cx('main-input')}>
-                                        <ColorPicker
-                                            className={cx('color-picker')}
-                                            defaultValue="#1677ff"
-                                            onChange={(value, hex) => {
-                                                const updatedColorInputs = [...colorInputs];
-                                                updatedColorInputs[colorIndex].colorName = hex;
-                                                setColorInputs(updatedColorInputs);
-                                            }}
-                                        />
-
-                                        <div className={cx('input-image')}>
-                                            <Upload
-                                                onChange={(fileInfo) =>
-                                                    handleOnChangeProductImage(fileInfo, colorIndex)
-                                                }
-                                                showUploadList={false}
-                                            >
-                                                <button className={cx('add-image-btn')}>
-                                                    <UploadOutlined />
-                                                    Thêm ảnh
-                                                </button>
-                                            </Upload>
-
-                                            {input.imagePreviewList && (
-                                                <div className={cx('input-image-display')}>
-                                                    {input.imagePreviewList.map((image, imageIndex) => (
-                                                        <div key={imageIndex} className={cx('image-item-wrapper')}>
-                                                            <Image className={cx('image-item')} alt="" src={image} />
-                                                            <Button
-                                                                color="secondary"
-                                                                variant="contained"
-                                                                size="small"
-                                                                onClick={() =>
-                                                                    handleRemoveImage(colorIndex, imageIndex)
-                                                                }
-                                                            >
-                                                                Xóa
-                                                            </Button>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
+    
+                            <div className={cx('input-row')}>
+                                <span className={cx('input-label')}>Ảnh đại diện</span>
+                                <div className={cx('input-thumbnail')}>
+                                    <Upload
+                                        onChange={(fileInfo) => handleOnChangeProductThumbnail(fileInfo)}
+                                        showUploadList={false}
+                                    >
+                                        <button className={cx('add-image-btn')}>
+                                            <UploadOutlined />
+                                            Chọn ảnh
+                                        </button>
+                                    </Upload>
+    
+                                    {thumbnail && <Image className={cx('image-item')} alt="" src={thumbnailPreview} />}
+    
+                                    {thumbnail && (
                                         <Button
-                                            color="error"
-                                            variant="outlined"
-                                            onClick={() => handleRemoveColor(colorIndex)}
+                                            color="secondary"
+                                            variant="contained"
+                                            size="small"
+                                            onClick={handleRemoveThumbnail}
                                         >
-                                            Xóa màu
+                                            Xóa
                                         </Button>
-                                    </div>
-                                ))}
+                                    )}
+                                </div>
                             </div>
+    
+                            <div className={cx('input-row')}>
+                                <span className={cx('input-label')}>Phân loại</span>
+                                <Loading isLoading={isCategoryLoading}>
+                                    <Select
+                                        defaultValue="Chọn loại sản phẩm"
+                                        style={{
+                                            minWidth: 500,
+                                            maxWidth: 1000,
+                                        }}
+                                        onChange={handleChangeProductType}
+                                        options={categoriesSelect}
+                                    />
+                                </Loading>
+                            </div>
+    
+                            <div className={cx('input-row')}>
+                                <span className={cx('input-label')}>Kích thước</span>
+                                <div className={cx('input-size-checkbox-group')}>
+                                    <Checkbox.Group onChange={handleChangeSize} value={size}>
+                                        <Checkbox value="S">S</Checkbox>
+                                        <Checkbox value="M">M</Checkbox>
+                                        <Checkbox value="L">L</Checkbox>
+                                        <Checkbox value="XL">XL</Checkbox>
+                                    </Checkbox.Group>
+                                </div>
+                            </div>
+    
+                            <div className={cx('input-row')}>
+                                <span className={cx('input-label')}>Giá</span>
+                                <Input
+                                    placeholder="Nhập giá sản phẩm"
+                                    onChange={(e) => {
+                                        setPrice(e.target.value);
+                                    }}
+                                />
+                            </div>
+    
+                            <div className={cx('input-row')}>
+                                <span className={cx('input-label')}>Giá sau giảm</span>
+                                <Input
+                                    placeholder="Nhập giá sản phẩm sau giảm"
+                                    onChange={(e) => {
+                                        setDiscountPrice(e.target.value);
+                                    }}
+                                />
+                            </div>
+    
+                            <div className={cx('input-row')}>
+                                <span className={cx('input-label')}>Số lượng</span>
+                                <Input
+                                    placeholder="Nhập số lượng sản phẩm"
+                                    onChange={(e) => {
+                                        setQuantity(e.target.value);
+                                    }}
+                                />
+                            </div>
+    
+                            <div className={cx('input-row')}>
+                                <span className={cx('input-label')}>Mô tả</span>
+                                <TextArea
+                                    style={{ height: '60px' }}
+                                    row={10}
+                                    placeholder="Nhập mô tả sản phẩm"
+                                    onChange={(e) => {
+                                        setDescription(e.target.value);
+                                    }}
+                                />
+                            </div>
+    
+                            <div className={cx('color-image-input-wrapper')}>
+                                <span className={cx('input-label')}>Màu sắc</span>
+    
+                                <div className={cx('main-input-wrapper')}>
+                                    {colorInputs.map((input, colorIndex) => (
+                                        <div key={input.id} className={cx('main-input')}>
+                                            <ColorPicker
+                                                className={cx('color-picker')}
+                                                defaultValue="#1677ff"
+                                                onChange={(value, hex) => {
+                                                    const updatedColorInputs = [...colorInputs];
+                                                    updatedColorInputs[colorIndex].colorName = hex;
+                                                    setColorInputs(updatedColorInputs);
+                                                }}
+                                            />
+    
+                                            <div className={cx('input-image')}>
+                                                <Upload
+                                                    onChange={(fileInfo) =>
+                                                        handleOnChangeProductImage(fileInfo, colorIndex)
+                                                    }
+                                                    showUploadList={false}
+                                                >
+                                                    <button className={cx('add-image-btn')}>
+                                                        <UploadOutlined />
+                                                        Thêm ảnh
+                                                    </button>
+                                                </Upload>
+    
+                                                {input.imagePreviewList && (
+                                                    <div className={cx('input-image-display')}>
+                                                        {input.imagePreviewList.map((image, imageIndex) => (
+                                                            <div key={imageIndex} className={cx('image-item-wrapper')}>
+                                                                <Image className={cx('image-item')} alt="" src={image} />
+                                                                <Button
+                                                                    color="secondary"
+                                                                    variant="contained"
+                                                                    size="small"
+                                                                    onClick={() =>
+                                                                        handleRemoveImage(colorIndex, imageIndex)
+                                                                    }
+                                                                >
+                                                                    Xóa
+                                                                </Button>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <Button
+                                                color="error"
+                                                variant="outlined"
+                                                onClick={() => handleRemoveColor(colorIndex)}
+                                            >
+                                                Xóa màu
+                                            </Button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+    
+                            <Button
+                                style={{ width: '150px', marginLeft: '20%' }}
+                                size="medium"
+                                variant="outlined"
+                                onClick={handleAddColorInput}
+                            >
+                                Thêm màu sắc
+                            </Button>
                         </div>
-
-                        <Button
-                            style={{ width: '150px', marginLeft: '20%' }}
-                            size="medium"
-                            variant="outlined"
-                            onClick={handleAddColorInput}
-                        >
-                            Thêm màu sắc
+    
+                        {/* <img alt="" src={admin_images.add_product_image} /> */}
+                    </div>
+    
+                    <div className={cx('add-product-btn')}>
+                        <Button size="large" color="primary" variant="contained" onClick={handleAddProduct}>
+                            Thêm sản phẩm
                         </Button>
                     </div>
-
-                    {/* <img alt="" src={admin_images.add_product_image} /> */}
-                </div>
-
-                <div className={cx('add-product-btn')}>
-                    <Button size="large" color="primary" variant="contained" onClick={handleAddProduct}>
-                        Thêm sản phẩm
-                    </Button>
                 </div>
             </div>
-        </div>
+        </Loading>
     );
 }
 
