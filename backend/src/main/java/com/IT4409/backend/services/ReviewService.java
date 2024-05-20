@@ -82,6 +82,7 @@ public class ReviewService implements IReviewService {
         user.getReviewList().add(review);
 
         orderItemRepository.save(orderItem);
+        review = reviewRepository.save(review);
 
         List<Review> reviewList = getProductReviews(review.getOrderItem().getProduct().getProductId());
         double averageRating = reviewList
