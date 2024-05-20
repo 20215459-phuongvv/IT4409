@@ -104,7 +104,7 @@ public class UserService implements UserDetailsService {
         String url = Constants.LOCAL_HOST + "/auth/verify-email/" + verificationToken;
         context.setVariable("url", url);
         emailService.sendEmailWithHtmlTemplate(email, messages.getString("email.verify"), "email-verification", context);
-        return new AuthResponseDTO(token, true);
+        return new AuthResponseDTO(null, true);
     }
     public AuthResponseDTO signIn(AuthRequestDTO authRequestDTO) throws BadCredentialsException, BadRequestException {
         AuthResponseDTO authResponseDTO = new AuthResponseDTO();
@@ -150,6 +150,7 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByVerificationToken(token)
                         .orElseThrow(() -> new NotFoundException(messages.getString("user.validate.not-found")));
         if(!token.equals(user.getVerificationToken())){
+            userRepository.delete(user);
             throw new BadRequestException(messages.getString("user.validate.token-invalid"));
         }
         user.setStatus(Constants.ENTITY_STATUS.ACTIVE);

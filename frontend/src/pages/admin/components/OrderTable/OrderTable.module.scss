@@ -1,5 +1,10 @@
-.delete-confirm-box,
-.update-modal-box {
+.order-detail-button {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+}
+
+.detail-modal-wrapper {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -14,63 +19,33 @@
     border-radius: 6px;
 }
 
-.delete-confirm-box {
-    p {
-        font-size: 1.6rem;
-        font-weight: 500;
-    }
-
-    .delete-box-row {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-}
-
-.update-modal-box {
-    padding: 30px 60px;
-    width: 50%;
-
-    .update-modal-title {
-        font-size: 1.8rem;
-        font-weight: 500;
-    }
-}
-
-.update-input-wrapper {
-    width: 100%;
+.detail-modal-content {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 16px;
-}
-
-.update-input-row {
-    width: 100%;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    // grid-template-columns: 30% 70%;
-    gap: 12px;
-
-    p {
-        flex: 3;
-        font-size: 1.2rem;
-        margin-bottom: 0;
-    }
-
-    input {
-        flex: 7;
-        height: 100%;
-        border: 1px solid #ccc;
-        padding: 0 8px;
-        font-size: 1.2rem;
+    gap: 30px;
+    align-items: flex-start;
+    .detail-content-title {
+        font-size: 1.8rem;
     }
 }
 
-.update-modal-buttons {
+.detail-products, .detail-user {
     display: flex;
-    align-items: center;
-    gap: 20px;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.detail-product-list {
+    .detail-product-item {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    .detail-product-image {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: contain;
+    }
 }

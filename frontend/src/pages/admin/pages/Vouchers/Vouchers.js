@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './Vouchers.module.scss';
-import TableComponent from '../../components/TableComponent';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button, Modal } from '@mui/material';
 import VoucherTable from '../../components/VoucherTable';
@@ -12,7 +11,7 @@ import Loading from '~/components/LoadingComponent/Loading';
 import * as message from '~/components/Message/Message';
 
 const cx = classNames.bind(styles);
-const jwt = localStorage.getItem("jwt");
+const jwt = localStorage.getItem('jwt');
 const columns = [
     { id: 'index', label: 'STT', minWidth: 20 },
     { id: 'code', label: 'Mã giảm giá', minWidth: 100, align: 'left' },
@@ -126,7 +125,7 @@ function Vouchers() {
                         <AddCircleIcon sx={{ color: 'green', fontSize: '1.8rem' }} />
                         <p>Thêm Voucher mới</p>
                     </div>
-    
+
                     <Modal
                         open={openAddVoucher}
                         onClose={handleCloseAddVoucher}
@@ -141,17 +140,21 @@ function Vouchers() {
                                     <p>Mã voucher</p>
                                     <input id="new-voucher-code" type="text" placeholder="Nhập mã Voucher" />
                                 </div>
-    
+
                                 <div className={cx('add-voucher-row')}>
                                     <p>Giá trị giảm (%)</p>
                                     <input id="new-voucher-value" type="text" placeholder="Giá trị giảm (%)" />
                                 </div>
-    
+
                                 <div className={cx('add-voucher-row')}>
                                     <p>Giá trị tối đa</p>
-                                    <input id="new-voucher-maximum-value" type="text" placeholder="Giá trị tối đa (VND)" />
+                                    <input
+                                        id="new-voucher-maximum-value"
+                                        type="text"
+                                        placeholder="Giá trị tối đa (VND)"
+                                    />
                                 </div>
-    
+
                                 <div className={cx('add-voucher-row')}>
                                     <p>Điều kiện đơn hàng</p>
                                     <input
@@ -160,12 +163,12 @@ function Vouchers() {
                                         placeholder="Giá trị đơn hàng tối thiểu"
                                     />
                                 </div>
-    
+
                                 <div className={cx('add-voucher-row')}>
                                     <p>Ngày hết hạn</p>
                                     <input id="new-voucher-endDate" type="date" placeholder="Giá trị tối đa" />
                                 </div>
-    
+
                                 <div className={cx('add-voucher-buttons')}>
                                     <Button
                                         color="info"
@@ -192,7 +195,7 @@ function Vouchers() {
                         {/* </Loading> */}
                     </Modal>
                 </div>
-    
+
                 <VoucherTable
                     columns={columns}
                     rows={rows}

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequestMapping("/auth")
@@ -50,12 +51,12 @@ public class AuthController {
         }
     }
     @GetMapping("/verify-email/{token}")
-    public ResponseEntity<?> confirmEmail(@PathVariable("token") String token) {
+    public ModelAndView confirmEmail(@PathVariable("token") String token) {
         try{
             String result = userService.confirmEmail(token);
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ModelAndView("confirm-success");
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ModelAndView("confirm-fail");
         }
     }
 }

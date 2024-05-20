@@ -55,6 +55,12 @@ const columns = [
         minWidth: 30,
         align: 'left',
     },
+    {
+        id: 'detail',
+        label: ' ',
+        minWidth: 30,
+        align: 'left',
+    },
 ];
 
 // const data = [
@@ -155,8 +161,7 @@ function OrdersManagement() {
         }
     };
 
-    console.log('adminOrdersState', adminOrdersState);
-
+    console.log(rows);
 
     return (
         <Loading isLoading={isLoading}>
