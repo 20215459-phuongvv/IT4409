@@ -16,14 +16,14 @@ const publicRoutes = [
     { path: config.routes.home, component: Home },
     { path: config.routes.profile, component: Profile },
     { path: config.routes.products, component: Products },
-    { path: config.routes.login, component: LoginForm},
-    { path: config.routes.register, component: RegistrationForm},
-    { path: config.routes.cart, component: Cart},
-    { path: config.routes.checkout, component: Checkout},
-    { path: config.routes.chat, component: Chat},
-    { path: '/account/order', component: Order},
-    { path: '/account/order/:orderId', component: OrderDetails},
-    { path: '/account/rate/', component: RateProduct} //:/account/rate/:productId
+    { path: config.routes.login, component: LoginForm },
+    { path: config.routes.register, component: RegistrationForm },
+    { path: config.routes.cart, component: Cart },
+    { path: config.routes.checkout, component: Checkout },
+    { path: config.routes.chat, component: Chat },
+    { path: '/account/order', component: Order },
+    { path: '/account/order/:orderId', component: OrderDetails },
+    { path: '/account/rate/:orderId/:orderItemId', component: RateProduct }, //:/account/rate/:productId
 ];
 
 // phải đăng nhập, nếu không sẽ đưa ra login

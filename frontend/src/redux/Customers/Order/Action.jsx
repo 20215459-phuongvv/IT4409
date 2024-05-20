@@ -42,12 +42,17 @@ export const createOrder = (reqData) => async (dispatch) => {
     }
 };
 
-export const getOrderById = (orderId) => async (dispatch) => {
+export const getOrderById = ({orderId, jwt}) => async (dispatch) => {
     console.log('get order req ', orderId);
     try {
         dispatch({ type: GET_ORDER_BY_ID_REQUEST });
+        const config = {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        };
 
-        const { data } = await api.get(`/api/orders/${orderId}`);
+        const { data } = await api.get(`/api/orders/${orderId}`,config);
         console.log('order by id ', data);
         dispatch({
             type: GET_ORDER_BY_ID_SUCCESS,
@@ -62,7 +67,7 @@ export const getOrderById = (orderId) => async (dispatch) => {
     }
 };
 
-export const getOrderHistory = (reqData) => async (dispatch, getState) => {
+export const getOrderHistory = (reqData) => async (dispatch) => {
     try {
         dispatch({ type: GET_ORDER_HISTORY_REQUEST });
 
@@ -72,7 +77,7 @@ export const getOrderHistory = (reqData) => async (dispatch, getState) => {
             },
         };
 
-        const { data } = await api.get(`/api/orders/user`);
+        const { data } = await api.get(`/api/orders/user`, config);
         console.log('order history -------- ', data);
         dispatch({
             type: GET_ORDER_HISTORY_SUCCESS,

@@ -9,10 +9,14 @@ const AddressCard = ({ address }) => {
         <div>
             {/* <h1 className="text-lg font-semibold py-4">Delivery Adress</h1> */}
             <div className={cx('space-y-3')}>
-                <p className={cx('font-semibold')}>{`${address?.name}`}</p>
-
-                <p>{`${address?.address}`}</p>
-
+                <div className={cx('space-y-1')}>
+                    <p className={cx('font-semibold')}>Tên người nhận</p>
+                    <p>{`${address?.name}`}</p>
+                </div>
+                <div className={cx('space-y-1')}>
+                    <p className={cx('font-semibold')}>Địa chỉ</p>
+                    <p>{`${address?.address}`}</p>
+                </div>
                 <div className={cx('space-y-1')}>
                     <p className={cx('font-semibold')}>Số điện thoại</p>
                     <p>{address?.phoneNumber}</p>

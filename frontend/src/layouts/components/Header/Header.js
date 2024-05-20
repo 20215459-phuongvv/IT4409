@@ -65,6 +65,15 @@ function Header() {
         dispatch(logout());
         navigate('/');
     };
+
+    const handleAdminDashboard = () => {
+        navigate('/admin');
+    };
+
+    const handleMyOrder = () => {
+        navigate('/account/order');
+    };
+
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -122,7 +131,13 @@ function Header() {
                                         'aria-labelledby': 'basic-button',
                                     }}
                                 >
-                                    <MenuItem>
+                                    <MenuItem
+                                        onClick={
+                                            auth.user?.user?.role === 'ROLE_ADMIN'
+                                                ? handleAdminDashboard
+                                                : handleMyOrder
+                                        }
+                                    >
                                         {auth.user?.user?.role === 'ROLE_ADMIN' ? 'Admin Dashboard' : 'My Orders'}
                                     </MenuItem>
                                     <MenuItem onClick={handleLogout}>Logout</MenuItem>

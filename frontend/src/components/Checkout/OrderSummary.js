@@ -45,6 +45,7 @@ const OrderSummary = ({ address }) => {
         await dispatch(createOrder({ jwt, dto: { paymentMethod: 'CASH_ON_DELIVERY', ...data } })).then(() => {
             dispatch(getNotifications(jwt));
         });
+        await handleVoucherRemove();
         if (error) return <div>Error</div>;
         else navigate('/checkout?step=4');
     };
@@ -53,9 +54,22 @@ const OrderSummary = ({ address }) => {
         await dispatch(createOrder({ jwt, dto: { paymentMethod: 'NET_BANKING', ...data } })).then(() => {
             dispatch(getNotifications(jwt));
         });
+        await handleVoucherRemove();
         setIsOpenPopup(true);
         setIsOpenPopupConfirm(false);
         //QR CODE
+    };
+
+    const handleVoucherRemove = async () => {
+        try {
+            await axios.delete('http://localhost:8080/api/cart/discounts', {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     useEffect(() => {
@@ -126,12 +140,12 @@ const OrderSummary = ({ address }) => {
                             <hr />
                             <div className={cx('cartitems-total-item')}>
                                 <p>Phí vận chuyển</p>
-                                <p>Free</p>
+                                <p>25,000đ</p>
                             </div>
                             <hr />
                             <div className={cx('cartitems-total-item')}>
                                 <h3>Tổng</h3>
-                                <h3>{numberWithCommas(cart?.totalDiscountPrice)}₫</h3>
+                                <h3>{numberWithCommas(cart?.totalDiscountPrice + 25000)}₫</h3>
                             </div>
                         </div>
                     </div>

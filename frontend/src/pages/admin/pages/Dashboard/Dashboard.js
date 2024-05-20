@@ -37,7 +37,7 @@ function Dashboard() {
             <div className={cx('container')}>
                 <div className={cx('top')}>
                     <StatisticItem
-                        value={adminOrdersState?.allRevenue.toLocaleString('vn-VN')}
+                        value={adminOrdersState?.allRevenue?.toLocaleString('vn-VN')}
                         unit="đ"
                         title="Tổng doanh thu"
                         img={admin_images.revenue}

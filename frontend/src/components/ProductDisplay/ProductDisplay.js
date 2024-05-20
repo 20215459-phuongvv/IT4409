@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 
@@ -9,25 +9,51 @@ import Button from '~/components/Button';
 import { ShopContext } from '~/context/ShopContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import ProductReviewCard from '~/pages/user/pages/Products/ProductDetail/ProductReviewCard';
-import { Grid, Rating, Box, LinearProgress } from '@mui/material';
+import { Grid, Rating, Box, LinearProgress, Switch } from '@mui/material';
 import ChatModal from '../ChatModal';
 import { adminDetail } from '~/util/adminDetail';
 import { sizeTab } from '~/util/constant';
 import { useDispatch } from 'react-redux';
 import { addItemToCart, getCart } from '~/redux/Customers/Cart/Action';
+import { API_BASE_URL } from '~/config/api';
+import axiosCLient from '~/api/axiosClient';
+import axios from 'axios';
 const cx = classNames.bind(styles);
 
 function ProductDisplay(props) {
     const { product } = props;
+    const [isSwitchedOn, setIsSwitchedOn] = useState(false);
+    const [summarizedReview, setSummarizedReview] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedColor, setSelectedColor] = useState(product?.colorList[0]); //chọn màu
     const [amount, setAmount] = useState(1); //chọn số lượng
     const [chosenSize, setChosenSize] = useState(sizeTab[product?.sizeList[0]]); //chọn size
     const [activeColorImage, setActiveColorImage] = useState(selectedColor?.colorImageList[0].imageUrl); //main img
     const [colorChecked, setColorChecked] = useState(0);
+    const [productReview, setProductReview] = useState(null);
     const dispatch = useDispatch();
     const jwt = localStorage.getItem('jwt');
     const [error, setError] = useState(''); // trạng thái lỗi
+
+    const fetchSummarizedReview = async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/products/${product.productId}/reviews/summarize`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                },
+            });
+            setSummarizedReview(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleSwitchChange = () => {
+        setIsSwitchedOn(!isSwitchedOn);
+        if (!isSwitchedOn) {
+            fetchSummarizedReview();
+        }
+    };
 
     const handleChooseImg = (imageItem) => {
         setActiveColorImage(imageItem);
@@ -51,7 +77,7 @@ function ProductDisplay(props) {
         setModalOpen(false);
     };
     const handleAddToCart = () => {
-        const inStock = product.quantity; 
+        const inStock = product.quantity;
         if (amount > inStock) {
             setError(`Số lượng không đủ. Chỉ còn ${inStock} sản phẩm cho size ${chosenSize}.`);
             return;
@@ -74,6 +100,24 @@ function ProductDisplay(props) {
     useEffect(() => {
         setActiveColorImage(selectedColor?.colorImageList[0].imageUrl);
     }, [selectedColor]);
+
+    useEffect(() => {
+        const getReview = async () => {
+            try {
+                const res = await axios.get(`${API_BASE_URL}/products/${product.productId}/reviews`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                });
+                setProductReview(res.data);
+                console.log(productReview.current);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getReview();
+    }, [jwt, product.productId]);
 
     return (
         <>
@@ -164,10 +208,7 @@ function ProductDisplay(props) {
                     </div>
                     {error && <p className={cx('error-message')}>{error}</p>}
                     <div className={cx('button-block')}>
-                        <button
-                            onClick={handleAddToCart}
-                            className={cx('addToCart')}
-                        >
+                        <button onClick={handleAddToCart} className={cx('addToCart')}>
                             Thêm vào giỏ hàng
                         </button>
 
@@ -186,12 +227,25 @@ function ProductDisplay(props) {
             </div>
             {/* rating and review section */}
             <div className={cx('review')}>
-                <h2 className="font-semibold text-lg pb-4">Nhận xét và đánh giá</h2>
+                <h2 className="font-semibold text-lg pb-4">
+                    Nhận xét và đánh giá
+                    <Switch checked={isSwitchedOn} onChange={handleSwitchChange} />
+                    {isSwitchedOn && summarizedReview && (
+                        <Box>
+                            <h3>Summarized Review:</h3>
+                            <p>{summarizedReview}</p>
+                        </Box>
+                    )}
+                </h2>
                 <div>
                     <Grid container spacing={7}>
                         <Grid item xs={7}>
                             <div className="space-y-5">
-                                <ProductReviewCard product={product} />
+                                {productReview ? (
+                                    <ProductReviewCard reviews={productReview} />
+                                ) : (
+                                    <div className={cx('no-review')}>No review yet</div>
+                                )}
                             </div>
                         </Grid>
                         {/* <Grid item xs={5}>

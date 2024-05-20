@@ -6,6 +6,7 @@ import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCart, removeCartItem } from '~/redux/Customers/Cart/Action';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 const cx = classNames.bind(styles);
 
 const numberWithCommas = (numberString) => {
@@ -17,6 +18,9 @@ function CartItems() {
     const jwt = localStorage.getItem('jwt');
     const dispatch = useDispatch();
     const { cart } = useSelector((state) => state.carts);
+    const [voucher, setVoucher] = useState('');
+    const [appliedVoucher, setAppliedVoucher] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
     // const [cart, setCart] = useState(null);
     const isLoading = useRef(false);
     const [cartUpdated, setCartUpdated] = useState(false);
@@ -39,6 +43,59 @@ function CartItems() {
             isLoading.current = false;
         }
     }, [cart]);
+
+    const handleVoucherChange = (event) => {
+        setVoucher(event.target.value);
+    };
+
+    const handleVoucherSubmit = async () => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/cart/discounts', voucher, {
+                headers: {
+                    'Content-Type': 'text/plain',
+                    Authorization: `Bearer ${jwt}`,
+                },
+            });
+            setAppliedVoucher(response.data);
+            setErrorMessage(null);
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                setErrorMessage('Voucher invalid!');
+            } else {
+                console.error(error);
+            }
+        }
+    };
+
+    const handleVoucherRemove = async () => {
+        try {
+            await axios.delete('http://localhost:8080/api/cart/discounts', {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            });
+            setAppliedVoucher(null);
+            setErrorMessage(null);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        const fetchCurrentVoucher = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/cart/discounts', {
+                    headers: {
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                });
+                setAppliedVoucher(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchCurrentVoucher();
+    }, []);
 
     return (
         <div className={cx('wrapper')}>
@@ -101,12 +158,12 @@ function CartItems() {
                         <hr />
                         <div className={cx('cartitems-total-item')}>
                             <p>Phí vận chuyển</p>
-                            <p>Free</p>
+                            <p>25,000đ</p>
                         </div>
                         <hr />
                         <div className={cx('cartitems-total-item')}>
                             <h3>Tổng</h3>
-                            <h3>{numberWithCommas(cart?.totalDiscountPrice)}₫</h3>
+                            <h3>{numberWithCommas(cart?.totalDiscountPrice + 25000)}₫</h3>
                         </div>
                     </div>
                     <Button
@@ -128,9 +185,18 @@ function CartItems() {
                 <div className={cx('cartitems-promocode')}>
                     <p>Nếu bạn có mã giảm giá, hãy áp dụng vào đây</p>
                     <div className={cx('cartitems-promobox')}>
-                        <input type="text" placeholder="Voucher" />
-                        <button className={cx('btn-promo')}>SUBMIT</button>
+                        <input type="text" placeholder="Voucher" value={voucher} onChange={handleVoucherChange} />
+                        <button className={cx('btn-promo')} onClick={handleVoucherSubmit}>
+                            SUBMIT
+                        </button>
                     </div>
+                    {appliedVoucher && (
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <p>{appliedVoucher.discountCode}</p>
+                            <button onClick={handleVoucherRemove}>X</button>
+                        </div>
+                    )}
+                    {errorMessage && <p>{errorMessage}</p>}
                 </div>
             </div>
         </div>
