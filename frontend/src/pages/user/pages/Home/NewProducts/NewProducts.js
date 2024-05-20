@@ -16,6 +16,7 @@ function NewProducts() {
 
     const productsState = useSelector((state) => state.customerProducts);
 
+    console.log('new', productsState.products);
 
     return (
         <div className={cx('element-wrapper')}>

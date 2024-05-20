@@ -14,7 +14,8 @@ function Best() {
     }, [dispatch]);
 
     const productsState = useSelector((state) => state.customerProducts);
-    // tốt nhất
+
+    console.log('best', productsState.products);
     return (
         <div className={cx('element-wrapper')}>
             {productsState.products.map((product) => (

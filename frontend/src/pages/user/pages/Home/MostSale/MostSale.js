@@ -15,6 +15,7 @@ function MostSale() {
     }, [dispatch]);
 
     const productsState = useSelector((state) => state.customerProducts);
+    console.log('mostsale', productsState.products);
 
     return (
         <div className={cx('element-wrapper')}>
