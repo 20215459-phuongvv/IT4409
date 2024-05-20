@@ -32,7 +32,7 @@ function OrderTable({ columns, rows, rowPerPage, handleUpdateStatus }) {
         const newStatus = event.target.value;
         setOrderStatusArray((prevStatuses) => {
             const newState = prevStatuses.map((status, index) =>
-                rows[index].orderId === orderId ? newStatus : status
+                rows[index].orderId === orderId ? newStatus : status,
             );
             return newState;
         });
@@ -40,6 +40,7 @@ function OrderTable({ columns, rows, rowPerPage, handleUpdateStatus }) {
     };
 
     const orderStatus = {
+        CONFIRM_PAYMENT: 'Xác nhận thanh toán',
         CONFIRMED: 'Đã xác nhận',
         DELIVERED: 'Đang giao',
         SHIPPED: 'Đã giao',
@@ -79,9 +80,10 @@ function OrderTable({ columns, rows, rowPerPage, handleUpdateStatus }) {
                                         {row.finalPrice.toLocaleString('vn-VN') + ' đ'}
                                     </StyledTableCell>
                                     <StyledTableCell align="left">{row.orderStatus}</StyledTableCell>
-                                    <StyledTableCell align="left">{row.PaymentMethod}</StyledTableCell>
+                                    <StyledTableCell align="left">{row.paymentMethod}</StyledTableCell>
                                     <StyledTableCell align="left">
-                                        {row.PaymentMethod === 'NET_BANKING' ? row.PaymentStatus : ''}
+                                        {/* {row.PaymentMethod === 'NET_BANKING' ? row.PaymentStatus : ''} */}
+                                        {row.paymentStatus}
                                     </StyledTableCell>
 
                                     <StyledTableCell align="left">

@@ -2,7 +2,14 @@ import classNames from 'classnames/bind';
 import styles from './Orders.module.scss';
 import OrderTable from '../../components/OrderTable';
 import { useDispatch, useSelector } from 'react-redux';
-import { cancelOrder, confirmOrder, deliveredOrder, getAllOrders, shipOrder } from '~/redux/Admin/Order/Action';
+import {
+    cancelOrder,
+    confirmOrder,
+    confirmPayment,
+    deliveredOrder,
+    getAllOrders,
+    shipOrder,
+} from '~/redux/Admin/Order/Action';
 import { useEffect } from 'react';
 import Loading from '~/components/LoadingComponent/Loading';
 import * as message from '~/components/Message/Message';
@@ -101,7 +108,7 @@ const columns = [
 function OrdersManagement() {
     const dispatch = useDispatch();
     const adminOrdersState = useSelector((state) => state.adminOrders);
-    const isLoading = adminOrdersState.isLoading;
+    const isLoading = adminOrdersState.loading;
     const isError = adminOrdersState.error;
 
     useEffect(() => {
@@ -113,6 +120,11 @@ function OrdersManagement() {
     const handleUpdateStatus = (newStatus, orderId) => {
         console.log('order', newStatus, orderId);
         switch (newStatus) {
+            case 'CONFIRM_PAYMENT':
+                dispatch(confirmPayment(orderId)).then(() => {
+                    dispatch(getAllOrders());
+                });
+                break;
             case 'CONFIRMED':
                 dispatch(confirmOrder(orderId)).then(() => {
                     dispatch(getAllOrders());
@@ -144,6 +156,7 @@ function OrdersManagement() {
     };
 
     console.log('adminOrdersState', adminOrdersState);
+
 
     return (
         <Loading isLoading={isLoading}>
