@@ -31,7 +31,7 @@ function Home() {
                 <div className={cx('products-header')}>
                     <Button
                         className={cx('home-product-nav', { 'home-product-nav-active': displayElement === 0 })}
-                        children="Mua nhiều"
+                        children="Giảm nhiều"
                         onClick={() => handleDisplayElement(HomeMenuTab.MostSale)}
                     />
                     <Button
