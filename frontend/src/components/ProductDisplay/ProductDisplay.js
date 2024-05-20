@@ -37,11 +37,7 @@ function ProductDisplay(props) {
 
     const fetchSummarizedReview = async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/products/${product.productId}/reviews/summarize`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                },
-            });
+            const response = await axios.get(`${API_BASE_URL}/products/${product.productId}/reviews/summarize`);
             setSummarizedReview(response.data);
         } catch (error) {
             console.error(error);
@@ -104,12 +100,7 @@ function ProductDisplay(props) {
     useEffect(() => {
         const getReview = async () => {
             try {
-                const res = await axios.get(`${API_BASE_URL}/products/${product.productId}/reviews`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${jwt}`,
-                    },
-                });
+                const res = await axios.get(`${API_BASE_URL}/products/${product.productId}/reviews`);
                 setProductReview(res.data);
                 console.log(productReview.current);
             } catch (error) {

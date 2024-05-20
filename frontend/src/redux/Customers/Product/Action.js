@@ -160,7 +160,7 @@ export const getSaleProducts = () => async (dispatch) => {
     try {
         dispatch({ type: GET_SALE_PRODUCT_REQUEST });
 
-        const { data } = await api.get(`${API_BASE_URL}/products/sale`);
+        const { data } = await axios.get(`${API_BASE_URL}/products/sale`);
 
         dispatch({
             type: GET_SALE_PRODUCT_SUCCESS,
@@ -178,7 +178,7 @@ export const getNewProducts = () => async (dispatch) => {
     try {
         dispatch({ type: GET_NEW_PRODUCT_REQUEST });
 
-        const { data } = await api.get(`${API_BASE_URL}/products/newest`);
+        const { data } = await axios.get(`${API_BASE_URL}/products/newest`);
 
         dispatch({
             type: GET_NEW_PRODUCT_SUCCESS,
@@ -196,7 +196,7 @@ export const getBestProducts = () => async (dispatch) => {
     try {
         dispatch({ type: GET_BEST_PRODUCT_REQUEST });
 
-        const { data } = await api.get(`${API_BASE_URL}/products/best`);
+        const { data } = await axios.get(`${API_BASE_URL}/products/best`);
 
         dispatch({
             type: GET_BEST_PRODUCT_SUCCESS,
