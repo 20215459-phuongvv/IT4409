@@ -214,11 +214,8 @@ public class OrderService implements IOrderService {
             throw new BadRequestException(messages.getString("user-detail.validate.more-than-one"));
         }
 
-        if(order.getUserDetail().getAddress().toLowerCase().contains("hà nội")){
-            totalAmount += Constants.SHIPPING_FEE.INSIDE_HANOI;
-        } else {
-            totalAmount += Constants.SHIPPING_FEE.OUTSIDE_HANOI;
-        }
+        // Shipping fee
+        totalAmount += Constants.SHIPPING_FEE.OUTSIDE_HANOI;
 
         order.setCreatedAt(LocalDateTime.now());
         order.setUserId(user.getUserId());
@@ -362,6 +359,7 @@ public class OrderService implements IOrderService {
         return new OrderItemResponseDTO(
                 orderItem.getOrderItemId(),
                 orderItem.getOrder().getOrderId(),
+                orderItem.getProduct().getProductId(),
                 orderItem.getProduct().getProductName(),
                 orderItem.getQuantity(),
                 orderItem.getSize(),
