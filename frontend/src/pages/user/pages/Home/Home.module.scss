@@ -28,9 +28,9 @@
 }
 
 .element-wrapper {
-    display: flex;
+    display: grid;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
+    grid-template-columns: 25% 25% 25% 25%;
     padding: 32px 120px 0;
 }

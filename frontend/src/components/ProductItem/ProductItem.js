@@ -12,11 +12,11 @@ function ProductItem({ data }) {
             <div className={cx('price')}>
                 {data.discountPrice ? (
                     <>
-                        <p className={cx('new-price')}>{data.discountPrice}đ</p>
-                        <p className={cx('old-price')}>{data.price}đ</p>
+                        <p className={cx('new-price')}>{data.price.toLocaleString('vn-VN') + ' đ'}</p>
+                        <p className={cx('old-price')}>{data.discountPrice.toLocaleString('vn-VN') + ' đ'}</p>
                     </>
                 ) : (
-                    <p className={cx('new-price')}>{data.price}đ</p>
+                    <p className={cx('new-price')}>{data.price.toLocaleString('vn-VN') + ' đ'}</p>
                 )}
             </div>
         </Link>

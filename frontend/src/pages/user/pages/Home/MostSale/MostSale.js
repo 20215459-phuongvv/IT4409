@@ -1,14 +1,24 @@
 import classNames from 'classnames/bind';
 import styles from '../Home.module.scss';
 import ProductItem from '~/components/ProductItem';
-import mostSaleProducts from '~/assets/most_sale_products';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getSaleProducts } from '~/redux/Customers/Product/Action';
 
 const cx = classNames.bind(styles);
 
 function MostSale() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getSaleProducts());
+    }, [dispatch]);
+
+    const productsState = useSelector((state) => state.customerProducts);
+
     return (
         <div className={cx('element-wrapper')}>
-            {mostSaleProducts.map((product) => (
+            {productsState.products.map((product) => (
                 <ProductItem data={product} key={product.id} />
             ))}
         </div>

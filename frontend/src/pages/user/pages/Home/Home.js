@@ -4,7 +4,7 @@ import styles from './Home.module.scss';
 import homeImage from '~/assets/images/home';
 import Button from '~/components/Button';
 import MostSale from '~/pages/user/pages/Home/MostSale';
-import Discount from '~/pages/user/pages/Home/Discount';
+import Best from '~/pages/user/pages/Home/Best';
 import NewProducts from '~/pages/user/pages/Home/NewProducts';
 import Blog from './Blog';
 import SliderComponent from '~/components/Slider/Slider';
@@ -13,7 +13,6 @@ import { HomeMenuTab } from '~/util/constant';
 const cx = classNames.bind(styles);
 
 function Home() {
-    // const homeElements = [MostSale, Discount];
     const [displayElement, setDisplayElement] = useState(HomeMenuTab.MostSale);
 
     const handleDisplayElement = (index) => {
@@ -25,8 +24,6 @@ function Home() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('slider')}>
-                {/* <img src={homeImage.banner1} alt="banner" />
-                 */}
                 <SliderComponent arrImage={sliderImages} />
             </div>
 
@@ -44,15 +41,15 @@ function Home() {
                     />
                     <Button
                         className={cx('home-product-nav', { 'home-product-nav-active': displayElement === 2 })}
-                        children="Giảm giá"
-                        onClick={() => handleDisplayElement(HomeMenuTab.Discount)}
+                        children="Tốt nhất"
+                        onClick={() => handleDisplayElement(HomeMenuTab.Best)}
                     />
                 </div>
 
                 <div className={cx('products-body')}>
                     {displayElement === HomeMenuTab.MostSale && <MostSale />}
                     {displayElement === HomeMenuTab.NewProducts && <NewProducts />}
-                    {displayElement === HomeMenuTab.Discount && <Discount />}
+                    {displayElement === HomeMenuTab.Best && <Best />}
                 </div>
             </div>
             <Blog />
