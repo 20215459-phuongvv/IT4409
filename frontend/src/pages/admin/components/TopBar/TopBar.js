@@ -10,7 +10,6 @@ function TopBar() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('logo')}>HUSTORE</div>
-            <AdminSearch className={cx('search')}/>
             <div className={cx('action')}>
                 <p className={cx('title')}>Admin</p>
                 <AccountCircleIcon sx={{fontSize: '3rem'}}/>

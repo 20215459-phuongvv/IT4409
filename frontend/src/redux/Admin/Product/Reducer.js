@@ -10,10 +10,14 @@ import {
     DELETE_PRODUCT_REQUEST,
     DELETE_PRODUCT_SUCCESS,
     DELETE_PRODUCT_FAILURE,
+    GET_BEST_PRODUCTS_REQUEST,
+    GET_BEST_PRODUCTS_SUCCESS,
+    GET_BEST_PRODUCTS_FAILURE,
 } from './ActionType';
 import { UPDATE_PRODUCT_REQUEST } from './ActionType';
 
 const initialState = {
+    bestProducts: [],
     products: [],
     loading: false,
     error: null,
@@ -34,6 +38,26 @@ const productReducer = (state = initialState, action) => {
                 products: action.payload,
             };
         case GET_PRODUCTS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+
+        case GET_BEST_PRODUCTS_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: null,
+            };
+
+        case GET_BEST_PRODUCTS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                bestProducts: action.payload,
+            };
+        case GET_BEST_PRODUCTS_FAILURE:
             return {
                 ...state,
                 loading: false,

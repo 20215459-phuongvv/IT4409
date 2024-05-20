@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Avatar, Button, MenuItem, Modal, Select } from '@mui/material';
+import { MenuItem, Select } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import classNames from 'classnames/bind';
 import styles from './OrderTable.module.scss';
@@ -22,24 +22,24 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 function OrderTable({ columns, rows, rowPerPage, handleUpdateStatus }) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(rowPerPage);
-    const [orderStatusArray, setOrderStatusArray] = useState(rows.map((row) => row.status));
+    const [orderStatusArray, setOrderStatusArray] = useState(rows.map((row) => row.orderStatus));
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
 
-    const handleStatusChange = (index, event) => {
+    const handleStatusChange = (orderId, event) => {
         const newStatus = event.target.value;
         setOrderStatusArray((prevStatuses) => {
-            const newState = [...prevStatuses];
-            newState[index] = newStatus;
+            const newState = prevStatuses.map((status, index) =>
+                rows[index].orderId === orderId ? newStatus : status
+            );
             return newState;
         });
-        handleUpdateStatus(newStatus, index);
+        handleUpdateStatus(newStatus, orderId);
     };
 
     const orderStatus = {
-        PENDING: 'Đang chờ',
         CONFIRMED: 'Đã xác nhận',
         DELIVERED: 'Đang giao',
         SHIPPED: 'Đã giao',
@@ -65,9 +65,8 @@ function OrderTable({ columns, rows, rowPerPage, handleUpdateStatus }) {
                     </TableHead>
 
                     <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                             const date = new Date(row?.createdAt);
-                            console.log('date', date);
                             const createdDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1)
                                 .toString()
                                 .padStart(2, '0')}/${date.getFullYear()}`;
@@ -81,12 +80,15 @@ function OrderTable({ columns, rows, rowPerPage, handleUpdateStatus }) {
                                     </StyledTableCell>
                                     <StyledTableCell align="left">{row.orderStatus}</StyledTableCell>
                                     <StyledTableCell align="left">{row.PaymentMethod}</StyledTableCell>
+                                    <StyledTableCell align="left">
+                                        {row.PaymentMethod === 'NET_BANKING' ? row.PaymentStatus : ''}
+                                    </StyledTableCell>
 
-                                    <TableCell align="left">
+                                    <StyledTableCell align="left">
                                         <Select
                                             style={{ height: '36px' }}
-                                            value={orderStatusArray[row.index - 1]}
-                                            onChange={(event) => handleStatusChange(row.index - 1, event)}
+                                            value={orderStatusArray[index]}
+                                            onChange={(event) => handleStatusChange(row.orderId, event)}
                                         >
                                             {Object.entries(orderStatus).map(([key, value]) => (
                                                 <MenuItem key={key} value={key}>
@@ -94,7 +96,7 @@ function OrderTable({ columns, rows, rowPerPage, handleUpdateStatus }) {
                                                 </MenuItem>
                                             ))}
                                         </Select>
-                                    </TableCell>
+                                    </StyledTableCell>
                                 </TableRow>
                             );
                         })}

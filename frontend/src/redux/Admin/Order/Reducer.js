@@ -11,37 +11,41 @@ import {
     DELIVERED_ORDER_FAILURE,
     DELIVERED_ORDER_REQUEST,
     DELIVERED_ORDER_SUCCESS,
-    GET_ORDERS_FAILURE,
-    GET_ORDERS_REQUEST,
-    GET_ORDERS_SUCCESS,
     PLACED_ORDER_FAILURE,
     PLACED_ORDER_REQUEST,
     PLACED_ORDER_SUCCESS,
     SHIP_ORDER_FAILURE,
     SHIP_ORDER_REQUEST,
     SHIP_ORDER_SUCCESS,
+    GET_ALL_REVENUE_FAILURE,
+    GET_ALL_REVENUE_REQUEST,
+    GET_ALL_REVENUE_SUCCESS,
+    GET_ALL_ORDERS_REQUEST,
+    GET_ALL_ORDERS_SUCCESS,
+    GET_ALL_ORDERS_FAILURE,
 } from './ActionType';
 
 const initialState = {
     loading: false,
     orders: [],
     error: '',
+    allRevenue: '',
 };
 
 const adminOrderReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_ORDERS_REQUEST:
+        case GET_ALL_ORDERS_REQUEST:
             return {
                 ...state,
                 loading: true,
             };
-        case GET_ORDERS_SUCCESS:
+        case GET_ALL_ORDERS_SUCCESS:
             return {
                 loading: false,
                 orders: action.payload,
                 error: '',
             };
-        case GET_ORDERS_FAILURE:
+        case GET_ALL_ORDERS_FAILURE:
             return {
                 loading: false,
                 orders: [],
@@ -115,6 +119,28 @@ const adminOrderReducer = (state = initialState, action) => {
                 isLoading: false,
                 error: action.payload,
             };
+        case GET_ALL_REVENUE_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                error: null,
+            };
+
+        case GET_ALL_REVENUE_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                allRevenue: action.payload,
+            };
+
+        case GET_ALL_REVENUE_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                error: action.payload,
+            };
+
+
         default:
             return state;
     }

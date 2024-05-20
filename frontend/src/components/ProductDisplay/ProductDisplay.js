@@ -14,7 +14,7 @@ import ChatModal from '../ChatModal';
 import { adminDetail } from '~/util/adminDetail';
 import { sizeTab } from '~/util/constant';
 import { useDispatch } from 'react-redux';
-import { addItemToCart } from '~/redux/Customers/Cart/Action';
+import { addItemToCart, getCart } from '~/redux/Customers/Cart/Action';
 const cx = classNames.bind(styles);
 
 function ProductDisplay(props) {
@@ -27,6 +27,7 @@ function ProductDisplay(props) {
     const [colorChecked, setColorChecked] = useState(0);
     const dispatch = useDispatch();
     const jwt = localStorage.getItem('jwt');
+    const [error, setError] = useState(''); // trạng thái lỗi
 
     const handleChooseImg = (imageItem) => {
         setActiveColorImage(imageItem);
@@ -48,6 +49,26 @@ function ProductDisplay(props) {
     const closeModal = (event) => {
         event.preventDefault(); // Prevent navigation
         setModalOpen(false);
+    };
+    const handleAddToCart = () => {
+        const inStock = product.quantity; 
+        if (amount > inStock) {
+            setError(`Số lượng không đủ. Chỉ còn ${inStock} sản phẩm cho size ${chosenSize}.`);
+            return;
+        }
+
+        setError('');
+        dispatch(
+            addItemToCart({
+                data: {
+                    productId: product?.productId,
+                    size: chosenSize,
+                    quantity: amount,
+                    color: selectedColor?.colorName,
+                },
+                jwt: jwt,
+            }),
+        );
     };
 
     useEffect(() => {
@@ -141,21 +162,10 @@ function ProductDisplay(props) {
                             </button>
                         </div>
                     </div>
+                    {error && <p className={cx('error-message')}>{error}</p>}
                     <div className={cx('button-block')}>
                         <button
-                            onClick={() => {
-                                dispatch(
-                                    addItemToCart({
-                                        data: {
-                                            productId: product?.productId,
-                                            size: chosenSize,
-                                            quantity: amount,
-                                            color: selectedColor?.colorName,
-                                        },
-                                        jwt: jwt,
-                                    }),
-                                );
-                            }}
+                            onClick={handleAddToCart}
                             className={cx('addToCart')}
                         >
                             Thêm vào giỏ hàng
@@ -171,11 +181,6 @@ function ProductDisplay(props) {
                         <hr />
                         <h3>Mô tả sản phẩm</h3>
                         <p>{product?.description}</p>
-                        {/* <<ul>
-                            <li>Form xòe, có bản lưng, dây kéo một bên. Váy 2 lớp, có túi mổ 2 bên</li>
-                            <li>Thun hầu như không nhăn, dày dặn, co giãn nhẹ, dễ bảo quản </li>
-                            <li>Chiều dài váy 80cm bao gồm bản lưng 3cm</li>
-                        </ul>> */}
                     </div>
                 </div>
             </div>
@@ -185,7 +190,9 @@ function ProductDisplay(props) {
                 <div>
                     <Grid container spacing={7}>
                         <Grid item xs={7}>
-                            <div className="space-y-5">{/* <ProductReviewCard product={product} /> */}</div>
+                            <div className="space-y-5">
+                                <ProductReviewCard product={product} />
+                            </div>
                         </Grid>
                         {/* <Grid item xs={5}>
                             <h2 className="text-xl font-semibold pb-1">Đánh giá sản phẩm</h2>
