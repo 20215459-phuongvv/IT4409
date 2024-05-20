@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers } from '~/redux/Admin/User/Action';
 import { getAllProducts, getBestProducts } from '~/redux/Admin/Product/Action';
-import { getAllRevenue } from '~/redux/Admin/Order/Action';
+import { getAllOrders, getAllRevenue } from '~/redux/Admin/Order/Action';
 
 const cx = classNames.bind(styles);
 
@@ -23,10 +23,12 @@ function Dashboard() {
         dispatch(getAllUsers());
         dispatch(getAllProducts());
         dispatch(getBestProducts());
+        dispatch(getAllOrders());
     }, [dispatch]);
 
-    console.log('usersState?.users', usersState?.users);
-    const limitedUsers = usersState?.users.slice(0, 4);
+    // console.log('usersState?.users', usersState?.users);
+    console.log('adminOrdersState', adminOrdersState);
+    const limitedUsers = usersState?.users.slice(0, 3);
 
     return (
         <div className={cx('wrapper')}>
@@ -34,7 +36,7 @@ function Dashboard() {
             <div className={cx('container')}>
                 <div className={cx('top')}>
                     <StatisticItem
-                        value={adminOrdersState.allRevenue.toLocaleString('vn-VN')}
+                        value={adminOrdersState?.allRevenue.toLocaleString('vn-VN')}
                         unit="đ"
                         title="Tổng doanh thu"
                         img={admin_images.revenue}
