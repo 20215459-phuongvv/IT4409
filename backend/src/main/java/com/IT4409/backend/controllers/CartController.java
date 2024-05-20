@@ -37,6 +37,7 @@ public class CartController {
         }
     }
 
+    @GetMapping("/discounts")
     public ResponseEntity<?> findCartVoucher(@RequestHeader("Authorization") String jwt) throws Exception {
         try{
             User user = userService.findUserByJwt(jwt);
