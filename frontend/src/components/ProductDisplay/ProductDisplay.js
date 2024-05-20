@@ -27,6 +27,7 @@ function ProductDisplay(props) {
     const [colorChecked, setColorChecked] = useState(0);
     const dispatch = useDispatch();
     const jwt = localStorage.getItem('jwt');
+    const [error, setError] = useState(''); // trạng thái lỗi
 
     const handleChooseImg = (imageItem) => {
         setActiveColorImage(imageItem);
@@ -48,6 +49,26 @@ function ProductDisplay(props) {
     const closeModal = (event) => {
         event.preventDefault(); // Prevent navigation
         setModalOpen(false);
+    };
+    const handleAddToCart = () => {
+        const inStock = product.quantity; 
+        if (amount > inStock) {
+            setError(`Số lượng không đủ. Chỉ còn ${inStock} sản phẩm cho size ${chosenSize}.`);
+            return;
+        }
+
+        setError('');
+        dispatch(
+            addItemToCart({
+                data: {
+                    productId: product?.productId,
+                    size: chosenSize,
+                    quantity: amount,
+                    color: selectedColor?.colorName,
+                },
+                jwt: jwt,
+            }),
+        );
     };
 
     useEffect(() => {
@@ -141,21 +162,10 @@ function ProductDisplay(props) {
                             </button>
                         </div>
                     </div>
+                    {error && <p className={cx('error-message')}>{error}</p>}
                     <div className={cx('button-block')}>
                         <button
-                            onClick={() => {
-                                dispatch(
-                                    addItemToCart({
-                                        data: {
-                                            productId: product?.productId,
-                                            size: chosenSize,
-                                            quantity: amount,
-                                            color: selectedColor?.colorName,
-                                        },
-                                        jwt: jwt,
-                                    }),
-                                );
-                            }}
+                            onClick={handleAddToCart}
                             className={cx('addToCart')}
                         >
                             Thêm vào giỏ hàng

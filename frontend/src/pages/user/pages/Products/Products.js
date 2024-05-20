@@ -48,7 +48,7 @@ function Products() {
                     </div>
                 </div>
 
-                <div className={cx('filter')}>filter</div>
+                <div className={cx('filter')}></div>
             </div>
 
             <div className={cx('products-body')}>
