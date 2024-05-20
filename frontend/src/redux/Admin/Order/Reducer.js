@@ -11,9 +11,6 @@ import {
     DELIVERED_ORDER_FAILURE,
     DELIVERED_ORDER_REQUEST,
     DELIVERED_ORDER_SUCCESS,
-    PLACED_ORDER_FAILURE,
-    PLACED_ORDER_REQUEST,
-    PLACED_ORDER_SUCCESS,
     SHIP_ORDER_FAILURE,
     SHIP_ORDER_REQUEST,
     SHIP_ORDER_SUCCESS,
@@ -23,6 +20,9 @@ import {
     GET_ALL_ORDERS_REQUEST,
     GET_ALL_ORDERS_SUCCESS,
     GET_ALL_ORDERS_FAILURE,
+    CONFIRM_PAYMENT_REQUEST,
+    CONFIRM_PAYMENT_SUCCESS,
+    CONFIRM_PAYMENT_FAILURE,
 } from './ActionType';
 
 const initialState = {
@@ -52,7 +52,7 @@ const adminOrderReducer = (state = initialState, action) => {
                 error: action.payload,
             };
         case CONFIRMED_ORDER_REQUEST:
-        case PLACED_ORDER_REQUEST:
+        case CONFIRM_PAYMENT_REQUEST:
         case DELIVERED_ORDER_REQUEST:
         case CANCELED_ORDER_REQUEST:
             return {
@@ -65,10 +65,11 @@ const adminOrderReducer = (state = initialState, action) => {
                 confirmed: action.payload,
                 isLoading: false,
             };
-        case PLACED_ORDER_SUCCESS:
+
+        case CONFIRM_PAYMENT_SUCCESS:
             return {
                 ...state,
-                placed: action.payload,
+                confirmed_payment: action.payload,
                 isLoading: false,
             };
         case DELIVERED_ORDER_SUCCESS:
@@ -85,7 +86,7 @@ const adminOrderReducer = (state = initialState, action) => {
             };
 
         case CONFIRMED_ORDER_FAILURE:
-        case PLACED_ORDER_FAILURE:
+        case CONFIRM_PAYMENT_FAILURE:
         case DELIVERED_ORDER_FAILURE:
         case CANCELED_ORDER_FAILURE:
             return {
@@ -139,7 +140,6 @@ const adminOrderReducer = (state = initialState, action) => {
                 isLoading: false,
                 error: action.payload,
             };
-
 
         default:
             return state;

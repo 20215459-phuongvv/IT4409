@@ -12,9 +12,6 @@ import {
     deliveredOrderFailure,
     deliveredOrderRequest,
     deliveredOrderSuccess,
-    getOrdersFailure,
-    getOrdersRequest,
-    getOrdersSuccess,
     shipOrderRequest,
     shipOrderSuccess,
     shipOrderFailure,
@@ -24,6 +21,9 @@ import {
     getAllOrdersSuccess,
     getAllOrdersRequest,
     getAllOrdersFailure,
+    confirmPaymentRequest,
+    confirmPaymentSuccess,
+    confirmPaymentFailure,
 } from './ActionCreator';
 
 // export const getOrders = (reqData) => {
@@ -58,7 +58,7 @@ export const confirmOrder = (orderId) => async (dispatch) => {
     dispatch(confirmedOrderRequest());
 
     try {
-        const response = await api.put(`/api/admin/orders/${orderId}/confirmed`);
+        const response = await api.put(`/api/admin/orders/${orderId}/confirm`);
         const data = response.data;
         console.log('confirm_order ', data);
         dispatch(confirmedOrderSuccess(data));
@@ -120,17 +120,17 @@ export const deleteOrder = (orderId) => {
     };
 };
 
-// export const placeOrder = (order) => async (dispatch) => {
-//   dispatch(placedOrderRequest());
+export const confirmPayment = (orderId) => async (dispatch) => {
+    dispatch(confirmPaymentRequest());
 
-//   try {
-//     const response = await api.post(`/api/admin/orders/`, order);
-//     const data = response.data;
-//     dispatch(placedOrderSuccess(data));
-//   } catch (error) {
-//     dispatch(placedOrderFailure(error.message));
-//   }
-// };
+    try {
+        const response = await api.put(`/api/admin/orders/${orderId}/payment`);
+        const data = response.data;
+        dispatch(confirmPaymentSuccess(data));
+    } catch (error) {
+        dispatch(confirmPaymentFailure(error.message));
+    }
+};
 
 export const getAllRevenue = () => {
     return async (dispatch) => {

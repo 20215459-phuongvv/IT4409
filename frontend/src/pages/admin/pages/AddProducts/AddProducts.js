@@ -43,9 +43,7 @@ function AddProducts() {
         dispatch(getAllCategories());
     }, [dispatch]);
 
-    // Đăng nhập lại thay đổi cái này
-    const jwt = localStorage.getItem("jwt");
-        
+    const jwt = localStorage.getItem('jwt');
 
     const handleChangeProductType = (value) => {
         setType(value);
@@ -93,6 +91,19 @@ function AddProducts() {
         setColorInputs(updatedColorInputs);
     };
 
+    const resetForm = () => {
+        setName('');
+        setThumbnail(null);
+        setThumbnailPreview('');
+        setType('');
+        setSize([]);
+        setPrice('');
+        setDiscountPrice('');
+        setColorInputs([{ colorName: '#1677ff', imageList: [], imagePreviewList: [] }]);
+        setQuantity('');
+        setDescription('');
+    };
+
     const handleAddProduct = () => {
         const newProduct = new FormData();
 
@@ -119,6 +130,8 @@ function AddProducts() {
         setIsSubmitting(true);
         // Call api
         dispatch(createProduct({ data: newProduct, jwt }));
+
+        // setIsSubmitting(false);
     };
 
     useEffect(() => {
@@ -127,11 +140,24 @@ function AddProducts() {
                 message.error('Thêm sản phẩm thất bại, chưa nhập đúng các trường thông tin hoặc lỗi đường truyền');
             } else {
                 message.success('Thêm sản phẩm mới thành công!');
+                resetForm();
             }
-            setIsSubmitting(false); // Reset submission state
+            setIsSubmitting(false);
         }
-    }, [isSubmitting, productsState.loading, productsState.error]);
+    }, [isSubmitting, productsState.loading, productsState.error, name]);
 
+    console.log(
+        name,
+        thumbnail,
+        thumbnailPreview,
+        type,
+        size,
+        price,
+        discountPrice,
+        colorInputs,
+        quantity,
+        description,
+    );
     return (
         <Loading isLoading={isAddProductLoading}>
             <div className={cx('wrapper')}>
@@ -142,13 +168,14 @@ function AddProducts() {
                             <div className={cx('input-row')}>
                                 <span className={cx('input-label')}>Tên sản phẩm</span>
                                 <Input
+                                    value={name}
                                     placeholder="Nhập tên sản phẩm"
                                     onChange={(e) => {
                                         setName(e.target.value);
                                     }}
                                 />
                             </div>
-    
+
                             <div className={cx('input-row')}>
                                 <span className={cx('input-label')}>Ảnh đại diện</span>
                                 <div className={cx('input-thumbnail')}>
@@ -161,9 +188,9 @@ function AddProducts() {
                                             Chọn ảnh
                                         </button>
                                     </Upload>
-    
+
                                     {thumbnail && <Image className={cx('image-item')} alt="" src={thumbnailPreview} />}
-    
+
                                     {thumbnail && (
                                         <Button
                                             color="secondary"
@@ -176,7 +203,7 @@ function AddProducts() {
                                     )}
                                 </div>
                             </div>
-    
+
                             <div className={cx('input-row')}>
                                 <span className={cx('input-label')}>Phân loại</span>
                                 <Loading isLoading={isCategoryLoading}>
@@ -191,7 +218,7 @@ function AddProducts() {
                                     />
                                 </Loading>
                             </div>
-    
+
                             <div className={cx('input-row')}>
                                 <span className={cx('input-label')}>Kích thước</span>
                                 <div className={cx('input-size-checkbox-group')}>
@@ -203,40 +230,44 @@ function AddProducts() {
                                     </Checkbox.Group>
                                 </div>
                             </div>
-    
+
                             <div className={cx('input-row')}>
                                 <span className={cx('input-label')}>Giá</span>
                                 <Input
+                                    value={price}
                                     placeholder="Nhập giá sản phẩm"
                                     onChange={(e) => {
                                         setPrice(e.target.value);
                                     }}
                                 />
                             </div>
-    
+
                             <div className={cx('input-row')}>
                                 <span className={cx('input-label')}>Giá sau giảm</span>
                                 <Input
+                                    value={discountPrice}
                                     placeholder="Nhập giá sản phẩm sau giảm"
                                     onChange={(e) => {
                                         setDiscountPrice(e.target.value);
                                     }}
                                 />
                             </div>
-    
+
                             <div className={cx('input-row')}>
                                 <span className={cx('input-label')}>Số lượng</span>
                                 <Input
+                                    value={quantity}
                                     placeholder="Nhập số lượng sản phẩm"
                                     onChange={(e) => {
                                         setQuantity(e.target.value);
                                     }}
                                 />
                             </div>
-    
+
                             <div className={cx('input-row')}>
                                 <span className={cx('input-label')}>Mô tả</span>
                                 <TextArea
+                                    value={description}
                                     style={{ height: '60px' }}
                                     row={10}
                                     placeholder="Nhập mô tả sản phẩm"
@@ -245,10 +276,10 @@ function AddProducts() {
                                     }}
                                 />
                             </div>
-    
+
                             <div className={cx('color-image-input-wrapper')}>
                                 <span className={cx('input-label')}>Màu sắc</span>
-    
+
                                 <div className={cx('main-input-wrapper')}>
                                     {colorInputs.map((input, colorIndex) => (
                                         <div key={input.id} className={cx('main-input')}>
@@ -261,7 +292,7 @@ function AddProducts() {
                                                     setColorInputs(updatedColorInputs);
                                                 }}
                                             />
-    
+
                                             <div className={cx('input-image')}>
                                                 <Upload
                                                     onChange={(fileInfo) =>
@@ -274,12 +305,16 @@ function AddProducts() {
                                                         Thêm ảnh
                                                     </button>
                                                 </Upload>
-    
+
                                                 {input.imagePreviewList && (
                                                     <div className={cx('input-image-display')}>
                                                         {input.imagePreviewList.map((image, imageIndex) => (
                                                             <div key={imageIndex} className={cx('image-item-wrapper')}>
-                                                                <Image className={cx('image-item')} alt="" src={image} />
+                                                                <Image
+                                                                    className={cx('image-item')}
+                                                                    alt=""
+                                                                    src={image}
+                                                                />
                                                                 <Button
                                                                     color="secondary"
                                                                     variant="contained"
@@ -306,7 +341,7 @@ function AddProducts() {
                                     ))}
                                 </div>
                             </div>
-    
+
                             <Button
                                 style={{ width: '150px', marginLeft: '20%' }}
                                 size="medium"
@@ -316,10 +351,10 @@ function AddProducts() {
                                 Thêm màu sắc
                             </Button>
                         </div>
-    
+
                         {/* <img alt="" src={admin_images.add_product_image} /> */}
                     </div>
-    
+
                     <div className={cx('add-product-btn')}>
                         <Button size="large" color="primary" variant="contained" onClick={handleAddProduct}>
                             Thêm sản phẩm

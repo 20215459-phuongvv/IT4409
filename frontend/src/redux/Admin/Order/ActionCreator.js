@@ -14,9 +14,6 @@ import {
     GET_ORDERS_FAILURE,
     GET_ORDERS_REQUEST,
     GET_ORDERS_SUCCESS,
-    PLACED_ORDER_FAILURE,
-    PLACED_ORDER_REQUEST,
-    PLACED_ORDER_SUCCESS,
     SHIP_ORDER_FAILURE,
     SHIP_ORDER_REQUEST,
     SHIP_ORDER_SUCCESS,
@@ -26,6 +23,9 @@ import {
     GET_ALL_ORDERS_REQUEST,
     GET_ALL_ORDERS_SUCCESS,
     GET_ALL_ORDERS_FAILURE,
+    CONFIRM_PAYMENT_REQUEST,
+    CONFIRM_PAYMENT_SUCCESS,
+    CONFIRM_PAYMENT_FAILURE,
 } from './ActionType';
 
 export const getOrdersRequest = () => {
@@ -63,18 +63,17 @@ export const confirmedOrderFailure = (error) => ({
     payload: error,
 });
 
-// Action creators for placed order
-export const placedOrderRequest = () => ({
-    type: PLACED_ORDER_REQUEST,
+export const confirmPaymentRequest = () => ({
+    type: CONFIRM_PAYMENT_REQUEST,
 });
 
-export const placedOrderSuccess = (data) => ({
-    type: PLACED_ORDER_SUCCESS,
+export const confirmPaymentSuccess = (data) => ({
+    type: CONFIRM_PAYMENT_SUCCESS,
     payload: data,
 });
 
-export const placedOrderFailure = (error) => ({
-    type: PLACED_ORDER_FAILURE,
+export const confirmPaymentFailure = (error) => ({
+    type: CONFIRM_PAYMENT_FAILURE,
     payload: error,
 });
 
