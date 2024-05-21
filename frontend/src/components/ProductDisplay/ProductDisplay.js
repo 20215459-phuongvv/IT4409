@@ -144,8 +144,8 @@ function ProductDisplay(props) {
                     <div className={cx('right-prices')}>
                         {product?.discountPrice ? (
                             <>
-                                <div className={cx('right-price-new')}>{product?.discountPrice}₫</div>
-                                <div className={cx('right-price-old')}>{product?.price}₫</div>
+                                <div className={cx('right-price-new')}>{product?.discountPrice.toLocaleString('vn-VN') + ' đ'}</div>
+                                <div className={cx('right-price-old')}>{product?.price.toLocaleString('vn-VN') + ' đ'}</div>
                             </>
                         ) : (
                             <div className={cx('right-price-new')}>{product?.price}₫</div>
